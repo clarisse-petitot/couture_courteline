@@ -55,3 +55,48 @@ function getAllCours($id_utilisateur): array
 
     return $liste;
 }
+
+function estInscrit($email, $nom, $prenom): array
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT *
+    FROM utilisateur u
+    JOIN horaire h ON u.id_horaire=h.id_horaire
+    WHERE u.email = ?");
+    $stmt->bind_param("i", $email);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    if (count($res)==0) {
+        return [1];
+    }
+    else{
+        if(count($res)==1) {
+            return [0, new Utilisateur(
+                $res["id_utilisateur"],
+                $res["nom"],
+                $res["prenom"],
+                $res["email"],
+                $res["rattrapage"],
+                new Horaire($res["id_horaire"], $res["jour"],$res["heure"]),
+                $res["role"]
+            )];
+        }
+        else{
+            foreach ($res as $ligne){
+                if($nom==$res["nom"] and $prenom==$res["prenom"]){
+                    return [0, new Utilisateur(
+                        $ligne["id_utilisateur"],
+                        $ligne["nom"],
+                        $ligne["prenom"],
+                        $ligne["email"],
+                        $ligne["rattrapage"],
+                        new Horaire($ligne["id_horaire"], $ligne["jour"],$ligne["heure"]),
+                        $ligne["role"])];
+                }
+            }
+            return [2];
+        }
+    }
+}
