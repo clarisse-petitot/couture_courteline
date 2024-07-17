@@ -8,11 +8,12 @@ function getToken($token): Token | null
     $mysqli = Database::connexion();
 
     $stmt = $mysqli->prepare("SELECT *
-    FROM token t
+    FROM tokens t
     JOIN utilisateur u ON t.id_utilisateur=u.id_utilisateur
     JOIN horaire h ON u.id_horaire=h.id_horaire
-    WHERE t.token = ?");
-    $stmt->bind_param("i", $token);
+    WHERE t.token = ?
+    ORDER BY t.date_creation DESC");
+    $stmt->bind_param("s", $token);
     $stmt->execute();
     $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
