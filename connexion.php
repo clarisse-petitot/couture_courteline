@@ -1,5 +1,6 @@
 <?php
 
+require_once "classes.php";
 require_once "fonctions.php";
 
 ?>
@@ -19,16 +20,21 @@ require_once "fonctions.php";
     <?php
     if (isset($_POST['submit'])) {
         if (isset($_POST['email']) && !empty($_POST['email']) && isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['prenom']) && !empty($_POST['prenom']) && estInscrit($_POST['email'], $_POST['nom'], $_POST['prenom'])[0] == 0) {
-            /*require_once 'mail/mail_service.php';
+            require_once 'mail/mail_service.php';
             $utilisateur = estInscrit($_POST['email'], $_POST['nom'], $_POST['prenom'])[1];
-            sendMail($utilisateur);*/
+            $token = new Token( uniqidReal(),
+            time(),
+            $utilisateur
+            );
+            createToken($token);
+            sendMail($utilisateur,$token);
             $res = "succes";
         } else {
             if (estInscrit($_POST['email'], $_POST['nom'], $_POST['prenom'])[0] == 1) {
                 $res = "Votre adresse email ne correspond pas";
             } else {
                 if (estInscrit($_POST['email'], $_POST['nom'], $_POST['prenom'])[0] == 2) {
-                    $res = "Votre nom et prenom ne correspondent pas";
+                    $res = "Votre nom ou prenom ne correspond pas";
                 }
             }
         }

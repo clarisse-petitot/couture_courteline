@@ -190,17 +190,17 @@ class Token{
     private $utilisateur;
     private $date_creation;
     
-    public function __construct(string $token, string $date_creation, Utilisateur $utilisateur) {
+    public function __construct(string $token, int $date_creation, Utilisateur $utilisateur) {
         $this->token = $token;
         $this->date_creation = $date_creation;
         $this->utilisateur = $utilisateur;
 
     }
 
-    public function getToken():int{
+    public function getToken():string{
         return $this->token;
     }
-    public function getDateCreation():string{
+    public function getDateCreation():int{
         return $this->date_creation;
     }
     public function getUtilisateur():Utilisateur{

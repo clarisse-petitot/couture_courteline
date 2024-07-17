@@ -64,9 +64,11 @@ function estInscrit($email, $nom, $prenom): array
     FROM utilisateur u
     JOIN horaire h ON u.id_horaire=h.id_horaire
     WHERE u.email = ?");
-    $stmt->bind_param("i", $email);
+    $stmt->bind_param("s", $email);
     $stmt->execute();
     $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+    $mysqli->close();
 
     if (count($res)==0) {
         return [1];
@@ -74,29 +76,75 @@ function estInscrit($email, $nom, $prenom): array
     else{
         if(count($res)==1) {
             return [0, new Utilisateur(
-                $res["id_utilisateur"],
-                $res["nom"],
-                $res["prenom"],
-                $res["email"],
-                $res["rattrapage"],
-                new Horaire($res["id_horaire"], $res["jour"],$res["heure"]),
-                $res["role"]
+                $res[0]["id_utilisateur"],
+                $res[0]["nom"],
+                $res[0]["prenom"],
+                $res[0]["email"],
+                $res[0]["rattrapage"],
+                new Horaire($res[0]["id_horaire"], $res[0]["jour"],$res[0]["heure"]),
+                $res[0]["role"]
             )];
         }
         else{
+            $nbr_doublon=0;
+            $utilisateurs=[];
             foreach ($res as $ligne){
-                if($nom==$res["nom"] and $prenom==$res["prenom"]){
-                    return [0, new Utilisateur(
-                        $ligne["id_utilisateur"],
-                        $ligne["nom"],
-                        $ligne["prenom"],
-                        $ligne["email"],
-                        $ligne["rattrapage"],
-                        new Horaire($ligne["id_horaire"], $ligne["jour"],$ligne["heure"]),
-                        $ligne["role"])];
+                if($prenom==$res["prenom"]){
+                    $nbr_doublon+=1;
+                    $utilisateurs[]=new Utilisateur(
+                        $res[0]["id_utilisateur"],
+                        $res[0]["nom"],
+                        $res[0]["prenom"],
+                        $res[0]["email"],
+                        $res[0]["rattrapage"],
+                        new Horaire($res[0]["id_horaire"], $res[0]["jour"],$res[0]["heure"]),
+                        $res[0]["role"]
+                    );
                 }
             }
-            return [2];
+            if($nbr_doublon==1){
+                return [0,$utilisateurs[0]];
+            }
+            else{
+                if($nbr_doublon>1){
+                    foreach($utilisateurs as $utilisateur){
+                        if($utilisateur->getNom()==$nom){
+                            return [0,$utilisateur];
+                        }
+                    }
+                }
+                return [2];
+            }
         }
     }
+}
+
+
+/* fonction de la documentation de php */
+
+function uniqidReal($lenght = 16) {
+    // uniqid gives 13 chars, but you could adjust it to your needs.
+    if (function_exists("random_bytes")) {
+        $bytes = random_bytes(ceil($lenght / 2));
+    } elseif (function_exists("openssl_random_pseudo_bytes")) {
+        $bytes = openssl_random_pseudo_bytes(ceil($lenght / 2));
+    } else {
+        throw new Exception("no cryptographically secure random function available");
+    }
+    return substr(bin2hex($bytes), 0, $lenght);
+}
+
+function createToken($token) {
+    $t=$token->getToken();
+    $id=$token->getUtilisateur()->getIdUtilisateur();
+    $date=$token->getDateCreation();
+
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("INSERT INTO tokens (token, id_utilisateur, date_creation)
+    VALUES (?,?,?) ");
+    $stmt->bind_param("sii", $t, $id, $date);
+    $stmt->execute();
+    $stmt->close();
+    $mysqli->close();
 }
