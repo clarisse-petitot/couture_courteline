@@ -27,6 +27,7 @@ $allcours = getAllCours($utilisateur->getIdUtilisateur());
 
     <?php
     require "components/navbar.php";
+    require "components/prochains_cours.php";
     ?>
 
 </body>

@@ -51,7 +51,7 @@ function getAllCours($id_utilisateur): array
     $liste = [];
 
     foreach ($res as $ligne) {
-        $liste[] = new Cours($ligne["id_cours"], $ligne("date"), new Horaire($ligne["id_horaire"], $ligne["jour"], $ligne["heure"]));
+        $liste[] = new Cours($ligne["id_cours"], $ligne["date"], new Horaire($ligne["id_horaire"], $ligne["jour"], $ligne["heure"]));
     };
 
     return $liste;
