@@ -123,7 +123,7 @@ function estInscrit($email, $nom, $prenom): array
 
 /* fonction de la documentation de php */
 
-function uniqidReal($lenght = 32) {
+function uniqidReal($lenght = 64) {
     // uniqid gives 13 chars, but you could adjust it to your needs.
     if (function_exists("random_bytes")) {
         $bytes = random_bytes(ceil($lenght / 2));
@@ -190,5 +190,56 @@ function getTraduction(string $date):string
         $res=$res."Decembre";
     }
     return $res;
+}
 
+function getCours($id_cours):Cours
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT *
+    FROM cours c
+    JOIN horaire h ON c.id_horaire=h.id_horaire
+    WHERE c.id_cours = ?");
+    $stmt->bind_param("i", $id_cours);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $res=$res[0];
+    $cours=new Cours(
+        $res["id_cours"], 
+        new DateTimeImmutable($res["date"]), 
+        new Horaire($res["id_horaire"], $res["jour"], $res["heure"]));
+    return $cours;
+}
+
+function appartient($id_utilisateur, $id_cours): bool
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT *
+    FROM appel
+    WHERE id_utilisateur = ? AND id_cours = ?");
+    $stmt->bind_param("ii", $id_utilisateur, $id_cours);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+    $mysqli->close();
+
+    if(count($res)==0){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+
+function deleteAppel($id_utilisateur, $id_cours)
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("DELETE FROM appel
+    WHERE id_cours=? AND id_utilisateur=? ");
+    $stmt->bind_param("ii", $id_cours, $id_utilisateur);
+    $stmt->execute();
+    $stmt->close();
+    $mysqli->close();
 }

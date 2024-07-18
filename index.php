@@ -10,6 +10,12 @@ if (!isset($_GET["token"])) {
 
 $token = getToken($_GET["token"]);
 $utilisateur = $token->getUtilisateur();
+
+if (isset($_GET["id_absence"]) and appartient($utilisateur->getIdUtilisateur(), $_GET["id_absence"]))
+{
+    deleteAppel($utilisateur->getIdUtilisateur(),$_GET["id_absence"]);
+}
+
 $allcours = getAllCours($utilisateur->getIdUtilisateur());
 
 ?>
