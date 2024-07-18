@@ -121,7 +121,7 @@ function estInscrit($email, $nom, $prenom): array
 
 /* fonction de la documentation de php */
 
-function uniqidReal($lenght = 64)
+function uniqidReal($lenght = 32)
 {
     // uniqid gives 13 chars, but you could adjust it to your needs.
     if (function_exists("random_bytes")) {
@@ -242,6 +242,7 @@ function deleteAppel($id_utilisateur, $id_cours)
     $stmt->execute();
     $stmt->close();
     $mysqli->close();
+    
 }
 
 function getAllRattrapages($id_utilisateur): array
@@ -269,13 +270,40 @@ function getAllRattrapages($id_utilisateur): array
     return $liste;
 }
 
-function createAppel($id_utilisateur, $id_cours)
+function createAppel($id_utilisateur, $id_cours, $nbr)
 {
     $mysqli = Database::connexion();
 
     $stmt = $mysqli->prepare("INSERT INTO appel (id_cours, id_utilisateur)
     VALUES (?,?) ");
     $stmt->bind_param("ii", $id_cours, $id_utilisateur);
+    $stmt->execute();
+    $stmt->close();
+    $mysqli->close();
+
+    $nbr -= 1;
+
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("UPDATE utilisateur
+    SET rattrapage = ?
+    WHERE id_utilisateur = ?");
+    $stmt->bind_param("ii", $nbr, $id_utilisateur);
+    $stmt->execute();
+    $stmt->close();
+    $mysqli->close();
+}
+
+function addRattrapage($id_utilisateur, $nbr)
+{
+    $nbr += 1;
+
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("UPDATE utilisateur
+    SET rattrapage = ?
+    WHERE id_utilisateur = ?");
+    $stmt->bind_param("ii", $nbr, $id_utilisateur);
     $stmt->execute();
     $stmt->close();
     $mysqli->close();

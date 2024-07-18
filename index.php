@@ -14,6 +14,7 @@ $utilisateur = $token->getUtilisateur();
 if (isset($_GET["id_absence"]) and appartient($utilisateur->getIdUtilisateur(), $_GET["id_absence"]))
 {
     deleteAppel($utilisateur->getIdUtilisateur(),$_GET["id_absence"]);
+    addRattrapage($utilisateur->getIdUtilisateur(), $utilisateur->getRattrapage());
 }
 
 $allcours = getAllCours($utilisateur->getIdUtilisateur());

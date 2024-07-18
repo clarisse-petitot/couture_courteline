@@ -66,6 +66,10 @@ class Utilisateur{
     public function getRole():string{
         return $this->role;
     }
+
+    public function setRattrapage(int $rattrapage){
+        $this->rattrapage=$rattrapage;
+    }
 }
 
 class Cours{
