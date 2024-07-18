@@ -51,7 +51,7 @@ function getAllCours($id_utilisateur): array
     $liste = [];
 
     foreach ($res as $ligne) {
-        $liste[] = new Cours($ligne["id_cours"], $ligne["date"], new Horaire($ligne["id_horaire"], $ligne["jour"], $ligne["heure"]));
+        $liste[] = new Cours($ligne["id_cours"], new DateTimeImmutable($ligne["date"]), new Horaire($ligne["id_horaire"], $ligne["jour"], $ligne["heure"]));
     };
 
     return $liste;
@@ -123,7 +123,7 @@ function estInscrit($email, $nom, $prenom): array
 
 /* fonction de la documentation de php */
 
-function uniqidReal($lenght = 16) {
+function uniqidReal($lenght = 32) {
     // uniqid gives 13 chars, but you could adjust it to your needs.
     if (function_exists("random_bytes")) {
         $bytes = random_bytes(ceil($lenght / 2));
@@ -148,4 +148,47 @@ function createToken($token) {
     $stmt->execute();
     $stmt->close();
     $mysqli->close();
+}
+
+function getTraduction(string $date):string 
+{
+    $res=substr($date, 0, 3);
+    if(substr($date, 3)=="January"){
+        $res=$res."Janvier";
+    }
+    if(substr($date, 3)=="February"){
+        $res=$res."Février";
+    }
+    if(substr($date, 3)=="March"){
+        $res=$res."Mars";
+    }
+    if(substr($date, 3)=="April"){
+        $res=$res."Avril";
+    }
+    if(substr($date, 3)=="May"){
+        $res=$res."Mai";
+    }
+    if(substr($date, 3)=="June"){
+        $res=$res."Juin";
+    }
+    if(substr($date, 3)=="July"){
+        $res=$res."Juillet";
+    }
+    if(substr($date, 3)=="August"){
+        $res=$res."Août";
+    }
+    if(substr($date, 3)=="September"){
+        $res=$res."Septembre";
+    }
+    if(substr($date, 3)=="October"){
+        $res=$res."Octobre";
+    }
+    if(substr($date, 3)=="November"){
+        $res=$res."Novembre";
+    }
+    if(substr($date, 3)=="December"){
+        $res=$res."Decembre";
+    }
+    return $res;
+
 }

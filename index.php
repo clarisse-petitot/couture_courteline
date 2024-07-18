@@ -14,7 +14,7 @@ $allcours = getAllCours($utilisateur->getIdUtilisateur());
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
@@ -27,7 +27,7 @@ $allcours = getAllCours($utilisateur->getIdUtilisateur());
 
     <?php
     require "components/navbar.php";
-    require "components/prochains_cours.php";
+    require "components/cours.php";
     ?>
 
 </body>
