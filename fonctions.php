@@ -279,11 +279,8 @@ function createAppel(int $id_utilisateur, int $id_cours, int $nbr)
     $stmt->bind_param("ii", $id_cours, $id_utilisateur);
     $stmt->execute();
     $stmt->close();
-    $mysqli->close();
-
+    
     $nbr -= 1;
-
-    $mysqli = Database::connexion();
 
     $stmt = $mysqli->prepare("UPDATE utilisateur
     SET rattrapage = ?
