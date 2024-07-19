@@ -2,7 +2,7 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'] . "/database/Database.php";
 
-function getToken($token): Token | null
+function getToken(string $token): Token | null
 
 {
     $mysqli = Database::connexion();
@@ -35,7 +35,7 @@ function getToken($token): Token | null
     return $token;
 }
 
-function getAllCours($id_utilisateur): array
+function getAllCours(int $id_utilisateur): array
 {
     $mysqli = Database::connexion();
 
@@ -58,7 +58,7 @@ function getAllCours($id_utilisateur): array
     return $liste;
 }
 
-function estInscrit($email, $nom, $prenom): array
+function estInscrit(string $email, string $nom, string $prenom): array
 {
     $mysqli = Database::connexion();
 
@@ -121,20 +121,20 @@ function estInscrit($email, $nom, $prenom): array
 
 /* fonction de la documentation de php */
 
-function uniqidReal($lenght = 32)
+function uniqidReal(int $length = 32):string
 {
     // uniqid gives 13 chars, but you could adjust it to your needs.
     if (function_exists("random_bytes")) {
-        $bytes = random_bytes(ceil($lenght / 2));
+        $bytes = random_bytes(ceil($length / 2));
     } elseif (function_exists("openssl_random_pseudo_bytes")) {
-        $bytes = openssl_random_pseudo_bytes(ceil($lenght / 2));
+        $bytes = openssl_random_pseudo_bytes(ceil($length / 2));
     } else {
         throw new Exception("no cryptographically secure random function available");
     }
-    return substr(bin2hex($bytes), 0, $lenght);
+    return substr(bin2hex($bytes), 0, $length);
 }
 
-function createToken($token)
+function createToken(Token $token)
 {
     $t = $token->getToken();
     $id = $token->getUtilisateur()->getIdUtilisateur();
@@ -192,7 +192,7 @@ function getTraduction(string $date): string
     return $res;
 }
 
-function getCours($id_cours): Cours
+function getCours(int $id_cours): Cours
 {
     $mysqli = Database::connexion();
 
@@ -212,7 +212,7 @@ function getCours($id_cours): Cours
     return $cours;
 }
 
-function appartient($id_utilisateur, $id_cours): bool
+function appartient(int $id_utilisateur, int $id_cours): bool
 {
     $mysqli = Database::connexion();
 
@@ -225,14 +225,10 @@ function appartient($id_utilisateur, $id_cours): bool
     $stmt->close();
     $mysqli->close();
 
-    if (count($res) == 0) {
-        return false;
-    } else {
-        return true;
-    }
+    return count($res) > 0;
 }
 
-function deleteAppel($id_utilisateur, $id_cours)
+function deleteAppel(int $id_utilisateur, int $id_cours): void
 {
     $mysqli = Database::connexion();
 
@@ -242,10 +238,9 @@ function deleteAppel($id_utilisateur, $id_cours)
     $stmt->execute();
     $stmt->close();
     $mysqli->close();
-    
 }
 
-function getAllRattrapages($id_utilisateur): array
+function getAllRattrapages(int $id_utilisateur): array
 {
     $mysqli = Database::connexion();
 
@@ -270,7 +265,7 @@ function getAllRattrapages($id_utilisateur): array
     return $liste;
 }
 
-function createAppel($id_utilisateur, $id_cours, $nbr)
+function createAppel(int $id_utilisateur, int $id_cours, int $nbr): void
 {
     $mysqli = Database::connexion();
 
@@ -279,11 +274,8 @@ function createAppel($id_utilisateur, $id_cours, $nbr)
     $stmt->bind_param("ii", $id_cours, $id_utilisateur);
     $stmt->execute();
     $stmt->close();
-    $mysqli->close();
 
     $nbr -= 1;
-
-    $mysqli = Database::connexion();
 
     $stmt = $mysqli->prepare("UPDATE utilisateur
     SET rattrapage = ?
@@ -294,7 +286,7 @@ function createAppel($id_utilisateur, $id_cours, $nbr)
     $mysqli->close();
 }
 
-function addRattrapage($id_utilisateur, $nbr)
+function addRattrapage(int $id_utilisateur, int $nbr): void
 {
     $nbr += 1;
 
