@@ -82,7 +82,7 @@ require_once "fonctions.php";
                             }
                         }
                         ?>
-                        <button type="submit" id="submit" name="submit" class="w-full text-white bg-sky-700 hover:bg-sky-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Se connecter</button>
+                        <button type="submit" id="submit" name="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Se connecter</button>
                     </form>
                 </div>
             </div>

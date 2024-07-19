@@ -57,8 +57,8 @@ else{
                         <p class="text-gray-600"><?= $cours_valide->getHoraire()->getJour() ?> <?= getTraduction($cours_valide->getDate()->format("j F")) ?> à <?= $cours_valide->getHoraire()->getHeure() ?></p>
                     </div>
                     <div class="space-y-4">
-                        <div class="p-1"><a href="/<?= $_GET["page"] ?>.php?token=<?= $_GET["token"] ?>&id_cours=<?= $_GET["id_cours"] ?>"><button class=" p-3 bg-sky-700 rounded-full text-white w-full font-semibold"><?= $validation ?></button></a></div>
-                        <div class="p-1"><a href="/<?= $_GET["page"] ?>.php?token=<?= $_GET["token"] ?>"><button class="p-3 bg-white border border-sky-700 rounded-full w-full font-semibold">Annuler</button></a></div>
+                        <div class="p-1"><a href="/<?= $_GET["page"] ?>.php?token=<?= $_GET["token"] ?>&id_cours=<?= $_GET["id_cours"] ?>"><button class=" p-3 bg-blue-700 rounded-full text-white w-full font-semibold hover:bg-blue-800"><?= $validation ?></button></a></div>
+                        <div class="p-1"><a href="/<?= $_GET["page"] ?>.php?token=<?= $_GET["token"] ?>"><button class="p-3 bg-white border border-blue-600 rounded-full text-blue-700 w-full font-semibold hover:bg-gray-100">Annuler</button></a></div>
                     </div>
                 </div>
             </div>
