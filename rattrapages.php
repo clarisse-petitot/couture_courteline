@@ -11,12 +11,14 @@ if (!isset($_GET["token"])) {
 $token = getToken($_GET["token"]);
 $utilisateur = $token->getUtilisateur();
 
-if (isset($_GET["id_rattrapage"]) and !appartient($utilisateur->getIdUtilisateur(), $_GET["id_rattrapage"])) {
-    createAppel($utilisateur->getIdUtilisateur(), $_GET["id_rattrapage"], $utilisateur->getRattrapage());
+if (isset($_GET["id_cours"]) and !appartient($utilisateur->getIdUtilisateur(), $_GET["id_cours"])) {
+    createAppel($utilisateur->getIdUtilisateur(), $_GET["id_cours"], $utilisateur->getRattrapage());
     $utilisateur->setRattrapage($utilisateur->getRattrapage()-1);
 }
 
-$allrattrapages = getAllRattrapages($utilisateur->getIdUtilisateur());
+$allcours = getAllRattrapages($utilisateur->getIdUtilisateur());
+$bouton = "Choisir ce rattrapage";
+$page = "rattrapages";
 
 ?>
 <!DOCTYPE html>
@@ -34,7 +36,7 @@ $allrattrapages = getAllRattrapages($utilisateur->getIdUtilisateur());
     <?php
     require "components/navbar.php";
     if ($utilisateur->getRattrapage() > 0) {
-        require "components/cours_rattrapages.php";
+        require "components/cours.php";
     }
     ?>
 
