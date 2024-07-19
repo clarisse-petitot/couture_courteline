@@ -12,6 +12,17 @@ if (!isset($_GET["token"])) {
 $token = getToken($_GET["token"]);
 $utilisateur = $token->getUtilisateur();
 
+if (isset($_GET["id_cours"]) && appartient($utilisateur->getIdUtilisateur(), $_GET["id_cours"])) {
+    deleteAppel($utilisateur->getIdUtilisateur(), $_GET["id_cours"]);
+    if (getCours($_GET["id_cours"])->getDate()->getTimestamp() - time() >= 86400) {
+        addRattrapage($utilisateur->getIdUtilisateur(), $utilisateur->getRattrapage());
+    }
+}
+
+$allcours = getAllCours($utilisateur->getIdUtilisateur());
+$bouton = "Prévenir mon abscence";
+$page = "absences";
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -19,7 +30,7 @@ $utilisateur = $token->getUtilisateur();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil</title>
+    <title>Prochains Cours</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -27,6 +38,7 @@ $utilisateur = $token->getUtilisateur();
 
     <?php
     require "components/navbar.php";
+    require "components/cours.php";
     ?>
 
 </body>

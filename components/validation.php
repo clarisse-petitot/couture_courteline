@@ -1,7 +1,7 @@
 <?php
 
-require_once "classes.php";
-require_once "fonctions.php";
+require_once "../classes.php";
+require_once "../fonctions.php";
 
 if (!isset($_GET["token"])) {
     http_response_code(403);
@@ -13,7 +13,7 @@ $token = getToken($_GET["token"]);
 $utilisateur = $token->getUtilisateur();
 $cours_valide = getCours($_GET["id_cours"]);
 
-if ($_GET["page"] == "index") {
+if ($_GET["page"] == "absences") {
     $bouton = "Prévenir mon abscence";
     $question = "Êtes-vous sûr de cette absence ?";
     $allcours = getAllCours($utilisateur->getIdUtilisateur());
@@ -41,8 +41,8 @@ else{
 <body>
 
     <?php
-    require "components/navbar.php";
-    require "components/cours.php";
+    require "navbar.php";
+    require "cours.php";
     ?>
 
     <div class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50 p-10">
@@ -54,8 +54,8 @@ else{
                         <p class="text-gray-600"><?= $cours_valide->getHoraire()->getJour() ?> <?= getTraduction($cours_valide->getDate()->format("j F")) ?> à <?= $cours_valide->getHoraire()->getHeure() ?></p>
                     </div>
                     <div class="space-y-4">
-                        <div class="p-1"><a href="<?= $_GET["page"] ?>.php?token=<?= $_GET["token"] ?>&id_cours=<?= $_GET["id_cours"] ?>"><button class=" p-3 bg-sky-700 rounded-full text-white w-full font-semibold"><?= $validation ?></button></a></div>
-                        <div class="p-1"><a href="<?= $_GET["page"] ?>.php?token=<?= $_GET["token"] ?>"><button class="p-3 bg-white border border-sky-700 rounded-full w-full font-semibold">Annuler</button></a></div>
+                        <div class="p-1"><a href="/<?= $_GET["page"] ?>.php?token=<?= $_GET["token"] ?>&id_cours=<?= $_GET["id_cours"] ?>"><button class=" p-3 bg-sky-700 rounded-full text-white w-full font-semibold"><?= $validation ?></button></a></div>
+                        <div class="p-1"><a href="/<?= $_GET["page"] ?>.php?token=<?= $_GET["token"] ?>"><button class="p-3 bg-white border border-sky-700 rounded-full w-full font-semibold">Annuler</button></a></div>
                     </div>
                 </div>
             </div>
