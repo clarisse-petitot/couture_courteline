@@ -225,11 +225,7 @@ function appartient(int $id_utilisateur, int $id_cours): bool
     $stmt->close();
     $mysqli->close();
 
-    if (count($res) == 0) {
-        return false;
-    } else {
-        return true;
-    }
+    return count($res) > 0;
 }
 
 function deleteAppel(int $id_utilisateur, int $id_cours)
