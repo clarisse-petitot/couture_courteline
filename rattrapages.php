@@ -4,6 +4,7 @@ require_once "classes.php";
 require_once "fonctions.php";
 
 if (!isset($_GET["token"])) {
+    http_response_code(403);
     header("Location: connexion.php");
     exit;
 };
