@@ -10,16 +10,19 @@ if (!isset($_GET["token"])) {
 
 $token = getToken($_GET["token"]);
 $utilisateur = $token->getUtilisateur();
-$allcours = getAllCours($utilisateur->getIdUtilisateur());
-$cours = getCours($_GET["id_cours"]);
+$cours_valide = getCours($_GET["id_cours"]);
 
 if ($_GET["page"] == "index") {
     $bouton = "Prévenir mon abscence";
     $question = "Êtes-vous sûr de cette absence ?";
+    $allcours = getAllCours($utilisateur->getIdUtilisateur());
+    $validation = "Valider mon absence";
 }
 else{
-     $bouton = "Choisir ce rattrapage";
+    $bouton = "Choisir ce rattrapage";
     $question = "Êtes-vous sûr de vouloir choisir ce rattrapage ?";
+    $allcours = getAllRattrapages($utilisateur->getIdUtilisateur());
+    $validation = "Valider mon rattrapage";
 }
 
 
@@ -30,7 +33,7 @@ else{
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Absence</title>
+    <title>Validation</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -47,10 +50,10 @@ else{
                 <div class="m-20">
                     <div class="mb-8">
                         <h1 class="mb-4 text-3xl font-extrabold"><?= $question ?></h1>
-                        <p class="text-gray-600"><?= $cours->getHoraire()->getJour() ?> <?= getTraduction($cours->getDate()->format("j F")) ?> à <?= $cours->getHoraire()->getHeure() ?></p>
+                        <p class="text-gray-600"><?= $cours_valide->getHoraire()->getJour() ?> <?= getTraduction($cours_valide->getDate()->format("j F")) ?> à <?= $cours_valide->getHoraire()->getHeure() ?></p>
                     </div>
                     <div class="space-y-4">
-                        <div class="p-1"><a href="<?= $_GET["page"] ?>.php?token=<?= $_GET["token"] ?>&id_cours=<?= $_GET["id_cours"] ?>"><button class=" p-3 bg-sky-700 rounded-full text-white w-full font-semibold">Valider mon absence</button></a></div>
+                        <div class="p-1"><a href="<?= $_GET["page"] ?>.php?token=<?= $_GET["token"] ?>&id_cours=<?= $_GET["id_cours"] ?>"><button class=" p-3 bg-sky-700 rounded-full text-white w-full font-semibold"><?= $validation ?></button></a></div>
                         <div class="p-1"><a href="<?= $_GET["page"] ?>.php?token=<?= $_GET["token"] ?>"><button class="p-3 bg-white border border-sky-700 rounded-full w-full font-semibold">Annuler</button></a></div>
                     </div>
                 </div>
