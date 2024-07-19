@@ -14,7 +14,8 @@ $utilisateur = $token->getUtilisateur();
 
 if (isset($_GET["id_cours"]) && appartient($utilisateur->getIdUtilisateur(), $_GET["id_cours"])) {
     deleteAppel($utilisateur->getIdUtilisateur(), $_GET["id_cours"]);
-    if (getCours($_GET["id_cours"])->getDate()->getTimestamp() - time() >= 86400) {
+    $cours = getCours($_GET["id_cours"]);
+    if ($cours->getDate()->getTimestamp() + getTimeToCours($cours->getHoraire()->getHeure()) - time() >= 86400) {
         addRattrapage($utilisateur->getIdUtilisateur(), $utilisateur->getRattrapage());
         $utilisateur->setRattrapage($utilisateur->getRattrapage()+1);
     }

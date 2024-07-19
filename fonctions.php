@@ -349,3 +349,19 @@ function getFiltresRattrapages(): array
     }
     return $filtres;
 }
+
+function getTimeToCours(string $heure): int
+{
+    $time=0;
+
+    if($heure[1]=="h")
+    {
+        $time=intval(substr($heure,0,1))+(intval(substr($heure,2,2))/60);
+    }
+    if($heure[2]=="h")
+    {
+        $time=intval(substr($heure,0,2))+(intval(substr($heure,3,2))/60);
+    }
+
+    return $time*3600;
+}
