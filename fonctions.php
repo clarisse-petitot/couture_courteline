@@ -52,7 +52,10 @@ function getAllCours(int $id_utilisateur): array
     $liste = [];
 
     foreach ($res as $ligne) {
-        $liste[] = new Cours($ligne["id_cours"], new DateTimeImmutable($ligne["date"]), new Horaire($ligne["id_horaire"], $ligne["jour"], $ligne["heure"]));
+        $date = new DateTime($ligne["date"]);
+        if ($date->getTimestamp() > time()) {
+            $liste[] = new Cours($ligne["id_cours"], $date, new Horaire($ligne["id_horaire"], $ligne["jour"], $ligne["heure"]));
+        }
     };
 
     return $liste;
@@ -121,7 +124,7 @@ function estInscrit(string $email, string $nom, string $prenom): array
 
 /* fonction de la documentation de php */
 
-function uniqidReal(int $length = 32):string
+function uniqidReal(int $length = 32): string
 {
     // uniqid gives 13 chars, but you could adjust it to your needs.
     if (function_exists("random_bytes")) {
@@ -206,7 +209,7 @@ function getCours(int $id_cours): Cours
     $res = $res[0];
     $cours = new Cours(
         $res["id_cours"],
-        new DateTimeImmutable($res["date"]),
+        new DateTime($res["date"]),
         new Horaire($res["id_horaire"], $res["jour"], $res["heure"])
     );
     return $cours;
@@ -257,8 +260,9 @@ function getAllRattrapages(int $id_utilisateur): array
     $liste = [];
 
     foreach ($res as $ligne) {
-        if (!appartient($id_utilisateur, $ligne["id_cours"])) {
-            $liste[] = new Cours($ligne["id_cours"], new DateTimeImmutable($ligne["date"]), new Horaire($ligne["id_horaire"], $ligne["jour"], $ligne["heure"]));
+        $date = new DateTime($ligne["date"]);
+        if (!appartient($id_utilisateur, $ligne["id_cours"]) && $date->getTimestamp() > time()) {
+            $liste[] = new Cours($ligne["id_cours"], new DateTime($ligne["date"]), new Horaire($ligne["id_horaire"], $ligne["jour"], $ligne["heure"]));
         }
     };
 
@@ -342,26 +346,10 @@ function getFiltresRattrapages(): array
     $filtres = ["jours" => [], "heures" => []];
     foreach ($_GET as $key => $value) {
         if (str_starts_with($key, "jour-")) {
-            $filtres["jours"][] = substr($key,5);
+            $filtres["jours"][] = substr($key, 5);
         } else if (str_starts_with($key, "heure-")) {
             $filtres["heures"][] = substr($key, 6);
         }
     }
     return $filtres;
-}
-
-function getTimeToCours(string $heure): int
-{
-    $time=0;
-
-    if($heure[1]=="h")
-    {
-        $time=intval(substr($heure,0,1))+(intval(substr($heure,2,2))/60);
-    }
-    if($heure[2]=="h")
-    {
-        $time=intval(substr($heure,0,2))+(intval(substr($heure,3,2))/60);
-    }
-
-    return $time*3600;
 }

@@ -78,7 +78,7 @@ class Cours{
     private $date;
     private $horaire;
     
-    public function __construct(int $id_cours, DateTimeImmutable $date, Horaire $horaire) {
+    public function __construct(int $id_cours, DateTime $date, Horaire $horaire) {
         $this->id_cours = $id_cours;
         $this->date = $date;
         $this->horaire = $horaire;
@@ -88,7 +88,7 @@ class Cours{
     public function getIdCours():int{
         return $this->id_cours;
     }
-    public function getDate():DateTimeImmutable{
+    public function getDate():DateTime{
         return $this->date;
     }
     public function getHoraire():Horaire{
