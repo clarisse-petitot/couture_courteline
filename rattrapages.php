@@ -4,6 +4,7 @@ require_once "classes.php";
 require_once "fonctions.php";
 
 if (!isset($_GET["token"])) {
+    http_response_code(403);
     header("Location: connexion.php");
     exit;
 };
@@ -11,7 +12,7 @@ if (!isset($_GET["token"])) {
 $token = getToken($_GET["token"]);
 $utilisateur = $token->getUtilisateur();
 
-if (isset($_GET["id_cours"]) and !appartient($utilisateur->getIdUtilisateur(), $_GET["id_cours"])) {
+if (isset($_GET["id_cours"]) && !appartient($utilisateur->getIdUtilisateur(), $_GET["id_cours"])) {
     createAppel($utilisateur->getIdUtilisateur(), $_GET["id_cours"], $utilisateur->getRattrapage());
     $utilisateur->setRattrapage($utilisateur->getRattrapage()-1);
 }
