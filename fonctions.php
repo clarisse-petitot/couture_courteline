@@ -121,7 +121,7 @@ function estInscrit(string $email, string $nom, string $prenom): array
 
 /* fonction de la documentation de php */
 
-function uniqidReal(int $lenght = 32)
+function uniqidReal(int $lenght = 32):string
 {
     // uniqid gives 13 chars, but you could adjust it to your needs.
     if (function_exists("random_bytes")) {
@@ -134,7 +134,7 @@ function uniqidReal(int $lenght = 32)
     return substr(bin2hex($bytes), 0, $lenght);
 }
 
-function createToken(Token $token)
+function createToken(Token $token): void
 {
     $t = $token->getToken();
     $id = $token->getUtilisateur()->getIdUtilisateur();
@@ -228,7 +228,7 @@ function appartient(int $id_utilisateur, int $id_cours): bool
     return count($res) > 0;
 }
 
-function deleteAppel(int $id_utilisateur, int $id_cours)
+function deleteAppel(int $id_utilisateur, int $id_cours):void
 {
     $mysqli = Database::connexion();
 
@@ -266,7 +266,7 @@ function getAllRattrapages(int $id_utilisateur): array
     return $liste;
 }
 
-function createAppel(int $id_utilisateur, int $id_cours, int $nbr)
+function createAppel(int $id_utilisateur, int $id_cours, int $nbr): void
 {
     $mysqli = Database::connexion();
 
@@ -287,7 +287,7 @@ function createAppel(int $id_utilisateur, int $id_cours, int $nbr)
     $mysqli->close();
 }
 
-function addRattrapage(int $id_utilisateur, int $nbr)
+function addRattrapage(int $id_utilisateur, int $nbr): void
 {
     $nbr += 1;
 
