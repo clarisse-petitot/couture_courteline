@@ -42,6 +42,9 @@ else{
 
     <?php
     require "navbar.php";
+    if($_GET["page"] == "rattrapages"){
+        require "filters-rattrapage.php";
+    }
     require "cours.php";
     ?>
 

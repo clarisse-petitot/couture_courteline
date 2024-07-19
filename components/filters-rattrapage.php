@@ -19,7 +19,7 @@
 
     <div class="md:py-6 lg:px-20 md:px-6 py-5 px-4">
         <div class="flex justify-between items-center">
-            <h2 class="lg:text-4xl text-3xl lg:leading-9 leading-7 text-gray-800 font-semibold">Vous avez <?= $utilisateur->getIdUtilisateur() ?> cours à rattraper</h2>
+            <h2 class="lg:text-4xl text-3xl lg:leading-9 leading-7 text-gray-800 font-semibold">Vous avez <?= $utilisateur->getRattrapage() ?> cours à rattraper</h2>
             <!-- filters Button (md and plus Screen) -->
             <button onclick="showFilters()" class="sm:flex hidden cursor-pointer h-[48px] w-[120px] rounded-md bg-blue-700 text-white cursor-pointer justify-center items-center">
                 <svg class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
