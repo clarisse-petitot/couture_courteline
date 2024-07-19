@@ -300,3 +300,52 @@ function addRattrapage(int $id_utilisateur, int $nbr): void
     $stmt->close();
     $mysqli->close();
 }
+
+function getHeures(): array
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT DISTINCT heure
+    FROM horaire");
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    $liste_fin = [];
+
+    foreach ($res as $ligne) {
+        $liste_fin[] = $ligne["heure"];
+    }
+
+    return $liste_fin;
+}
+
+function getJours(): array
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT DISTINCT jour
+    FROM horaire");
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    $liste_fin = [];
+
+    foreach ($res as $ligne) {
+        $liste_fin[] = $ligne["jour"];
+    }
+
+    return $liste_fin;
+}
+
+function getFiltresRattrapages(): array
+{
+    $filtres = ["jours" => [], "heures" => []];
+    foreach ($_GET as $key => $value) {
+        if (str_starts_with($key, "jour-")) {
+            $filtres["jours"][] = substr($key,5);
+        } else if (str_starts_with($key, "heure-")) {
+            $filtres["heures"][] = substr($key, 6);
+        }
+    }
+    return $filtres;
+}
