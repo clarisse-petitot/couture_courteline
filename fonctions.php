@@ -27,7 +27,7 @@ function getToken(string $token): Token | null
     $token = new Token(
         $res["token"],
         $res["date_creation"],
-        new Utilisateur($res["id_utilisateur"], $res["nom"], $res["prenom"], $res["email"], $res["rattrapage"], new Horaire($res["id_horaire"], $res["jour"], $res["heure"]), $res["role"])
+        new Utilisateur($res["id_utilisateur"], $res["nom"], $res["prenom"], $res["email"], $res["nbr_rattrapage"], new Horaire($res["id_horaire"], $res["jour"], $res["heure"]), $res["role"])
     );
 
     $stmt->close();
@@ -40,11 +40,21 @@ function getAllCours(int $id_utilisateur): array
 {
     $mysqli = Database::connexion();
 
-    $stmt = $mysqli->prepare("SELECT *
-    FROM appel a
-    JOIN cours c ON a.id_cours=c.id_cours
-    JOIN horaire h ON c.id_horaire=h.id_horaire
-    WHERE a.id_utilisateur = ?
+    $stmt = $mysqli->prepare("SELECT * FROM (((SELECT c.*
+    FROM utilisateur u
+    JOIN cours c ON u.id_horaire=c.id_horaire
+    WHERE u.id_utilisateur = ?)
+    EXCEPT
+    (SELECT c*
+    FROM absences a
+    JOIN cours c ON c.id_cours=a.id_cours
+    WHERE a.id_utilisateur=?))
+    UNION
+    (SELECT c*
+    FROM rattrapages r
+    JOIN cours c ON c.id_cours=r.id_cours
+    WHERE r.id_utilisateur=?)) c
+    JOIN horaire ON h.id_horaire=c.id_horaire
     ORDER BY c.date");
     $stmt->bind_param("i", $id_utilisateur);
     $stmt->execute();
@@ -85,7 +95,7 @@ function estInscrit(string $email, string $nom, string $prenom): array
                 $res[0]["nom"],
                 $res[0]["prenom"],
                 $res[0]["email"],
-                $res[0]["rattrapage"],
+                $res[0]["nbr_rattrapage"],
                 new Horaire($res[0]["id_horaire"], $res[0]["jour"], $res[0]["heure"]),
                 $res[0]["role"]
             )];
@@ -100,7 +110,7 @@ function estInscrit(string $email, string $nom, string $prenom): array
                         $res[0]["nom"],
                         $res[0]["prenom"],
                         $res[0]["email"],
-                        $res[0]["rattrapage"],
+                        $res[0]["nbr_rattrapage"],
                         new Horaire($res[0]["id_horaire"], $res[0]["jour"], $res[0]["heure"]),
                         $res[0]["role"]
                     );
@@ -220,10 +230,19 @@ function appartient(int $id_utilisateur, int $id_cours): bool
 {
     $mysqli = Database::connexion();
 
-    $stmt = $mysqli->prepare("SELECT *
-    FROM appel
-    WHERE id_utilisateur = ? AND id_cours = ?");
-    $stmt->bind_param("ii", $id_utilisateur, $id_cours);
+    $stmt = $mysqli->prepare("SELECT * FROM (((SELECT c.*
+    FROM cours c
+    JOIN utilisateur u ON u.id_horaire=c.id_horaire
+    WHERE id_utilisateur = ? AND id_cours = ?)
+    EXCEPT
+    (SELECT c.* 
+    FROM absences
+    WHERE id_utilisateur = ? AND id_cours = ?))
+    UNION
+    (SELECT c.* 
+    FROM rattrapages
+    WHERE id_utilisateur = ? AND id_cours = ?))");
+    $stmt->bind_param("iiiiii", $id_utilisateur, $id_cours, $id_utilisateur, $id_cours, $id_utilisateur, $id_cours);
     $stmt->execute();
     $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     $stmt->close();
@@ -232,12 +251,12 @@ function appartient(int $id_utilisateur, int $id_cours): bool
     return count($res) > 0;
 }
 
-function deleteAppel(int $id_utilisateur, int $id_cours): void
+function createAbsence(int $id_utilisateur, int $id_cours): void
 {
     $mysqli = Database::connexion();
 
-    $stmt = $mysqli->prepare("DELETE FROM appel
-    WHERE id_cours=? AND id_utilisateur=? ");
+    $stmt = $mysqli->prepare("INSERT INTO absences (id_cours, id_utilisateur)
+    VALUES (?,?)");
     $stmt->bind_param("ii", $id_cours, $id_utilisateur);
     $stmt->execute();
     $stmt->close();
@@ -248,12 +267,13 @@ function getAllRattrapages(int $id_utilisateur): array
 {
     $mysqli = Database::connexion();
 
-    $stmt = $mysqli->prepare("SELECT c.id_cours, c.date, h.id_horaire, h.jour, h.heure
+    $stmt = $mysqli->prepare("SELECT *
     FROM cours c
     JOIN horaire h ON c.id_horaire=h.id_horaire
-    LEFT OUTER JOIN appel a ON c.id_cours=a.id_cours
+    JOIN absences a ON c.id_cours=a.id_cours
+    JOIN rattrapages r ON r.id_cours=c.id_cours
     GROUP BY c.id_cours 
-    HAVING count(*)<12
+    HAVING count(r.id_utilisateur)<count(a.id_utilisateur)
     ORDER BY c.date");
     $stmt->execute();
     $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -270,11 +290,11 @@ function getAllRattrapages(int $id_utilisateur): array
     return $liste;
 }
 
-function createAppel(int $id_utilisateur, int $id_cours): void
+function createRattrapage(int $id_utilisateur, int $id_cours): void
 {
     $mysqli = Database::connexion();
 
-    $stmt = $mysqli->prepare("INSERT INTO appel (id_cours, id_utilisateur)
+    $stmt = $mysqli->prepare("INSERT INTO rattrapages (id_cours, id_utilisateur)
     VALUES (?,?) ");
     $stmt->bind_param("ii", $id_cours, $id_utilisateur);
     $stmt->execute();
@@ -343,18 +363,17 @@ function getFiltresRattrapages(): array
     return $filtres;
 }
 
-function createUtilisateur(string $nom, string $prenom, string $email, int $id_horaire, string $role):int
+function createUtilisateur(string $nom, string $prenom, string $email, int $id_horaire, string $role)
 {
     $nbr_rattrapage = 0;
     $mysqli = Database::connexion();
-    $stmt = $mysqli->prepare("INSERT INTO utilisateur (nom, prenom, email, role, rattrapage, id_horaire)
+    $stmt = $mysqli->prepare("INSERT INTO utilisateur (nom, prenom, email, role, nbr_rattrapage, id_horaire)
                 VALUES (?,?,?, ?, ?, ?)");
     $stmt->bind_param("ssssii", $nom, $prenom, $email, $role, $nbr_rattrapage, $id_horaire);
     $stmt->execute();
     $stmt->close();
     $id_utilisateur=$mysqli->insert_id;
     $mysqli->close();
-    return $id_utilisateur;
 }
 
 function getCoursFromIdHoraire(int $id_horaire): array
@@ -368,6 +387,7 @@ function getCoursFromIdHoraire(int $id_horaire): array
     $stmt->bind_param("i", $id_horaire);
     $stmt->execute();
     $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $mysqli->close();
 
     $liste = [];
 

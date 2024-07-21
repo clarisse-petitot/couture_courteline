@@ -30,16 +30,16 @@ class Utilisateur{
     private $nom;
     private $prenom;
     private $email;
-    private $rattrapage;
+    private $nbr_rattrapage;
     private $horaire;
     private $role;
     
-    public function __construct(int $id_utilisateur, string $nom, string $prenom, string $email, int $rattrapage, Horaire $horaire, string $role) {
+    public function __construct(int $id_utilisateur, string $nom, string $prenom, string $email, int $nbr_rattrapage, Horaire $horaire, string $role) {
         $this->id_utilisateur = $id_utilisateur;
         $this->nom = $nom;
         $this->prenom = $prenom;
         $this->email = $email;
-        $this->rattrapage = $rattrapage;
+        $this->nbr_rattrapage = $nbr_rattrapage;
         $this->horaire = $horaire;
         $this->role = $role;
 
@@ -57,8 +57,8 @@ class Utilisateur{
     public function getEmail():string{
         return $this->email;
     }
-    public function getRattrapage():int{
-        return $this->rattrapage;
+    public function getNbrRattrapage():int{
+        return $this->nbr_rattrapage;
     }
     public function getHoraire():Horaire{
         return $this->horaire;
@@ -67,8 +67,8 @@ class Utilisateur{
         return $this->role;
     }
 
-    public function setRattrapage(int $rattrapage){
-        $this->rattrapage=$rattrapage;
+    public function setRattrapage(int $nbr_rattrapage){
+        $this->nbr_rattrapage=$nbr_rattrapage;
     }
 }
 

@@ -142,12 +142,7 @@ function setUtilisateur($cheminwithemail, $cheminwithcours, $horaires)
                 $prenom = $ligneswithemail[$i][2];
                 $email = $ligneswithemail[$i][8];
                 $id_horaire = array_search(substr($ligneswithcours[$i][8],5),$horaires);
-                $id_utilisateur = createUtilisateur($nom, $prenom, $email, $id_horaire, 'user');
-                $allcours = getCoursFromIdHoraire($id_horaire);
-                foreach($allcours as $cours)
-                {
-                    createAppel($id_utilisateur, $cours->getIdCours());
-                }
+                createUtilisateur($nom, $prenom, $email, $id_horaire, 'user');
             }
         }
     }
