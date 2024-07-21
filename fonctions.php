@@ -1,6 +1,7 @@
 <?php
 
 require_once $_SERVER['DOCUMENT_ROOT'] . "/database/Database.php";
+require_once __DIR__ . "/classes.php";
 
 function getToken(string $token): Token | null
 
@@ -153,46 +154,46 @@ function createToken(Token $token)
     $mysqli->close();
 }
 
-function getTraduction(string $date): string
+function getTraduction(DateTime $date): string
 {
-    $res = substr($date, 0, 3);
-    if (substr($date, 3) == "January") {
-        $res = $res . "Janvier";
+    $monthinEnglish = $date->format('F');
+    if ($monthinEnglish == "January") {
+        return "Janvier";
     }
-    if (substr($date, 3) == "February") {
-        $res = $res . "Février";
+    if ($monthinEnglish == "February") {
+        return "Février";
     }
-    if (substr($date, 3) == "March") {
-        $res = $res . "Mars";
+    if ($monthinEnglish == "March") {
+        return "Mars";
     }
-    if (substr($date, 3) == "April") {
-        $res = $res . "Avril";
+    if ($monthinEnglish == "April") {
+        return "Avril";
     }
-    if (substr($date, 3) == "May") {
-        $res = $res . "Mai";
+    if ($monthinEnglish == "May") {
+        return "Mai";
     }
-    if (substr($date, 3) == "June") {
-        $res = $res . "Juin";
+    if ($monthinEnglish == "June") {
+        return "Juin";
     }
-    if (substr($date, 3) == "July") {
-        $res = $res . "Juillet";
+    if ($monthinEnglish == "July") {
+        return "Juillet";
     }
-    if (substr($date, 3) == "August") {
-        $res = $res . "Août";
+    if ($monthinEnglish == "August") {
+        return "Août";
     }
-    if (substr($date, 3) == "September") {
-        $res = $res . "Septembre";
+    if ($monthinEnglish == "September") {
+        return "Septembre";
     }
-    if (substr($date, 3) == "October") {
-        $res = $res . "Octobre";
+    if ($monthinEnglish == "October") {
+        return "Octobre";
     }
-    if (substr($date, 3) == "November") {
-        $res = $res . "Novembre";
+    if ($monthinEnglish == "November") {
+        return "Novembre";
     }
-    if (substr($date, 3) == "December") {
-        $res = $res . "Decembre";
+    if ($monthinEnglish == "December") {
+        return "Decembre";
     }
-    return $res;
+    return "Not found";
 }
 
 function getCours(int $id_cours): Cours
@@ -342,7 +343,7 @@ function getFiltresRattrapages(): array
     return $filtres;
 }
 
-function createUtilisateur(string $nom, string $prenom, string $email, int $id_horaire, string $role)
+function createUtilisateur(string $nom, string $prenom, string $email, int $id_horaire, string $role):int
 {
     $nbr_rattrapage = 0;
     $mysqli = Database::connexion();
@@ -351,5 +352,30 @@ function createUtilisateur(string $nom, string $prenom, string $email, int $id_h
     $stmt->bind_param("ssssii", $nom, $prenom, $email, $role, $nbr_rattrapage, $id_horaire);
     $stmt->execute();
     $stmt->close();
+    $id_utilisateur=$mysqli->insert_id;
     $mysqli->close();
+    return $id_utilisateur;
+}
+
+function getCoursFromIdHoraire(int $id_horaire): array
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT *
+    FROM cours c
+    JOIN horaire h ON c.id_horaire=h.id_horaire
+    WHERE h.id_horaire = ?");
+    $stmt->bind_param("i", $id_horaire);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    $liste = [];
+
+    foreach ($res as $ligne) {
+        $date = new DateTime($ligne["date"]);
+        if ($date->getTimestamp() > time()) {
+            $liste[] = new Cours($ligne["id_cours"], $date, new Horaire($ligne["id_horaire"], $ligne["jour"], $ligne["heure"]));
+        }
+    };
+    return $liste;
 }
