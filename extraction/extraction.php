@@ -131,7 +131,11 @@ function setUtilisateur($cheminwithemail, $cheminwithcours, $horaires)
         $stmt->execute();
         $stmt->close();
         
-        $stmt = $mysqli->prepare("DELETE FROM appel");
+        $stmt = $mysqli->prepare("DELETE FROM rattrapages");
+        $stmt->execute();
+        $stmt->close();
+
+        $stmt = $mysqli->prepare("DELETE FROM absences");
         $stmt->execute();
         $stmt->close();
 
