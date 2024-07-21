@@ -130,6 +130,10 @@ function setUtilisateur($cheminwithemail, $cheminwithcours, $horaires)
         $stmt = $mysqli->prepare("DELETE FROM utilisateur");
         $stmt->execute();
         $stmt->close();
+        
+        $stmt = $mysqli->prepare("DELETE FROM appel");
+        $stmt->execute();
+        $stmt->close();
 
         $mysqli->close();
         for ($i = 0; $i < count($ligneswithemail); $i++) {
@@ -138,7 +142,12 @@ function setUtilisateur($cheminwithemail, $cheminwithcours, $horaires)
                 $prenom = $ligneswithemail[$i][2];
                 $email = $ligneswithemail[$i][8];
                 $id_horaire = array_search(substr($ligneswithcours[$i][8],5),$horaires);
-                createUtilisateur($nom, $prenom, $email, $id_horaire, 'user');
+                $id_utilisateur = createUtilisateur($nom, $prenom, $email, $id_horaire, 'user');
+                $allcours = getCoursFromIdHoraire($id_horaire);
+                foreach($allcours as $cours)
+                {
+                    createAppel($id_utilisateur, $cours->getIdCours());
+                }
             }
         }
     }
