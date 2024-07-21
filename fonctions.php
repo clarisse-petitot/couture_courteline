@@ -92,7 +92,7 @@ function estInscrit(string $email, string $nom, string $prenom): array
             $nbr_doublon = 0;
             $utilisateurs = [];
             foreach ($res as $ligne) {
-                if ($prenom == $res["prenom"]) {
+                if (strtoupper($prenom) == strtoupper($res["prenom"])) {
                     $nbr_doublon += 1;
                     $utilisateurs[] = new Utilisateur(
                         $res[0]["id_utilisateur"],
@@ -110,7 +110,7 @@ function estInscrit(string $email, string $nom, string $prenom): array
             } else {
                 if ($nbr_doublon > 1) {
                     foreach ($utilisateurs as $utilisateur) {
-                        if ($utilisateur->getNom() == $nom) {
+                        if (strtoupper($utilisateur->getNom()) == strtoupper($nom)) {
                             return [0, $utilisateur];
                         }
                     }
@@ -352,4 +352,16 @@ function getFiltresRattrapages(): array
         }
     }
     return $filtres;
+}
+
+function createUtilisateur(string $nom, string $prenom, string $email, int $id_horaire, string $role)
+{
+    $nbr_rattrapage = 0;
+    $mysqli = Database::connexion();
+    $stmt = $mysqli->prepare("INSERT INTO utilisateur (nom, prenom, email, role, rattrapage, id_horaire)
+                VALUES (?,?,?, ?, ?, ?)");
+    $stmt->bind_param("ssssii", $nom, $prenom, $email, $role, $nbr_rattrapage, $id_horaire);
+    $stmt->execute();
+    $stmt->close();
+    $mysqli->close();
 }
