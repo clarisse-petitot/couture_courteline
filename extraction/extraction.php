@@ -145,7 +145,7 @@ function setUtilisateur($cheminwithemail, $cheminwithcours, $horaires)
                 $nom = $ligneswithemail[$i][1];
                 $prenom = $ligneswithemail[$i][2];
                 $email = $ligneswithemail[$i][8];
-                $id_horaire = array_search(substr($ligneswithcours[$i][8],5),$horaires);
+                $id_horaire = array_search(substr($ligneswithcours[$i][8],5),$horaires)+1;
                 createUtilisateur($nom, $prenom, $email, $id_horaire, 'user');
             }
         }

@@ -16,7 +16,7 @@ if (isset($_GET["id_cours"]) && appartient($utilisateur->getIdUtilisateur(), $_G
     createAbsence($utilisateur->getIdUtilisateur(), $_GET["id_cours"]);
     $cours = getCours($_GET["id_cours"]);
     if ($cours->getDate()->getTimestamp() - time() >= 86400) {
-        changeRattrapage($utilisateur->getIdUtilisateur(), $utilisateur->getNbrRattrapage()+1);
+        changeNbrRattrapage($utilisateur->getIdUtilisateur(), $utilisateur->getNbrRattrapage()+1);
         $utilisateur->setRattrapage($utilisateur->getNbrRattrapage()+1);
     }
 }

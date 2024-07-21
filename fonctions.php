@@ -45,18 +45,18 @@ function getAllCours(int $id_utilisateur): array
     JOIN cours c ON u.id_horaire=c.id_horaire
     WHERE u.id_utilisateur = ?)
     EXCEPT
-    (SELECT c*
+    (SELECT c.*
     FROM absences a
     JOIN cours c ON c.id_cours=a.id_cours
     WHERE a.id_utilisateur=?))
     UNION
-    (SELECT c*
+    (SELECT c.*
     FROM rattrapages r
     JOIN cours c ON c.id_cours=r.id_cours
     WHERE r.id_utilisateur=?)) c
-    JOIN horaire ON h.id_horaire=c.id_horaire
+    JOIN horaire h ON h.id_horaire=c.id_horaire
     ORDER BY c.date");
-    $stmt->bind_param("i", $id_utilisateur);
+    $stmt->bind_param("iii", $id_utilisateur, $id_utilisateur, $id_utilisateur);
     $stmt->execute();
     $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
@@ -230,18 +230,20 @@ function appartient(int $id_utilisateur, int $id_cours): bool
 {
     $mysqli = Database::connexion();
 
-    $stmt = $mysqli->prepare("SELECT * FROM (((SELECT c.*
+    $stmt = $mysqli->prepare("((SELECT c.*
     FROM cours c
     JOIN utilisateur u ON u.id_horaire=c.id_horaire
-    WHERE id_utilisateur = ? AND id_cours = ?)
+    WHERE u.id_utilisateur = ? AND c.id_cours = ?)
     EXCEPT
     (SELECT c.* 
-    FROM absences
-    WHERE id_utilisateur = ? AND id_cours = ?))
+    FROM absences a
+    JOIN cours c ON c.id_cours=a.id_cours
+    WHERE a.id_utilisateur = ? AND a.id_cours = ?))
     UNION
     (SELECT c.* 
-    FROM rattrapages
-    WHERE id_utilisateur = ? AND id_cours = ?))");
+    FROM rattrapages r
+    JOIN cours c ON c.id_cours=r.id_cours
+    WHERE r.id_utilisateur = ? AND r.id_cours = ?)");
     $stmt->bind_param("iiiiii", $id_utilisateur, $id_cours, $id_utilisateur, $id_cours, $id_utilisateur, $id_cours);
     $stmt->execute();
     $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -267,14 +269,14 @@ function getAllRattrapages(int $id_utilisateur): array
 {
     $mysqli = Database::connexion();
 
-    $stmt = $mysqli->prepare("SELECT *
-    FROM cours c
-    JOIN horaire h ON c.id_horaire=h.id_horaire
-    JOIN absences a ON c.id_cours=a.id_cours
-    JOIN rattrapages r ON r.id_cours=c.id_cours
-    GROUP BY c.id_cours 
-    HAVING count(r.id_utilisateur)<count(a.id_utilisateur)
-    ORDER BY c.date");
+    $stmt = $mysqli->prepare("SELECT c.*,h.*, COUNT(a.id_utilisateur) AS total_absences, COUNT(r.id_utilisateur) AS total_rattrapages
+        FROM cours c
+        LEFT JOIN absences a ON c.id_cours = a.id_cours
+        LEFT JOIN rattrapages r ON c.id_cours = r.id_cours
+        JOIN horaire h ON h.id_horaire=c.id_horaire
+        GROUP BY c.id_cours
+        HAVING total_rattrapages < total_absences
+        ORDER BY c.date");
     $stmt->execute();
     $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
@@ -301,12 +303,12 @@ function createRattrapage(int $id_utilisateur, int $id_cours): void
     $stmt->close();
 }
 
-function changeRattrapage(int $id_utilisateur, int $nbr): void
+function changeNbrRattrapage(int $id_utilisateur, int $nbr): void
 {
     $mysqli = Database::connexion();
 
     $stmt = $mysqli->prepare("UPDATE utilisateur
-    SET rattrapage = ?
+    SET nbr_rattrapage = ?
     WHERE id_utilisateur = ?");
     $stmt->bind_param("ii", $nbr, $id_utilisateur);
     $stmt->execute();
@@ -372,7 +374,7 @@ function createUtilisateur(string $nom, string $prenom, string $email, int $id_h
     $stmt->bind_param("ssssii", $nom, $prenom, $email, $role, $nbr_rattrapage, $id_horaire);
     $stmt->execute();
     $stmt->close();
-    $id_utilisateur=$mysqli->insert_id;
+    $id_utilisateur = $mysqli->insert_id;
     $mysqli->close();
 }
 
@@ -398,4 +400,30 @@ function getCoursFromIdHoraire(int $id_horaire): array
         }
     };
     return $liste;
+}
+
+function deleteAbsence($id_utilisateur, $id_cours)
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("DELETE
+    FROM absences
+    WHERE id_utilisateur = ? AND id_cours = ?");
+    $stmt->bind_param("ii", $id_utilisateur, $id_cours);
+    $stmt->execute();
+    $mysqli->close();
+}
+
+function isAbsent($id_utilisateur, $id_cours)
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT *
+    FROM absences
+    WHERE id_utilisateur = ? AND id_cours = ?");
+    $stmt->bind_param("ii", $id_utilisateur, $id_cours);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $mysqli->close();
+    return count($res)>0;
 }
