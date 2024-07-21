@@ -104,3 +104,8 @@ function setCoursHoraire($chemin)
 }
 
 //setCoursHoraire('cours.csv');
+
+function setUtilisateur($cheminwithemail, $cheminwithcours)
+{
+    
+}
