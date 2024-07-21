@@ -16,7 +16,7 @@ if (isset($_GET["id_cours"]) && appartient($utilisateur->getIdUtilisateur(), $_G
     deleteAppel($utilisateur->getIdUtilisateur(), $_GET["id_cours"]);
     $cours = getCours($_GET["id_cours"]);
     if ($cours->getDate()->getTimestamp() - time() >= 86400) {
-        addRattrapage($utilisateur->getIdUtilisateur(), $utilisateur->getRattrapage());
+        changeRattrapage($utilisateur->getIdUtilisateur(), $utilisateur->getRattrapage()+1);
         $utilisateur->setRattrapage($utilisateur->getRattrapage()+1);
     }
 }

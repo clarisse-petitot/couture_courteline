@@ -13,7 +13,8 @@ $token = getToken($_GET["token"]);
 $utilisateur = $token->getUtilisateur();
 
 if (isset($_GET["id_cours"]) && !appartient($utilisateur->getIdUtilisateur(), $_GET["id_cours"])) {
-    createAppel($utilisateur->getIdUtilisateur(), $_GET["id_cours"], $utilisateur->getRattrapage());
+    createAppel($utilisateur->getIdUtilisateur(), $_GET["id_cours"]);
+    changeRattrapage($utilisateur->getIdUtilisateur(), $utilisateur->getRattrapage()-1);
     $utilisateur->setRattrapage($utilisateur->getRattrapage()-1);
 }
 

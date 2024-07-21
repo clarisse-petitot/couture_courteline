@@ -269,7 +269,7 @@ function getAllRattrapages(int $id_utilisateur): array
     return $liste;
 }
 
-function createAppel(int $id_utilisateur, int $id_cours, int $nbr): void
+function createAppel(int $id_utilisateur, int $id_cours): void
 {
     $mysqli = Database::connexion();
 
@@ -278,22 +278,10 @@ function createAppel(int $id_utilisateur, int $id_cours, int $nbr): void
     $stmt->bind_param("ii", $id_cours, $id_utilisateur);
     $stmt->execute();
     $stmt->close();
-
-    $nbr -= 1;
-
-    $stmt = $mysqli->prepare("UPDATE utilisateur
-    SET rattrapage = ?
-    WHERE id_utilisateur = ?");
-    $stmt->bind_param("ii", $nbr, $id_utilisateur);
-    $stmt->execute();
-    $stmt->close();
-    $mysqli->close();
 }
 
-function addRattrapage(int $id_utilisateur, int $nbr): void
+function changeRattrapage(int $id_utilisateur, int $nbr): void
 {
-    $nbr += 1;
-
     $mysqli = Database::connexion();
 
     $stmt = $mysqli->prepare("UPDATE utilisateur
