@@ -1,5 +1,5 @@
 
-<nav class="border-gray-200 mt-3">
+<nav class="border-gray-200 sticky top-0 z-10 bg-white w-full">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="/logo_courteline.png" class="h-12" alt="Logo de Courteline" />
@@ -22,7 +22,7 @@
                     <a href="rattrapages.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Rattrapages</a>
                 </li>
                 <li>
-                    <a href="creations.php?id_page=1&token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Creations</a>
+                    <a href="patrons.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Patrons</a>
                 </li>
             </ul>
         </div>
