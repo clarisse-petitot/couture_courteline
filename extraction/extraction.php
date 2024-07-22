@@ -142,8 +142,8 @@ function setUtilisateur($cheminwithemail, $cheminwithcours, $horaires)
         $mysqli->close();
         for ($i = 0; $i < count($ligneswithemail); $i++) {
             if($ligneswithcours[$i][0]==$ligneswithemail[$i][1].' '.$ligneswithemail[$i][2]){
-                $nom = $ligneswithemail[$i][1];
-                $prenom = $ligneswithemail[$i][2];
+                $nom = ucfirst(strtolower($ligneswithemail[$i][1]));
+                $prenom = ucfirst(strtolower($ligneswithemail[$i][2]));
                 $email = $ligneswithemail[$i][8];
                 $id_horaire = array_search(substr($ligneswithcours[$i][8],5),$horaires)+1;
                 createUtilisateur($nom, $prenom, $email, $id_horaire, 'user');
