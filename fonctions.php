@@ -427,3 +427,154 @@ function isAbsent($id_utilisateur, $id_cours)
     $mysqli->close();
     return count($res)>0;
 }
+
+function getCategoriesFromIdCreation($id_creation):array
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT *
+    FROM type t
+    JOIN categorie c ON c.id_categorie=t.id_categorie
+    WHERE t.id_creation = ?");
+    $stmt->bind_param("i", $id_creation);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $mysqli->close();
+
+    $liste=[];
+
+    foreach ($res as $ligne)
+    {
+        $liste[]=new Categorie($ligne["id_categorie"], $ligne["nom"]);
+    }
+
+    return $liste;
+}
+
+function getImagesFromIdCreation($id_creation):array
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT *
+    FROM associe a
+    JOIN image i ON i.id_image=a.id_image
+    JOIN utilisateur u ON i.id_utilisateur=u.id_utilisateur
+    JOIN horaire h ON u.id_horaire=h.id_horaire
+    WHERE a.id_creation = ?");
+    $stmt->bind_param("i", $id_creation);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $mysqli->close();
+
+    $liste=[];
+
+    foreach ($res as $ligne)
+    {
+        $liste[]=new Image(
+            $ligne["id_image"], 
+            $ligne["lien"], 
+            new Utilisateur(
+                $ligne["id_utilisateur"], 
+                $ligne["nom"], 
+                $ligne["prenom"], 
+                $ligne["email"], 
+                $ligne["nbr_rattrapage"], 
+                new Horaire(
+                    $ligne['id_horaire'], 
+                    $ligne["jour"], 
+                    $ligne['heure']), 
+                $ligne['role']));
+    }
+
+    return $liste;
+}
+
+function getCreations(): array
+/*
+    Renvoie la liste de toutes les creations
+*/
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT *
+    FROM creation
+    ORDER BY id_creation DESC");
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    $creations = [];
+
+    foreach ($res as $ligne) {
+        $creations[] = new Creation(
+            $ligne["id_creation"],
+            $ligne["nom"],
+            $ligne["description"],
+            $ligne["tissu"],
+            $ligne["surface_tissu"],
+            $ligne["patron"],
+            getImagesFromIdCreation($ligne["id_creation"]),
+            getCategoriesFromIdCreation($ligne["id_creation"]));
+    }
+    $stmt->close();
+    $mysqli->close();
+
+    return $creations;
+}
+
+function getCategories(): array
+/*
+    Renvoie la liste de toutes les catégories
+*/
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT *
+    FROM categorie");
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    $liste_fin = [];
+
+    foreach ($res as $ligne) {
+        $liste_fin[] = new Categorie($ligne["id_categorie"], $ligne["nom"]);
+    }
+
+    return $liste_fin;
+}
+
+function getCategorieFromId(int $id_categorie): Categorie | null
+/*
+    Renvoie la catégorie d'une creation en fonction de son id
+*/
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT *
+    FROM categorie
+    WHERE id_categorie=?");
+    $stmt->bind_param("i", $id_categorie);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    if (count($res) == 0) {
+        return null;
+    }
+
+    $res = $res[0];
+
+    return new Categorie($res["id_categorie"], $res["nom"]);
+}
+
+function getFiltres(): array
+/*
+    Renvoie la liste de tous les filtres
+*/
+{
+    $filtres = [];
+    foreach ($_GET as $key => $value) {
+        if (str_starts_with($key, "categorie-")) {
+            $filtres[] = getCategorieFromId(intval(substr($key, 10)));
+        }
+    }
+    return $filtres;
+}
