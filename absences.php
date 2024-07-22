@@ -54,6 +54,7 @@ $page = "absences";
     <?php
     require "components/navbar.php";
     require "components/cours.php";
+    require './components/footer.php';
     ?>
 
 </body>

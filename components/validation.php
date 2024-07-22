@@ -94,6 +94,9 @@ if ($_GET["page"] == "absences") {
             </div>
         </div>
     </div>
+    <?php
+    require './components/footer.php';
+    ?>
 
 </body>
 

@@ -93,6 +93,7 @@ if (count($_GET) > 1) {
         require "components/filters-rattrapage.php";
         require "components/cours.php";
     }
+    require './components/footer.php';
     ?>
 
 </body>
