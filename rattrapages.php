@@ -11,13 +11,13 @@ if (!isset($_GET["token"])) {
 
 $token = getToken($_GET["token"]);
 
-if(is_null($token)){
+if (is_null($token)) {
     http_response_code(403);
     header("Location: connexion.php");
     exit;
 }
 
-if(!$token->isValide()){
+if (!$token->isValide()) {
     http_response_code(403);
     header("Location: connexion.php");
     exit;
@@ -26,17 +26,33 @@ if(!$token->isValide()){
 $utilisateur = $token->getUtilisateur();
 
 if (isset($_GET["id_cours"]) && !appartient($utilisateur->getIdUtilisateur(), $_GET["id_cours"])) {
-    if(isAbsent($utilisateur->getIdUtilisateur(), $_GET["id_cours"])){
+    if (isAbsent($utilisateur->getIdUtilisateur(), $_GET["id_cours"])) {
         deleteAbsence($utilisateur->getIdUtilisateur(), $_GET["id_cours"]);
-    }
-    else{
+    } else {
         createRattrapage($utilisateur->getIdUtilisateur(), $_GET["id_cours"]);
     }
-    changeNbrRattrapage($utilisateur->getIdUtilisateur(), $utilisateur->getNbrRattrapage()-1);
-    $utilisateur->setRattrapage($utilisateur->getNbrRattrapage()-1);
+    changeNbrRattrapage($utilisateur->getIdUtilisateur(), $utilisateur->getNbrRattrapage() - 1);
+    $utilisateur->setRattrapage($utilisateur->getNbrRattrapage() - 1);
 }
 
 $allcours = getAllRattrapagesFromIdUtilisateur($utilisateur->getIdUtilisateur());
+if ($allcours!=[]) {
+    $i = 0;
+    $exit=false;
+    while ($exit && ($allcours[$i]->getDate()->format('n') == 9 || $allcours[$i]->getDate()->format('n') == 10)) {
+        if (!isAbsent($utilisateur->getIdUtilisateur(), $allcours[$i]->getIdCours())) {
+            unset($allcours[$i]);
+        }
+        if(!is_null($allcours[$i+1]))
+        {
+            $i++;
+        }
+        else{
+            $exit=true;
+        }
+    }
+}
+
 $bouton = "Choisir ce rattrapage";
 $page = "rattrapages";
 

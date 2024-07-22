@@ -11,13 +11,13 @@ if (!isset($_GET["token"])) {
 
 $token = getToken($_GET["token"]);
 
-if(is_null($token)){
+if (is_null($token)) {
     http_response_code(403);
     header("Location: connexion.php");
     exit;
 }
 
-if(!$token->isValide()){
+if (!$token->isValide()) {
     http_response_code(403);
     header("Location: connexion.php");
     exit;
@@ -25,7 +25,7 @@ if(!$token->isValide()){
 
 $utilisateur = $token->getUtilisateur();
 $cours_valide = getCours($_GET["id_cours"]);
-$date_fin= clone $cours_valide->getDate();
+$date_fin = clone $cours_valide->getDate();
 $date_fin->add(new DateInterval('PT2H30M'));
 
 if ($_GET["page"] == "absences") {
@@ -33,11 +33,26 @@ if ($_GET["page"] == "absences") {
     $question = "Êtes-vous sûr de cette absence ?";
     $allcours = getAllCoursFromIdUtilisateur($utilisateur->getIdUtilisateur());
     $validation = "Valider mon absence";
-}
-else{
+} else {
     $bouton = "Choisir ce rattrapage";
     $question = "Êtes-vous sûr de vouloir choisir ce rattrapage ?";
     $allcours = getAllRattrapagesFromIdUtilisateur($utilisateur->getIdUtilisateur());
+    if ($allcours!=[]) {
+        $i = 0;
+        $exit=false;
+        while ($exit && ($allcours[$i]->getDate()->format('n') == 9 || $allcours[$i]->getDate()->format('n') == 10)) {
+            if (!isAbsent($utilisateur->getIdUtilisateur(), $allcours[$i]->getIdCours())) {
+                unset($allcours[$i]);
+            }
+            if(!is_null($allcours[$i+1]))
+            {
+                $i++;
+            }
+            else{
+                $exit=true;
+            }
+        }
+    }
     $validation = "Valider mon rattrapage";
 }
 
@@ -57,7 +72,7 @@ else{
 
     <?php
     require "navbar.php";
-    if($_GET["page"] == "rattrapages"){
+    if ($_GET["page"] == "rattrapages") {
         require "filters-rattrapage.php";
     }
     require "cours.php";
@@ -69,7 +84,7 @@ else{
                 <div class="m-20">
                     <div class="mb-8">
                         <h1 class="mb-4 text-3xl font-extrabold"><?= $question ?></h1>
-                        <p class="text-gray-600"><?= $cours_valide->getHoraire()->getJour() ?> <?=$date_fin->format("d")?> <?= getTraduction($cours->getDate()) ?> de <?=$cours->getDate()->format("G\hi")?> à <?=$date_fin->format("G\hi")?></p>
+                        <p class="text-gray-600"><?= $cours_valide->getHoraire()->getJour() ?> <?= $date_fin->format("d") ?> <?= getTraduction($cours->getDate()) ?> de <?= $cours->getDate()->format("G\hi") ?> à <?= $date_fin->format("G\hi") ?></p>
                     </div>
                     <div class="space-y-4">
                         <div class="p-1"><a href="/<?= $_GET["page"] ?>.php?token=<?= $_GET["token"] ?>&id_cours=<?= $_GET["id_cours"] ?>"><button class=" p-3 bg-blue-700 rounded-full text-white w-full font-semibold hover:bg-blue-800"><?= $validation ?></button></a></div>
