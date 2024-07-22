@@ -210,4 +210,8 @@ class Token{
     public function getUtilisateur():Utilisateur{
         return $this->utilisateur;
     }
+
+    public function isValide():bool{
+        return (time() - $this->date_creation) < (3600*24); 
+    }
 }

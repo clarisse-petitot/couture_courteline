@@ -10,6 +10,19 @@ if (!isset($_GET["token"])) {
 };
 
 $token = getToken($_GET["token"]);
+
+if(is_null($token)){
+    http_response_code(403);
+    header("Location: connexion.php");
+    exit;
+}
+
+if(!$token->isValide()){
+    http_response_code(403);
+    header("Location: connexion.php");
+    exit;
+}
+
 $utilisateur = $token->getUtilisateur();
 
 ?>
