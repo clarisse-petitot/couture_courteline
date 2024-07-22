@@ -69,7 +69,7 @@ if (count($_GET) > 1) {
 
     <?php
     require './components/navbar.php';
-    require './components/filters-creations.php';
+    require './components/filters-patrons.php';
     require './components/cards.php';
     require './components/footer.php';
     ?>
