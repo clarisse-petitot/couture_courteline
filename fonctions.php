@@ -36,7 +36,7 @@ function getToken(string $token): Token | null
     return $token;
 }
 
-function getAllCours(int $id_utilisateur): array
+function getAllCoursFromIdUtilisateur(int $id_utilisateur): array
 {
     $mysqli = Database::connexion();
 
@@ -265,7 +265,7 @@ function createAbsence(int $id_utilisateur, int $id_cours): void
     $mysqli->close();
 }
 
-function getAllRattrapages(int $id_utilisateur): array
+function getAllRattrapagesFromIdUtilisateur(int $id_utilisateur): array
 {
     $mysqli = Database::connexion();
 

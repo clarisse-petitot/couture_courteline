@@ -31,13 +31,13 @@ $date_fin->add(new DateInterval('PT2H30M'));
 if ($_GET["page"] == "absences") {
     $bouton = "Prévenir mon abscence";
     $question = "Êtes-vous sûr de cette absence ?";
-    $allcours = getAllCours($utilisateur->getIdUtilisateur());
+    $allcours = getAllCoursFromIdUtilisateur($utilisateur->getIdUtilisateur());
     $validation = "Valider mon absence";
 }
 else{
     $bouton = "Choisir ce rattrapage";
     $question = "Êtes-vous sûr de vouloir choisir ce rattrapage ?";
-    $allcours = getAllRattrapages($utilisateur->getIdUtilisateur());
+    $allcours = getAllRattrapagesFromIdUtilisateur($utilisateur->getIdUtilisateur());
     $validation = "Valider mon rattrapage";
 }
 

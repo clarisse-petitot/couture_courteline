@@ -36,7 +36,7 @@ if (isset($_GET["id_cours"]) && !appartient($utilisateur->getIdUtilisateur(), $_
     $utilisateur->setRattrapage($utilisateur->getNbrRattrapage()-1);
 }
 
-$allcours = getAllRattrapages($utilisateur->getIdUtilisateur());
+$allcours = getAllRattrapagesFromIdUtilisateur($utilisateur->getIdUtilisateur());
 $bouton = "Choisir ce rattrapage";
 $page = "rattrapages";
 

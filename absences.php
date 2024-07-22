@@ -34,7 +34,7 @@ if (isset($_GET["id_cours"]) && appartient($utilisateur->getIdUtilisateur(), $_G
     }
 }
 
-$allcours = getAllCours($utilisateur->getIdUtilisateur());
+$allcours = getAllCoursFromIdUtilisateur($utilisateur->getIdUtilisateur());
 $bouton = "Prévenir mon abscence";
 $page = "absences";
 
