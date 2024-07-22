@@ -103,16 +103,16 @@ function estInscrit(string $email, string $nom, string $prenom): array
             $nbr_doublon = 0;
             $utilisateurs = [];
             foreach ($res as $ligne) {
-                if (strtoupper($prenom) == strtoupper($res["prenom"])) {
+                if (strtoupper($prenom) == strtoupper($ligne["prenom"])) {
                     $nbr_doublon += 1;
                     $utilisateurs[] = new Utilisateur(
-                        $res[0]["id_utilisateur"],
-                        $res[0]["nom"],
-                        $res[0]["prenom"],
-                        $res[0]["email"],
-                        $res[0]["nbr_rattrapage"],
-                        new Horaire($res[0]["id_horaire"], $res[0]["jour"], $res[0]["heure"]),
-                        $res[0]["role"]
+                        $ligne["id_utilisateur"],
+                        $ligne["nom"],
+                        $ligne["prenom"],
+                        $ligne["email"],
+                        $ligne["nbr_rattrapage"],
+                        new Horaire($ligne["id_horaire"], $ligne["jour"], $ligne["heure"]),
+                        $ligne["role"]
                     );
                 }
             }
