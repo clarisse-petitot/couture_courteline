@@ -1,7 +1,7 @@
 <?php
 
-require_once "../classes.php";
-require_once "../fonctions.php";
+require_once "classes.php";
+require_once "fonctions.php";
 
 if (!isset($_GET["token"])) {
     http_response_code(403);
@@ -76,11 +76,11 @@ if ($_GET["page"] == "absences") {
 <body>
     <div class="min-h-screen">
         <?php
-        require "navbar.php";
+        require "components/navbar.php";
         if ($_GET["page"] == "rattrapages") {
-            require "filters-rattrapage.php";
+            require "components/filters-rattrapage.php";
         }
-        require "cours.php";
+        require "components/cours.php";
         $date_fin = clone $cours_valide->getDate();
         $date_fin->add(new DateInterval('PT2H30M'));
         ?>

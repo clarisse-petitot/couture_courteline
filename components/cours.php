@@ -9,7 +9,7 @@
                     if ($utilisateur->getRole() == 'admin') {
                         $url = "appel.php?token=" . $_GET["token"]."&id_cours=".$cours->getIdCours();
                     } else {
-                        $url = "/components/validation.php?token=" . $_GET["token"] . "&id_cours=" . $cours->getIdCours() . "&page=" . $page;
+                        $url = "validation.php?token=" . $_GET["token"] . "&id_cours=" . $cours->getIdCours() . "&page=" . $page;
                     }
                 ?>
                     <li class="inline-flex flex-col text-center w-[350px] p-5">
