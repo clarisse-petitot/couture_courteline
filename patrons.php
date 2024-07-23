@@ -11,13 +11,13 @@ if (!isset($_GET["token"])) {
 
 $token = getToken($_GET["token"]);
 
-if(is_null($token)){
+if (is_null($token)) {
     http_response_code(403);
     header("Location: connexion.php");
     exit;
 }
 
-if(!$token->isValide()){
+if (!$token->isValide()) {
     http_response_code(403);
     header("Location: connexion.php");
     exit;
@@ -46,7 +46,7 @@ if (count($_GET) > 1) {
 ?>
 
 <!DOCTYPE html>
-<html lang="fr" class="h-full">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
@@ -65,12 +65,15 @@ if (count($_GET) > 1) {
     </style>
 </head>
 
-<body class="min-h-full relative">
-
+<body>
+    <div class="min-h-screen">
+        <?php
+        require './components/navbar.php';
+        require './components/filters-patrons.php';
+        require './components/cards.php';
+        ?>
+    </div>
     <?php
-    require './components/navbar.php';
-    require './components/filters-patrons.php';
-    require './components/cards.php';
     require './components/footer.php';
     ?>
 

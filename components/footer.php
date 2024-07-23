@@ -1,4 +1,4 @@
-<footer class="bg-gray-200/25 sm:p-6 absolute bottom-0 right-0 left-0">
+<footer class="bg-gray-200/25 sm:p-6">
     <div class="sm:flex sm:items-center sm:justify-between p-2">
         <span class="text-sm text-gray-500 sm:text-center">© 2024 <a href="/index.php" target="_blank" class="hover:underline">Les Cours de Catherine à Courteline</a> - contact@lacouturedecp.fr
         </span>

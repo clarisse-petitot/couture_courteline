@@ -36,19 +36,17 @@ if (isset($_GET["id_cours"]) && !appartient($utilisateur->getIdUtilisateur(), $_
 }
 
 $allcours = getAllRattrapagesFromIdUtilisateur($utilisateur->getIdUtilisateur());
-if ($allcours!=[]) {
+if ($allcours != []) {
     $i = 0;
-    $exit=false;
+    $exit = false;
     while ($exit && ($allcours[$i]->getDate()->format('n') == 9 || $allcours[$i]->getDate()->format('n') == 10)) {
         if (!isAbsent($utilisateur->getIdUtilisateur(), $allcours[$i]->getIdCours())) {
             unset($allcours[$i]);
         }
-        if(!is_null($allcours[$i+1]))
-        {
+        if (!is_null($allcours[$i + 1])) {
             $i++;
-        }
-        else{
-            $exit=true;
+        } else {
+            $exit = true;
         }
     }
 }
@@ -86,13 +84,16 @@ if (count($_GET) > 1) {
 </head>
 
 <body>
-
+    <div class="min-h-screen">
+        <?php
+        require "components/navbar.php";
+        if ($utilisateur->getNbrRattrapage() > 0) {
+            require "components/filters-rattrapage.php";
+            require "components/cours.php";
+        }
+        ?>
+    </div>
     <?php
-    require "components/navbar.php";
-    if ($utilisateur->getNbrRattrapage() > 0) {
-        require "components/filters-rattrapage.php";
-        require "components/cours.php";
-    }
     require './components/footer.php';
     ?>
 

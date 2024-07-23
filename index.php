@@ -25,6 +25,12 @@ if(!$token->isValide()){
 
 $utilisateur = $token->getUtilisateur();
 
+if($utilisateur->getRole()=='admin'){
+    http_response_code(403);
+    header("Location: admin/accueil?token=".$token->getToken().".php");
+    exit;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -37,12 +43,12 @@ $utilisateur = $token->getUtilisateur();
 </head>
 
 <body>
-
+    <div class="min-h-screen">
     <?php
     require "components/navbar.php";
     ?>
     <h1 class=" p-10 lg:text-4xl text-3xl lg:leading-9 leading-7 text-gray-800 font-semibold">Bienvenue sur le site des cours de Couture de Catherine</h1>
-
+    </div>
     <?php
     require './components/footer.php';
     ?>

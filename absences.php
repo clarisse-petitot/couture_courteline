@@ -11,13 +11,13 @@ if (!isset($_GET["token"])) {
 
 $token = getToken($_GET["token"]);
 
-if(is_null($token)){
+if (is_null($token)) {
     http_response_code(403);
     header("Location: connexion.php");
     exit;
 }
 
-if(!$token->isValide()){
+if (!$token->isValide()) {
     http_response_code(403);
     header("Location: connexion.php");
     exit;
@@ -29,8 +29,8 @@ if (isset($_GET["id_cours"]) && appartient($utilisateur->getIdUtilisateur(), $_G
     createAbsence($utilisateur->getIdUtilisateur(), $_GET["id_cours"]);
     $cours = getCours($_GET["id_cours"]);
     if ($cours->getDate()->getTimestamp() - time() >= 86400) {
-        changeNbrRattrapage($utilisateur->getIdUtilisateur(), $utilisateur->getNbrRattrapage()+1);
-        $utilisateur->setRattrapage($utilisateur->getNbrRattrapage()+1);
+        changeNbrRattrapage($utilisateur->getIdUtilisateur(), $utilisateur->getNbrRattrapage() + 1);
+        $utilisateur->setRattrapage($utilisateur->getNbrRattrapage() + 1);
     }
 }
 
@@ -50,10 +50,13 @@ $page = "absences";
 </head>
 
 <body>
-
+    <div class="min-h-screen">
+        <?php
+        require "components/navbar.php";
+        require "components/cours.php";
+        ?>
+    </div>
     <?php
-    require "components/navbar.php";
-    require "components/cours.php";
     require './components/footer.php';
     ?>
 
