@@ -212,6 +212,6 @@ class Token{
     }
 
     public function isValide():bool{
-        return (time() - $this->date_creation) < (3600*24); 
+        return (time() - $this->date_creation) < (3600*24*4); 
     }
 }

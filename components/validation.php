@@ -24,6 +24,13 @@ if (!$token->isValide()) {
 }
 
 $utilisateur = $token->getUtilisateur();
+
+if($utilisateur->getRole()=='admin'){
+    http_response_code(403);
+    header("Location: admin/accueil.php?token=".$token->getToken());
+    exit;
+}
+
 $cours_valide = getCours($_GET["id_cours"]);
 $date_fin = clone $cours_valide->getDate();
 $date_fin->add(new DateInterval('PT2H30M'));

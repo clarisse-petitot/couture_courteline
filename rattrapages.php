@@ -25,6 +25,12 @@ if (!$token->isValide()) {
 
 $utilisateur = $token->getUtilisateur();
 
+if($utilisateur->getRole()=='admin'){
+    http_response_code(403);
+    header("Location: admin/accueil.php?token=".$token->getToken());
+    exit;
+}
+
 if (isset($_GET["id_cours"]) && !appartient($utilisateur->getIdUtilisateur(), $_GET["id_cours"])) {
     if (isAbsent($utilisateur->getIdUtilisateur(), $_GET["id_cours"])) {
         deleteAbsence($utilisateur->getIdUtilisateur(), $_GET["id_cours"]);

@@ -578,3 +578,32 @@ function getFiltres(): array
     }
     return $filtres;
 }
+
+function getAllCours(): array
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT *
+    FROM cours c
+    JOIN horaire h ON h.id_horaire=c.id_horaire
+    ORDER BY c.date");
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    $liste = [];
+
+    foreach ($res as $ligne) {
+        $date = new DateTime($ligne["date"]);
+        if ($date->getTimestamp() > time()) {
+            $liste[] = new Cours(
+                $ligne["id_cours"], 
+                $date, 
+                new Horaire(
+                    $ligne["id_horaire"], 
+                    $ligne["jour"], 
+                    $ligne["heure"]));
+        }
+    };
+
+    return $liste;
+}

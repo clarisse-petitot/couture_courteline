@@ -27,7 +27,7 @@ $utilisateur = $token->getUtilisateur();
 
 if($utilisateur->getRole()=='admin'){
     http_response_code(403);
-    header("Location: admin/accueil?token=".$token->getToken().".php");
+    header("Location: admin/accueil.php?token=".$token->getToken());
     exit;
 }
 
