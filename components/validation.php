@@ -38,9 +38,11 @@ if ($_GET["page"] == "absences") {
     $question = "Êtes-vous sûr de cette absence ?";
     $allcours = getAllCoursFromIdUtilisateur($utilisateur->getIdUtilisateur());
     $validation = "Valider mon absence";
+    $page = "absences";
 } else {
     $bouton = "Choisir ce rattrapage";
     $question = "Êtes-vous sûr de vouloir choisir ce rattrapage ?";
+    $page = "rattrapages";
     $allcours = getAllRattrapagesFromIdUtilisateur($utilisateur->getIdUtilisateur());
     if ($allcours != []) {
         $i = 0;
