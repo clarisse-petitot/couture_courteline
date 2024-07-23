@@ -14,15 +14,36 @@
                 <li>
                     <a href="index.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 " aria-current="page">Accueil</a>
                 </li>
-                <li>
-                    <a href="absences.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Prochains Cours</a>
-                </li>
-                <li>
-                    <a href="rattrapages.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Rattrapages</a>
-                </li>
-                <li>
-                    <a href="patrons.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Patrons</a>
-                </li>
+                <?php
+                if ($utilisateur->getRole() == 'admin') {
+                ?>
+                    <li>
+                        <a href="absence.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Absence</a>
+                    </li>
+                    <li>
+                        <a href="rattrapage.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Rattrapage</a>
+                    </li>
+                    <li>
+                        <a href="../patrons.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Patrons</a>
+                    </li>
+                    <li>
+                        <a href="administration.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Administration</a>
+                    </li>
+                <?php
+                } else {
+                ?>
+                    <li>
+                        <a href="absences.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Prochains Cours</a>
+                    </li>
+                    <li>
+                        <a href="rattrapages.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Rattrapages</a>
+                    </li>
+                    <li>
+                        <a href="patrons.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Patrons</a>
+                    </li>
+                <?php
+                }
+                ?>
             </ul>
         </div>
     </div>

@@ -22,6 +22,7 @@ if (!$token->isValide()) {
     header("Location: connexion.php");
     exit;
 }
+$utilisateur = $token->getUtilisateur();
 
 $creations = getCreations();
 $categories = getCategories();
