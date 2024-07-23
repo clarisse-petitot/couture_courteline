@@ -607,3 +607,65 @@ function getAllCours(): array
 
     return $liste;
 }
+
+function getUtilisateurFromCours($cours):array
+{
+    $id_cours=$cours->getIdCours();
+
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT * FROM (((SELECT u.*
+    FROM utilisateur u
+    JOIN cours c ON u.id_horaire=c.id_horaire
+    WHERE c.id_cours = ?)
+    EXCEPT
+    (SELECT u.*
+    FROM absences a
+    JOIN utilisateur u ON u.id_utilisateur=a.id_utilisateur
+    WHERE a.id_cours=?))
+    UNION
+    (SELECT u.*
+    FROM rattrapages r
+    JOIN utilisateur u ON u.id_utilisateur=r.id_utilisateur
+    WHERE r.id_cours=?)) u
+    JOIN horaire h ON h.id_horaire=u.id_horaire");
+    $stmt->bind_param("iii", $id_cours, $id_cours, $id_cours);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    $liste = ["inscrits"=>[], "rattrapages"=>[]];
+
+    foreach ($res as $ligne) {
+        if($cours->getHoraire()->getIdHoraire()==$ligne["id_horaire"])
+        {
+            $liste["inscrits"][]= new Utilisateur(
+                $ligne["id_utilisateur"],
+                $ligne["nom"],
+                $ligne["prenom"],
+                $ligne["email"],
+                $ligne["nbr_rattrapage"],
+                new Horaire(
+                    $ligne["id_horaire"],
+                    $ligne["jour"],
+                    $ligne["heure"]),
+                $ligne["role"]
+                );
+        }
+        else{
+            $liste["rattapages"][]= new Utilisateur(
+                $ligne["id_utilisateur"],
+                $ligne["nom"],
+                $ligne["prenom"],
+                $ligne["email"],
+                $ligne["nbr_rattrapage"],
+                new Horaire(
+                    $ligne["id_horaire"],
+                    $ligne["jour"],
+                    $ligne["heure"]),
+                $ligne["role"]
+                );
+        }
+    };
+
+    return $liste;
+}

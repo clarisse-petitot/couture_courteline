@@ -1,13 +1,13 @@
 <div class="py-5 lg:mx-auto lg:max-w-7xl lg:px-8">
     <div class="relative">
-        <div class="relative w-full overflow-x-auto px-20">
+        <div class="relative w-full px-20">
             <ul role="list" class="inline-flex mx-0 grid sm:grid-cols-1 space-x-0 md:grid-cols-2 md:gap-x-10 lg:grid-cols-3 lg:gap-x-10 place-items-center">
                 <?php
                 foreach ($allcours as $cours) {
                     $date_fin = clone $cours->getDate();
                     $date_fin->add(new DateInterval('PT2H30M'));
                     if ($utilisateur->getRole() == 'admin') {
-                        $url = "appel.php?id_cours=" . $cours->getIdCours();
+                        $url = "appel.php?token=" . $_GET["token"]."&id_cours=".$cours->getIdCours();
                     } else {
                         $url = "/components/validation.php?token=" . $_GET["token"] . "&id_cours=" . $cours->getIdCours() . "&page=" . $page;
                     }

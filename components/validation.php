@@ -32,8 +32,6 @@ if($utilisateur->getRole()=='admin'){
 }
 
 $cours_valide = getCours($_GET["id_cours"]);
-$date_fin = clone $cours_valide->getDate();
-$date_fin->add(new DateInterval('PT2H30M'));
 
 if ($_GET["page"] == "absences") {
     $bouton = "Prévenir mon abscence";
@@ -81,15 +79,17 @@ if ($_GET["page"] == "absences") {
             require "filters-rattrapage.php";
         }
         require "cours.php";
+        $date_fin = clone $cours_valide->getDate();
+        $date_fin->add(new DateInterval('PT2H30M'));
         ?>
 
-        <div class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50 p-10">
+        <div class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50 p-10 z-20">
             <div class="max-h-full w-full max-w-xl rounded-2xl bg-white">
                 <div class="w-full">
                     <div class="m-20">
                         <div class="mb-8">
                             <h1 class="mb-4 text-3xl font-extrabold"><?= $question ?></h1>
-                            <p class="text-gray-600"><?= $cours_valide->getHoraire()->getJour() ?> <?= $date_fin->format("d") ?> <?= getTraduction($cours->getDate()) ?> de <?= $cours->getDate()->format("G\hi") ?> à <?= $date_fin->format("G\hi") ?></p>
+                            <p class="text-gray-600"><?= $cours_valide->getHoraire()->getJour() ?> <?= $date_fin->format("d") ?> <?= getTraduction($cours_valide->getDate()) ?> de <?= $cours_valide->getDate()->format("G\hi") ?> à <?= $date_fin->format("G\hi") ?></p>
                         </div>
                         <div class="space-y-4">
                             <div class="p-1"><a href="/<?= $_GET["page"] ?>.php?token=<?= $_GET["token"] ?>&id_cours=<?= $_GET["id_cours"] ?>"><button class=" p-3 bg-blue-700 rounded-full text-white w-full font-semibold hover:bg-blue-800"><?= $validation ?></button></a></div>
