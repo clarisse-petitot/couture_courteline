@@ -94,6 +94,9 @@ class Cours{
     public function getHoraire():Horaire{
         return $this->horaire;
     }
+    public function getDateLisible():string{
+        return $this->horaire->getJour().' '.$this->date->format("d").' '.getTraduction($this->date);
+    }
 }
 
 class Creation{
