@@ -47,7 +47,7 @@ $bouton = "Voir l'appel";
 </head>
 
 <body>
-    <div class="min-h-screen">
+    <div class="min-h-screen flex flex-col justify-between">
         <?php
         require "../components/navbar.php";
         require "../components/cours.php";
@@ -93,10 +93,10 @@ $bouton = "Voir l'appel";
                 </div>
             </div>
         </div>
+        <?php
+        require '../components/footer.php';
+        ?>
     </div>
-    <?php
-    require '../components/footer.php';
-    ?>
 
 </body>
 

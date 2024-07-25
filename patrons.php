@@ -67,16 +67,14 @@ if (count($_GET) > 1) {
 </head>
 
 <body>
-    <div class="min-h-screen">
+    <div class="min-h-screen flex flex-col justify-between">
         <?php
         require './components/navbar.php';
         require './components/filters-patrons.php';
         require './components/cards.php';
+        require './components/footer.php';
         ?>
     </div>
-    <?php
-    require './components/footer.php';
-    ?>
 
 </body>
 

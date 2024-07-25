@@ -25,9 +25,9 @@ if (!$token->isValide()) {
 
 $utilisateur = $token->getUtilisateur();
 
-if($utilisateur->getRole()=='admin'){
+if ($utilisateur->getRole() == 'admin') {
     http_response_code(403);
-    header("Location: admin/accueil.php?token=".$token->getToken());
+    header("Location: admin/accueil.php?token=" . $token->getToken());
     exit;
 }
 
@@ -74,7 +74,7 @@ if ($_GET["page"] == "absences") {
 </head>
 
 <body>
-    <div class="min-h-screen">
+    <div class="min-h-screen flex flex-col justify-between">
         <?php
         require "components/navbar.php";
         if ($_GET["page"] == "rattrapages") {
@@ -101,10 +101,10 @@ if ($_GET["page"] == "absences") {
                 </div>
             </div>
         </div>
+        <?php
+        require './components/footer.php';
+        ?>
     </div>
-    <?php
-    require './components/footer.php';
-    ?>
 
 </body>
 
