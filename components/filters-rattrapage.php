@@ -64,7 +64,10 @@
             </svg>
         </div>
 
-        <form action="rattrapages.php?token=<?= $_GET["token"] ?>">
+        <form action="rattrapages.php">
+            <div>
+                <input type="hidden" value="<?= $_GET["token"] ?>" name='token'>
+            </div>
             <!-- Jour Section -->
             <div>
                 <div class="flex space-x-2 text-gray-800">
@@ -134,7 +137,7 @@
                 <input type="submit" value="Valider" class="h-[48px] w-[120px] rounded-md bg-blue-700 text-white cursor-pointer">
             </div>
             <!-- Reset Filter Button (Table or lower Screen) -->
-    
+
             <div class="block md:hidden w-full mt-5">
                 <a href="/rattrapages.php?token=<?= $_GET["token"] ?>"><button type="button" class="w-full text-base leading-4 font-normal py-3 px-5 bg-gray-100 text-blue-700 border border-2 border-blue-700">Réinitialiser</button></a>
             </div>

@@ -47,7 +47,10 @@
             </svg>
         </div>
 
-        <form action="creations.php">
+        <form action="patrons.php">
+            <div>
+                <input type="hidden" value="<?= $_GET["token"] ?>" name='token'>
+            </div>
             <!-- Categorie Section -->
             <div>
                 <div class="flex space-x-2 text-gray-800">
