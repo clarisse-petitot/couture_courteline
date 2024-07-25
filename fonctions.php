@@ -425,10 +425,10 @@ function isAbsent($id_utilisateur, $id_cours)
     $stmt->execute();
     $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     $mysqli->close();
-    return count($res)>0;
+    return count($res) > 0;
 }
 
-function getCategoriesFromIdCreation($id_creation):array
+function getCategoriesFromIdCreation($id_creation): array
 {
     $mysqli = Database::connexion();
 
@@ -441,17 +441,16 @@ function getCategoriesFromIdCreation($id_creation):array
     $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     $mysqli->close();
 
-    $liste=[];
+    $liste = [];
 
-    foreach ($res as $ligne)
-    {
-        $liste[]=new Categorie($ligne["id_categorie"], $ligne["nom"]);
+    foreach ($res as $ligne) {
+        $liste[] = new Categorie($ligne["id_categorie"], $ligne["nom"]);
     }
 
     return $liste;
 }
 
-function getImagesFromIdCreation($id_creation):array
+function getImagesFromIdCreation($id_creation): array
 {
     $mysqli = Database::connexion();
 
@@ -466,24 +465,26 @@ function getImagesFromIdCreation($id_creation):array
     $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     $mysqli->close();
 
-    $liste=[];
+    $liste = [];
 
-    foreach ($res as $ligne)
-    {
-        $liste[]=new Image(
-            $ligne["id_image"], 
-            $ligne["lien"], 
+    foreach ($res as $ligne) {
+        $liste[] = new Image(
+            $ligne["id_image"],
+            $ligne["lien"],
             new Utilisateur(
-                $ligne["id_utilisateur"], 
-                $ligne["nom"], 
-                $ligne["prenom"], 
-                $ligne["email"], 
-                $ligne["nbr_rattrapage"], 
+                $ligne["id_utilisateur"],
+                $ligne["nom"],
+                $ligne["prenom"],
+                $ligne["email"],
+                $ligne["nbr_rattrapage"],
                 new Horaire(
-                    $ligne['id_horaire'], 
-                    $ligne["jour"], 
-                    $ligne['heure']), 
-                $ligne['role']));
+                    $ligne['id_horaire'],
+                    $ligne["jour"],
+                    $ligne['heure']
+                ),
+                $ligne['role']
+            )
+        );
     }
 
     return $liste;
@@ -513,7 +514,8 @@ function getCreations(): array
             $ligne["surface_tissu"],
             $ligne["patron"],
             getImagesFromIdCreation($ligne["id_creation"]),
-            getCategoriesFromIdCreation($ligne["id_creation"]));
+            getCategoriesFromIdCreation($ligne["id_creation"])
+        );
     }
     $stmt->close();
     $mysqli->close();
@@ -596,21 +598,23 @@ function getAllCours(): array
         $date = new DateTime($ligne["date"]);
         if ($date->getTimestamp() > time()) {
             $liste[] = new Cours(
-                $ligne["id_cours"], 
-                $date, 
+                $ligne["id_cours"],
+                $date,
                 new Horaire(
-                    $ligne["id_horaire"], 
-                    $ligne["jour"], 
-                    $ligne["heure"]));
+                    $ligne["id_horaire"],
+                    $ligne["jour"],
+                    $ligne["heure"]
+                )
+            );
         }
     };
 
     return $liste;
 }
 
-function getUtilisateurFromCours($cours):array
+function getUtilisateurFromCours($cours): array
 {
-    $id_cours=$cours->getIdCours();
+    $id_cours = $cours->getIdCours();
 
     $mysqli = Database::connexion();
 
@@ -633,12 +637,11 @@ function getUtilisateurFromCours($cours):array
     $stmt->execute();
     $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
-    $liste = ["inscrits"=>[], "rattrapages"=>[]];
+    $liste = ["inscrits" => [], "rattrapages" => []];
 
     foreach ($res as $ligne) {
-        if($cours->getHoraire()->getIdHoraire()==$ligne["id_horaire"])
-        {
-            $liste["inscrits"][]= new Utilisateur(
+        if ($cours->getHoraire()->getIdHoraire() == $ligne["id_horaire"]) {
+            $liste["inscrits"][] = new Utilisateur(
                 $ligne["id_utilisateur"],
                 $ligne["nom"],
                 $ligne["prenom"],
@@ -647,12 +650,12 @@ function getUtilisateurFromCours($cours):array
                 new Horaire(
                     $ligne["id_horaire"],
                     $ligne["jour"],
-                    $ligne["heure"]),
+                    $ligne["heure"]
+                ),
                 $ligne["role"]
-                );
-        }
-        else{
-            $liste["rattapages"][]= new Utilisateur(
+            );
+        } else {
+            $liste["rattapages"][] = new Utilisateur(
                 $ligne["id_utilisateur"],
                 $ligne["nom"],
                 $ligne["prenom"],
@@ -661,10 +664,67 @@ function getUtilisateurFromCours($cours):array
                 new Horaire(
                     $ligne["id_horaire"],
                     $ligne["jour"],
-                    $ligne["heure"]),
+                    $ligne["heure"]
+                ),
                 $ligne["role"]
-                );
+            );
         }
+    };
+
+    return $liste;
+}
+
+function getAllHoraires(): array
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT *
+    FROM horaire");
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    $liste = [];
+
+    foreach ($res as $ligne) {
+        $liste[] = new Horaire(
+            $ligne["id_horaire"],
+            $ligne["jour"],
+            $ligne["heure"]
+        );
+    };
+
+    return $liste;
+}
+
+function getUtilisateurFromIdHoraire($id_horaire): array
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT *
+    FROM utilisateur u
+    JOIN horaire h ON u.id_horaire=h.id_horaire
+    WHERE u.id_horaire=?
+    ORDER BY u.nom, u.prenom");
+    $stmt->bind_param("i", $id_horaire);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    $liste = [];
+
+    foreach ($res as $ligne) {
+        $liste[] = new Utilisateur(
+            $ligne["id_utilisateur"],
+            $ligne["nom"],
+            $ligne["prenom"],
+            $ligne["email"],
+            $ligne["nbr_rattrapage"],
+            new Horaire(
+                $ligne["id_horaire"],
+                $ligne["jour"],
+                $ligne["heure"]
+            ),
+            $ligne["role"]
+        );
     };
 
     return $liste;
