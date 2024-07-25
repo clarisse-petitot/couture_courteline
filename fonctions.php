@@ -428,6 +428,32 @@ function isAbsent($id_utilisateur, $id_cours)
     return count($res) > 0;
 }
 
+function deleteRattrapage($id_utilisateur, $id_cours)
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("DELETE
+    FROM rattrapages
+    WHERE id_utilisateur = ? AND id_cours = ?");
+    $stmt->bind_param("ii", $id_utilisateur, $id_cours);
+    $stmt->execute();
+    $mysqli->close();
+}
+
+function isRattrapage($id_utilisateur, $id_cours)
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT *
+    FROM rattrapages
+    WHERE id_utilisateur = ? AND id_cours = ?");
+    $stmt->bind_param("ii", $id_utilisateur, $id_cours);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $mysqli->close();
+    return count($res) > 0;
+}
+
 function getCategoriesFromIdCreation($id_creation): array
 {
     $mysqli = Database::connexion();
@@ -728,4 +754,34 @@ function getUtilisateurFromIdHoraire($id_horaire): array
     };
 
     return $liste;
+}
+
+function getUtilisateurFromId($id_utilisateur): Utilisateur
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT *
+    FROM utilisateur u
+    JOIN horaire h ON u.id_horaire=h.id_horaire
+    WHERE u.id_utilisateur=?");
+    $stmt->bind_param("i", $id_utilisateur);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $ligne = $res[0];
+
+    $utilisateur = new Utilisateur(
+        $ligne["id_utilisateur"],
+        $ligne["nom"],
+        $ligne["prenom"],
+        $ligne["email"],
+        $ligne["nbr_rattrapage"],
+        new Horaire(
+            $ligne["id_horaire"],
+            $ligne["jour"],
+            $ligne["heure"]
+        ),
+        $ligne["role"]
+    );
+
+    return $utilisateur;
 }
