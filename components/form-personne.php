@@ -7,9 +7,9 @@ $eleves = getUtilisateurFromIdHoraire($_GET['id_horaire']);
         <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                    Déclarer une absence
+                    <?= $titre ?>
                 </h1>
-                <form class="space-y-4 md:space-y-6" method="GET" action="<?=$page?>.php">
+                <form class="space-y-4 md:space-y-6" method="GET" action="<?= $page ?>.php">
                     <div>
                         <input type="hidden" value="<?= $_GET["token"] ?>" name='token'>
                     </div>
@@ -28,7 +28,7 @@ $eleves = getUtilisateurFromIdHoraire($_GET['id_horaire']);
                             ?>
                         </select>
                     </div>
-                    <button type="submit" id="submit" name="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Se connecter</button>
+                    <button type="submit" id="submit" name="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Suivant</button>
                 </form>
             </div>
         </div>
