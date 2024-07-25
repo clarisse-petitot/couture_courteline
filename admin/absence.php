@@ -30,9 +30,23 @@ if (isset($_GET["id_horaire"]) && !isset($_GET["id_utilisateur"]) && !isset($_GE
         $id_page = 3;
     } else {
         if (isset($_GET["id_horaire"]) && isset($_GET["id_utilisateur"]) && isset($_GET["id_cours"])) {
-            $id_page = 4;
-            //Page fin + envoie formulaire
-        } else {
+            $eleve = getUtilisateurFromId($_GET["id_utilisateur"]);
+            $id_page=4;
+            if (appartient($eleve->getIdUtilisateur(), $_GET["id_cours"])) {
+                if (isRattrapage($eleve->getIdUtilisateur(), $_GET["id_cours"])) {
+                    deleteRattrapage($eleve->getIdUtilisateur(), $_GET["id_cours"]);
+                } else {
+                    createAbsence($eleve->getIdUtilisateur(), $_GET["id_cours"]);
+                }
+                $cours = getCours($_GET["id_cours"]);
+                if ($cours->getDate()->getTimestamp() - time() >= 86400) {
+                    changeNbrRattrapage($eleve->getIdUtilisateur(), $eleve->getNbrRattrapage() + 1);
+                    $eleve->setRattrapage($eleve->getNbrRattrapage() + 1);
+                }
+            }
+        }
+        //Page fin + envoie formulaire
+        else {
             $id_page = 1;
         }
     }
@@ -40,6 +54,7 @@ if (isset($_GET["id_horaire"]) && !isset($_GET["id_utilisateur"]) && !isset($_GE
 
 $utilisateur = $token->getUtilisateur();
 $page = "absence";
+$titre = "Déclarer une absence";
 
 ?>
 
@@ -68,9 +83,6 @@ $page = "absence";
         }
         if ($id_page == 3) {
             require "../components/form-cours.php";
-        }
-        if ($id_page == 4) {
-            require "../components/form-finish.php";
         }
         require '../components/footer.php';
         ?>

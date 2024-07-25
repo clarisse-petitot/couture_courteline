@@ -25,14 +25,18 @@ if (!$token->isValide()) {
 
 $utilisateur = $token->getUtilisateur();
 
-if($utilisateur->getRole()=='admin'){
+if ($utilisateur->getRole() == 'admin') {
     http_response_code(403);
-    header("Location: admin/accueil.php?token=".$token->getToken());
+    header("Location: admin/accueil.php?token=" . $token->getToken());
     exit;
 }
 
 if (isset($_GET["id_cours"]) && appartient($utilisateur->getIdUtilisateur(), $_GET["id_cours"])) {
-    createAbsence($utilisateur->getIdUtilisateur(), $_GET["id_cours"]);
+    if (isRattrapage($utilisateur->getIdUtilisateur(), $_GET["id_cours"])) {
+        deleteRattrapage($utilisateur->getIdUtilisateur(), $_GET["id_cours"]);
+    } else {
+        createAbsence($utilisateur->getIdUtilisateur(), $_GET["id_cours"]);
+    }
     $cours = getCours($_GET["id_cours"]);
     if ($cours->getDate()->getTimestamp() - time() >= 86400) {
         changeNbrRattrapage($utilisateur->getIdUtilisateur(), $utilisateur->getNbrRattrapage() + 1);
