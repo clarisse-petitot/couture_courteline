@@ -67,6 +67,10 @@ class Utilisateur{
         return $this->role;
     }
 
+    public function isAdmin():bool{
+        return $this->role == 'admin';
+    }
+
     public function setRattrapage(int $nbr_rattrapage){
         $this->nbr_rattrapage=$nbr_rattrapage;
     }
