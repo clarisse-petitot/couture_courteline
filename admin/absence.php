@@ -26,14 +26,14 @@ if (!$token->isValide()) {
 if (isset($_GET["id_horaire"]) && !isset($_GET["id_utilisateur"]) && !isset($_GET["id_cours"])) {
     $id_page = 2;
     $requete = 'Personne absente';
-    $url="/admin/absence.php?token=".$_GET['token'];
+    $url = "/admin/absence.php?token=" . $_GET['token'];
 } else {
     if (isset($_GET["id_utilisateur"]) && !isset($_GET["id_cours"])) {
         $allcours = getAllCoursFromIdUtilisateur($_GET['id_utilisateur']);
         $eleve = getUtilisateurFromId($_GET["id_utilisateur"]);
         $id_page = 3;
         $requete = "Date de l'absence";
-        $url="/admin/absence.php?token=".$_GET['token']."&id_horaire=".$eleve->getHoraire()->getIdHoraire();
+        $url = "/admin/absence.php?token=" . $_GET['token'] . "&id_horaire=" . $eleve->getHoraire()->getIdHoraire();
     } else {
         if (isset($_GET["id_utilisateur"]) && isset($_GET["id_cours"])) {
             $eleve = getUtilisateurFromId($_GET["id_utilisateur"]);
@@ -60,8 +60,6 @@ if (isset($_GET["id_horaire"]) && !isset($_GET["id_utilisateur"]) && !isset($_GE
 }
 
 $utilisateur = $token->getUtilisateur();
-$page = "absence";
-$titre = "Déclarer une absence";
 
 ?>
 
@@ -82,6 +80,8 @@ $titre = "Déclarer une absence";
     <div class="min-h-screen flex flex-col justify-between">
         <?php
         require "../components/navbar.php";
+        $page = "absence";
+        $titre = "Déclarer une absence";
         if ($id_page == 1) {
             require "../components/form-horaire.php";
         }

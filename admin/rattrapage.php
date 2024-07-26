@@ -26,15 +26,14 @@ if (!$token->isValide()) {
 if (isset($_GET["id_horaire"]) && !isset($_GET["id_utilisateur"]) && !isset($_GET["id_cours"])) {
     $id_page = 2;
     $requete = "Personne qui rattrape";
-    $url="/admin/rattrapage.php?token=".$_GET['token'];
+    $url = "/admin/rattrapage.php?token=" . $_GET['token'];
 } else {
     if (!isset($_GET["id_horaire"]) && isset($_GET["id_utilisateur"]) && !isset($_GET["id_cours"])) {
         $id_page = 3;
         $requete = "Cours du rattrapage";
         $eleve = getUtilisateurFromId($_GET["id_utilisateur"]);
-        $url="/admin/rattrapage.php?token=".$_GET['token']."&id_horaire=".$eleve->getHoraire()->getIdHoraire();
-        if($eleve->getNbrRattrapage()==0)
-        {
+        $url = "/admin/rattrapage.php?token=" . $_GET['token'] . "&id_horaire=" . $eleve->getHoraire()->getIdHoraire();
+        if ($eleve->getNbrRattrapage() == 0) {
             header("Location: ../pas-rattrapage.php");
             exit;
             // Redirection page pas de rattrapage;
@@ -44,7 +43,7 @@ if (isset($_GET["id_horaire"]) && !isset($_GET["id_utilisateur"]) && !isset($_GE
             $id_page = 4;
             $allcours = getAllRattrapagesFromIdUtilisateurIdHoraire($_GET['id_utilisateur'], $_GET["id_horaire"]);
             $requete = "Date du rattrapage";
-            $url="/admin/rattrapage.php?token=".$_GET['token']."&id_utilisateur=".$_GET["id_utilisateur"];
+            $url = "/admin/rattrapage.php?token=" . $_GET['token'] . "&id_utilisateur=" . $_GET["id_utilisateur"];
         } else {
             if (isset($_GET["id_utilisateur"]) && isset($_GET["id_cours"])) {
                 $eleve = getUtilisateurFromId($_GET["id_utilisateur"]);
@@ -69,8 +68,6 @@ if (isset($_GET["id_horaire"]) && !isset($_GET["id_utilisateur"]) && !isset($_GE
 }
 
 $utilisateur = $token->getUtilisateur();
-$page = "rattrapage";
-$titre = "Choisir un rattrapage";
 
 ?>
 
@@ -91,6 +88,8 @@ $titre = "Choisir un rattrapage";
     <div class="min-h-screen flex flex-col justify-between">
         <?php
         require "../components/navbar.php";
+        $page = "rattrapage";
+        $titre = "Choisir un rattrapage";
         if ($id_page == 1) {
             require "../components/form-horaire.php";
         }
