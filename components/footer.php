@@ -1,5 +1,5 @@
-<footer class="bg-gray-200/25 sm:p-6">
-    <div class="sm:flex sm:items-center sm:justify-between p-2">
+<footer class="bg-gray-200/25 sm:p-5">
+    <div class="sm:flex sm:items-center sm:justify-between">
         <span class="text-sm text-gray-500 sm:text-center">© 2024 <a href="/index.php" target="_blank" class="hover:underline">Courteline</a> - courteline@courteline.fr
         </span>
         <div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">

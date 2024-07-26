@@ -481,7 +481,8 @@ VALUES
 	(1,'Doe','John','j.doe@lacouturedecp.fr','user',0,1),
 	(2,'Smith','Jane','j.smith@lacouturecp.fr','user',0,2),
 	(3,'Dupont','Martin','m.dumont@lacouturedecp.fr','admin',0,3),
-	(4,'Gillot','Gatien','pub@gatiendev.fr','user',0,2);
+	(4,'Gillot','Gatien','pub@gatiendev.fr','user',0,2),
+	(5,'Dubois','Martin','couture@gatiendev.fr','admin',0,4);
 
 /*!40000 ALTER TABLE `utilisateur` ENABLE KEYS */;
 UNLOCK TABLES;
