@@ -31,6 +31,15 @@ function getToken(string $token): Token | null
     );
 
     $stmt->close();
+
+    $time = time()-(4*24*3600);
+    $stmt = $mysqli->prepare("DELETE
+    FROM tokens
+    WHERE date_creation <= ?");
+    $stmt->bind_param("i", $time);
+    $stmt->execute();
+    $stmt->close();
+
     $mysqli->close();
 
     return $token;
