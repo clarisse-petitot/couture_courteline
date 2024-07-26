@@ -70,7 +70,7 @@
             </div>
             <!-- Categorie Section -->
             <div>
-                <div class="flex space-x-2 text-gray-800">
+                <div class="flex items-center space-x-2 text-gray-800">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g opacity="0.8">
                             <path d="M9 4H5C4.44772 4 4 4.44772 4 5V9C4 9.55228 4.44772 10 5 10H9C9.55228 10 10 9.55228 10 9V5C10 4.44772 9.55228 4 9 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
