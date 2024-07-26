@@ -1,7 +1,7 @@
 <div class="py-5 lg:mx-auto lg:max-w-7xl lg:px-8">
     <div class="relative">
         <div class="relative w-full px-20">
-            <ul role="list" class="inline-flex mx-0 grid sm:grid-cols-1 space-x-0 md:grid-cols-2 md:gap-x-10 lg:grid-cols-3 lg:gap-x-10 place-items-center">
+            <ul role="list" class="inline-flex mx-0 grid sm:grid-cols-1 space-x-0 md:grid-cols-2 md:gap-x-10 xl:grid-cols-3 xl:gap-x-10 place-items-center">
                 <?php
                 foreach ($allcours as $cours) {
                     $date_fin = clone $cours->getDate();
