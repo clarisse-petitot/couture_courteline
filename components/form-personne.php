@@ -24,9 +24,14 @@ $eleves = getUtilisateurFromIdHoraire($_GET['id_horaire']);
                             ?>
                         </select>
                     </div>
+                    <?php
+                    if($id_page!=1)
+                    {?>
                     <div> 
                         <a href="<?= $url ?>"><button type="button" class="w-full text-blue-700 bg-white hover:bg-gray-100 border border-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Retour</button></a>
                     </div>
+                    <?php
+                    }?>
                     <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Suivant</button>
                 </form>
             </div>
