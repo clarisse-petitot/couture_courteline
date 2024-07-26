@@ -15,9 +15,9 @@
     }
 </script>
 
-<div class="2xl:container 2xl:mx-auto">
+<div class="2xl:container 2xl:mx-auto px-4 lg:px-20 md:px-6">
 
-    <div class="md:py-6 lg:px-20 md:px-6 py-5 px-4">
+    <div class="md:py-6 py-5">
         <div class="flex justify-between items-center">
             <h2 class="lg:text-4xl text-3xl lg:leading-9 leading-7 text-gray-800 font-semibold">Vous avez <?= $utilisateur->getNbrRattrapage() ?> cours à rattraper</h2>
             <!-- filters Button (md and plus Screen) -->
@@ -133,7 +133,7 @@
 
             <!-- Apply Filter Button (Large Screen) -->
 
-            <div class="hidden md:block absolute right-0 bottom-0 md:py-5 lg:px-10 md:px-5 py-5 px-4">
+            <div class="hidden md:block absolute right-0 bottom-0 md:py-5 py-5">
                 <input type="submit" value="Valider" class="h-[48px] w-[120px] rounded-md bg-blue-700 text-white cursor-pointer">
             </div>
             <!-- Reset Filter Button (Table or lower Screen) -->
@@ -152,7 +152,7 @@
         </form>
 
         <!-- Reset Filter Button (Large Screen) -->
-        <div class="hidden md:block absolute right-[135px] bottom-0 md:py-5 lg:px-10 md:px-5 py-5 px-4">
+        <div class="hidden md:block absolute right-[135px] bottom-0 md:py-5 py-5">
             <a href="/rattrapages.php?token=<?= $_GET["token"] ?>"><button type="button" class="h-[48px] w-[110px] border border-2 rounded-md border-blue-600 bg-gray-100 text-blue-700 ">Réinitialiser</button></a>
         </div>
 
