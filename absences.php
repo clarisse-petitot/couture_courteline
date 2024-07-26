@@ -45,8 +45,7 @@ if (isset($_GET["id_cours"]) && appartient($utilisateur->getIdUtilisateur(), $_G
 }
 
 $allcours = getAllCoursFromIdUtilisateur($utilisateur->getIdUtilisateur());
-$bouton = "Prévenir mon abscence";
-$page = "absences";
+
 
 ?>
 <!DOCTYPE html>
@@ -65,6 +64,8 @@ $page = "absences";
     <div class="min-h-screen flex flex-col justify-between">
         <?php
         require "components/navbar.php";
+        $bouton = "Prévenir mon abscence";
+        $page = "absences";
         require "components/cours.php";
         require './components/footer.php';
         ?>

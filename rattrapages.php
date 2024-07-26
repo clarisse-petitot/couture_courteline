@@ -25,9 +25,9 @@ if (!$token->isValide()) {
 
 $utilisateur = $token->getUtilisateur();
 
-if($utilisateur->getRole()=='admin'){
+if ($utilisateur->getRole() == 'admin') {
     http_response_code(403);
-    header("Location: admin/accueil.php?token=".$token->getToken());
+    header("Location: admin/accueil.php?token=" . $token->getToken());
     exit;
 }
 
@@ -56,9 +56,6 @@ if ($allcours != []) {
         }
     }
 }
-
-$bouton = "Choisir ce rattrapage";
-$page = "rattrapages";
 
 $heures = getHeures();
 $jours = getJours();
@@ -93,6 +90,8 @@ if (count($_GET) > 1) {
     <div class="min-h-screen flex flex-col justify-between">
         <?php
         require "components/navbar.php";
+        $bouton = "Choisir ce rattrapage";
+        $page = "rattrapages";
         if ($utilisateur->getNbrRattrapage() > 0) {
             require "components/filters-rattrapage.php";
             require "components/cours.php";
