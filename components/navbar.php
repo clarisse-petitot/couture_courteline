@@ -1,3 +1,11 @@
+<?php
+function boldIfCurrentPage(string $page): string | null
+{
+    return str_starts_with($_SERVER['REQUEST_URI'], $page) ? "font-bold" : "fhefhu";
+}
+
+?>
+
 <nav class="border-gray-200 sticky top-0 z-10 bg-white w-full">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -12,40 +20,29 @@
         <div class="hidden w-full md:block md:w-auto" id="navbar-default">
             <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
                 <?php
-                if ($utilisateur->getRole() == 'admin') {
-                ?>
-                    <li>
-                        <a href="/admin/accueil.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 " aria-current="page">Accueil</a>
-                    </li>
-                    <li>
-                        <a href="/admin/absence.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Absence</a>
-                    </li>
-                    <li>
-                        <a href="/admin/rattrapage.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Rattrapage</a>
-                    </li>
-                    <li>
-                        <a href="/patrons.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Patrons</a>
-                    </li>
-                    <li>
-                        <a href="/admin/administration.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Administration</a>
-                    </li>
-                <?php
-                } else {
-                ?>
-                    <li>
-                        <a href="/index.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 " aria-current="page">Accueil</a>
-                    </li>
-                    <li>
-                        <a href="/absences.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Prochains Cours</a>
-                    </li>
-                    <li>
-                        <a href="/rattrapages.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Rattrapages</a>
-                    </li>
-                    <li>
-                        <a href="/patrons.php?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Patrons</a>
-                    </li>
-                <?php
+                if ($utilisateur->isAdmin()) {
+                    $pages = array(
+                        "/admin/accueil.php" => "Accueil",
+                        "/admin/absence.php" => "Absence",
+                        "/admin/rattrapage.php" => "Rattrapage",
+                        "/patrons.php" => "Patrons",
+                        "/admin/administration.php" => "Administration"
+                    );
+                 } else {
+                    $pages = array(
+                        "/index.php" => "Accueil",
+                        "/absences.php" => "Prochains Cours",
+                        "/rattrapages.php" => "Rattrapages",
+                        "/patrons.php" => "Patrons"
+                    );
                 }
+                    foreach ($pages as $page => $title) {
+                    ?>
+                        <li>
+                            <a href="<?= $page ?>?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 <?= boldIfCurrentPage($page) ?>"><?= $title ?></a>
+                        </li>
+                <?php
+                    }
                 ?>
             </ul>
         </div>

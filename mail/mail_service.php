@@ -14,7 +14,7 @@ function sendMail(Utilisateur $utilisateur, Token $token): void
     $content=str_replace('[TOKEN]',$token->getToken(),$content);
 
     $resend->emails->send([
-        'from' => 'contact@lacouturedecp.fr',
+        'from' => $env["RESEND_FROM"],
         'to' => $utilisateur->getEmail(),
         'subject' => 'Connexion au site pour la couture',
         'html' => $content,
