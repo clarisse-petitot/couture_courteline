@@ -1,7 +1,7 @@
 <?php
-function boldIfCurrentPage(string $page): string | null
+function classesToAddIfCurrentPage(string $page): string
 {
-    return str_starts_with($_SERVER['REQUEST_URI'], $page) ? "font-bold" : "fhefhu";
+    return str_starts_with($_SERVER['REQUEST_URI'], $page) ? "font-bold text-blue-500" : "text-gray-900";
 }
 
 ?>
@@ -39,7 +39,7 @@ function boldIfCurrentPage(string $page): string | null
                     foreach ($pages as $page => $title) {
                     ?>
                         <li>
-                            <a href="<?= $page ?>?token=<?= $_GET["token"] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 <?= boldIfCurrentPage($page) ?>"><?= $title ?></a>
+                            <a href="<?= $page ?>?token=<?= $_GET["token"] ?>" class="block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 <?= classesToAddIfCurrentPage($page) ?>"><?= $title ?></a>
                         </li>
                 <?php
                     }
