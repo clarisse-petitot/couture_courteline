@@ -9,7 +9,7 @@ function classesToAddIfCurrentPage(string $page): string
 <nav class="border-gray-200 sticky top-0 z-10 bg-white w-full">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
-            <img src="/logo_courteline.png" class="h-12" alt="Logo de Courteline" />
+            <img src="/logo_courteline.png" class="h-12" alt="Logo de Courteline">
         </a>
         <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center rounded-lg md:hidden hover:bg-gray-100 focus:outline-none" aria-controls="navbar-default" aria-expanded="false">
             <span class="sr-only">Open main menu</span>
