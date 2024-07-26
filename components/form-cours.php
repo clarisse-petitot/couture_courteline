@@ -15,7 +15,7 @@
                     </div>
                     <div>
                         <label for="id_cours" class="block mb-2 text-sm font-medium text-gray-900"><?= $requete ?></label>
-                        <select id="id_cours" name="id_cours" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5:ring-blue-500:border-blue-500">
+                        <select id="id_cours" name="id_cours" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <?php
                             foreach ($allcours as $cours) {
                             ?>

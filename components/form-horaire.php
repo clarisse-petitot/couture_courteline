@@ -24,7 +24,7 @@ $horaires = getAllHoraires();
                     ?>
                     <div>
                         <label for="id_horaire" class="block mb-2 text-sm font-medium text-gray-900"><?= $requete ?></label>
-                        <select id="id_horaire" name='id_horaire' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5:ring-blue-500:border-blue-500">
+                        <select id="id_horaire" name='id_horaire' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <?php
                             foreach ($horaires as $horaire) {
                             ?>

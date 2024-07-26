@@ -14,7 +14,7 @@ $eleves = getUtilisateurFromIdHoraire($_GET['id_horaire']);
                     </div>
                     <div>
                         <label for="id_utilisateur" class="block mb-2 text-sm font-medium text-gray-900"><?= $requete ?></label>
-                        <select id="id_utilisateur" name="id_utilisateur" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5:ring-blue-500:border-blue-500">
+                        <select id="id_utilisateur" name="id_utilisateur" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <?php
                             foreach ($eleves as $eleve) {
                             ?>
