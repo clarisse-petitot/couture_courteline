@@ -785,3 +785,35 @@ function getUtilisateurFromId($id_utilisateur): Utilisateur
 
     return $utilisateur;
 }
+
+function getAllRattrapagesFromIdUtilisateurIdHoraire(int $id_utilisateur, int $id_horaire): array
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT *
+    FROM (
+    SELECT c.id_cours, c.date, h.*, COUNT(a.id_utilisateur) AS total_absences, COUNT(r.id_utilisateur) AS total_rattrapages
+    FROM cours c
+    LEFT JOIN absences a ON c.id_cours = a.id_cours
+    LEFT JOIN rattrapages r ON c.id_cours = r.id_cours
+    JOIN horaire h ON h.id_horaire = c.id_horaire
+    GROUP BY c.id_cours, h.id_horaire
+    HAVING total_rattrapages < total_absences
+    ) AS subquery
+    WHERE subquery.id_horaire = ?
+    ORDER BY subquery.date");
+    $stmt->bind_param("i", $id_horaire);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    $liste = [];
+
+    foreach ($res as $ligne) {
+        $date = new DateTime($ligne["date"]);
+        if (!appartient($id_utilisateur, $ligne["id_cours"]) && $date->getTimestamp() > time()) {
+            $liste[] = new Cours($ligne["id_cours"], new DateTime($ligne["date"]), new Horaire($ligne["id_horaire"], $ligne["jour"], $ligne["heure"]));
+        }
+    };
+
+    return $liste;
+}

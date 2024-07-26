@@ -13,8 +13,17 @@ $horaires = getAllHoraires();
                     <div>
                         <input type="hidden" value="<?= $_GET["token"] ?>" name='token'>
                     </div>
+                    <?php
+                    if ($id_page == 3) {
+                    ?>
+                        <div>
+                            <input type="hidden" value="<?= $_GET["id_utilisateur"] ?>" name='id_utilisateur'>
+                        </div>
+                    <?php
+                    }
+                    ?>
                     <div>
-                        <label for="id_horaire" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cours de la personne</label>
+                        <label for="id_horaire" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"><?= $requete ?></label>
                         <select id="id_horaire" name='id_horaire' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <?php
                             foreach ($horaires as $horaire) {
@@ -25,7 +34,15 @@ $horaires = getAllHoraires();
                             ?>
                         </select>
                     </div>
-                    <button type="submit" id="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Suivant</button>
+                    <?php
+                    if ($id_page == 3) { ?>
+                        <div>
+                            <a href="<?= $url ?>"><button type="button" class="w-full text-blue-700 bg-white hover:bg-gray-100 border border-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Retour</button></a>
+                        </div> 
+                    <?php
+                        }
+                    ?>
+                    <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Suivant</button>
                 </form>
             </div>
         </div>
