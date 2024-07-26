@@ -61,7 +61,7 @@ $bouton = "Voir l'appel";
                 <div class="w-full">
                     <div class="m-14">
                         <div class="mb-8">
-                            <h1 class="mb-4 text-3xl font-extrabold"><?= $cours_valide->getHoraire()->getJour() ?> <?= $cours_valide->getDate()->format("d") ?> <?= getTraduction($cours_valide->getDate()) ?></h1>
+                            <h1 class="mb-4 text-3xl font-extrabold"><?= $cours_valide->getDateLisible() ?></h1>
                             <p class="text-gray-600"> de <?= $cours_valide->getDate()->format("G\hi") ?> à <?= $date_fin->format("G\hi") ?> (<?= count($appel["inscrits"]) + count($appel["rattrapages"]) ?> inscrits)</p>
                         </div>
                         <div>
