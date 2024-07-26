@@ -65,10 +65,10 @@ $jours = getJours();
 $filtres = getFiltresRattrapages();
 if (count($_GET) > 1) {
     foreach ($allcours as $key => $rattrapage) {
-        if (count($filtres["jours"]) != 0 and !in_array($rattrapage->getJour(), $filtres["jours"])) {
+        if (count($filtres["jours"]) != 0 and !in_array($rattrapage->getHoraire()->getJour(), $filtres["jours"])) {
             unset($allcours[$key]);
         }
-        if (count($filtres["heures"]) != 0 and !in_array($rattrapage->getHeure(), $filtres["heures"])) {
+        if (count($filtres["heures"]) != 0 and !in_array($rattrapage->getHoraire()->getHeure(), $filtres["heures"])) {
             unset($allcours[$key]);
         }
     }
