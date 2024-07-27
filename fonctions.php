@@ -32,7 +32,7 @@ function getToken(string $token): Token | null
 
     $stmt->close();
 
-    $time = time()-(4*24*3600);
+    $time = time() - (4 * 24 * 3600);
     $stmt = $mysqli->prepare("DELETE
     FROM tokens
     WHERE date_creation <= ?");
@@ -383,7 +383,6 @@ function createUtilisateur(string $nom, string $prenom, string $email, int $id_h
     $stmt->bind_param("ssssii", $nom, $prenom, $email, $role, $nbr_rattrapage, $id_horaire);
     $stmt->execute();
     $stmt->close();
-    $id_utilisateur = $mysqli->insert_id;
     $mysqli->close();
 }
 
@@ -827,6 +826,17 @@ function getAllRattrapagesFromIdUtilisateurIdHoraire(int $id_utilisateur, int $i
     return $liste;
 }
 
+function createCours(string $date, int $id_horaire)
+{
+    $mysqli = Database::connexion();
+    $stmt = $mysqli->prepare("INSERT INTO cours (date, id_horaire)
+                VALUES (?,?)");
+    $stmt->bind_param("si", $date, $id_horaire);
+    $stmt->execute();
+    $stmt->close();
+    $mysqli->close();
+}
+
 function deleteCours($id_cours)
 {
     $mysqli = Database::connexion();
@@ -837,4 +847,25 @@ function deleteCours($id_cours)
     $stmt->bind_param("i", $id_cours);
     $stmt->execute();
     $mysqli->close();
+}
+
+function getHoraireFromId($id_horaire): Horaire
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT *
+    FROM horaire
+    WHERE id_horaire=?");
+    $stmt->bind_param("i", $id_horaire);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $ligne = $res[0];
+
+    $utilisateur = new Horaire(
+        $ligne["id_horaire"],
+        $ligne["jour"],
+        $ligne["heure"]
+    );
+
+    return $utilisateur;
 }

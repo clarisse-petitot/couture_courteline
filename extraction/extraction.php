@@ -73,7 +73,6 @@ function setCoursHoraire($chemin)
     $stmt->close();
 
     $horaires = [];
-    $compte = 0;
 
     foreach ($lignes as $ligne) {
         if (!in_array($ligne[1], $horaires)) {
@@ -93,11 +92,7 @@ function setCoursHoraire($chemin)
         }
         $date = getDateTime($ligne[0], $ligne[1]);
         $id_horaire = array_search($ligne[1], $horaires) + 1;
-        $stmt = $mysqli->prepare("INSERT INTO cours (id_cours, date, id_horaire)
-                VALUES (?,?,?)");
-        $stmt->bind_param("isi", $compte, $date, $id_horaire);
-        $stmt->execute();
-        $stmt->close();
+        createCours($date, $id_horaire);
     }
     $mysqli->close();
     return $horaires;
