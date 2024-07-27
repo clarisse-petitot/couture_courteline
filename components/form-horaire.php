@@ -14,7 +14,7 @@ $horaires = getAllHoraires();
                         <input type="hidden" value="<?= $_GET["token"] ?>" name='token'>
                     </div>
                     <?php
-                    if ($id_page == 3 and isset($_GET["id_utilisateur"])) {
+                    if (isset($_GET["id_utilisateur"])) {
                     ?>
                         <div>
                             <input type="hidden" value="<?= $_GET["id_utilisateur"] ?>" name='id_utilisateur'>
