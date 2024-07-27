@@ -3,7 +3,7 @@ $horaires = getAllHoraires();
 ?>
 
 <section>
-    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 w-[400px]">
         <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
@@ -14,7 +14,7 @@ $horaires = getAllHoraires();
                         <input type="hidden" value="<?= $_GET["token"] ?>" name='token'>
                     </div>
                     <?php
-                    if ($id_page == 3) {
+                    if ($id_page == 3 and isset($_GET["id_utilisateur"])) {
                     ?>
                         <div>
                             <input type="hidden" value="<?= $_GET["id_utilisateur"] ?>" name='id_utilisateur'>
@@ -35,7 +35,7 @@ $horaires = getAllHoraires();
                         </select>
                     </div>
                     <?php
-                    if($id_page!=1)
+                    if(!($id_page==1 && ($page=='absence' || $page=='rattrapage')))
                     {?>
                     <div> 
                         <a href="<?= $url ?>"><button type="button" class="w-full text-blue-700 bg-white hover:bg-gray-100 border border-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Retour</button></a>

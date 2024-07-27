@@ -1,6 +1,6 @@
 
 <section>
-    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 w-[400px]">
         <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
@@ -10,9 +10,16 @@
                     <div>
                         <input type="hidden" value="<?= $_GET["token"] ?>" name='token'>
                     </div>
+                    <?php
+                    if(isset($_GET['id_utilisateur']))
+                    {
+                    ?>
                     <div>
                         <input type="hidden" value="<?= $_GET["id_utilisateur"] ?>" name='id_utilisateur'>
                     </div>
+                    <?php
+                    }
+                    ?>
                     <div>
                         <label for="id_cours" class="block mb-2 text-sm font-medium text-gray-900"><?= $requete ?></label>
                         <select id="id_cours" name="id_cours" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
