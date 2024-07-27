@@ -1,7 +1,7 @@
 <div class="py-5 lg:mx-auto lg:max-w-7xl lg:px-8">
     <div class="relative">
-        <div class="relative w-full px-20">
-            <ul role="list" class="inline-flex mx-0 grid sm:grid-cols-1 space-x-0 md:grid-cols-2 md:gap-x-10 xl:grid-cols-3 xl:gap-x-10 place-items-center">
+        <div class="relative w-full">
+            <ul role="list" class="inline-flex mx-0 grid sm:grid-cols-1 space-x-0 md:grid-cols-2 md:gap-x-5 xl:grid-cols-3 xl:gap-x-10 place-items-center">
 
                 <li class="w-[350px] p-5">
                     <a href="form-patron.php?token=<?= $_GET['token'] ?>">
