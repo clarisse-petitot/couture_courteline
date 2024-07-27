@@ -63,7 +63,7 @@ if (isset($_GET["role"]) && !isset($_GET["id_horaire"]) && !isset($_GET["id_util
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Supprime Utilisateur</title>
+    <title>Supprimer Utilisateur</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
@@ -80,12 +80,15 @@ if (isset($_GET["role"]) && !isset($_GET["id_horaire"]) && !isset($_GET["id_util
         <div class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50 p-10 z-20">
             <?php
             if ($id_page == 1) {
+                $bouton = 'Suivant';
                 require "../components/form-role.php";
             }
             if ($id_page == 2) {
+                $bouton = 'Suivant';
                 require "../components/form-horaire.php";
             }
             if ($id_page == 3) {
+                $bouton = 'Valider';
                 require "../components/form-personne.php";
             }
             ?>

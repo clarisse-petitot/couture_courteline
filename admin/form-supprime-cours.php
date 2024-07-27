@@ -66,9 +66,11 @@ if (isset($_GET["id_horaire"]) && !isset($_GET["id_cours"])) {
         <div class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50 p-10 z-20">
             <?php
             if ($id_page == 1) {
+                $bouton = 'Suivant';
                 require "../components/form-horaire.php";
             }
             if ($id_page == 2) {
+                $bouton = 'Valider';
                 require "../components/form-cours.php";
             }
             ?>
