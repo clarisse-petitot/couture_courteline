@@ -826,3 +826,15 @@ function getAllRattrapagesFromIdUtilisateurIdHoraire(int $id_utilisateur, int $i
 
     return $liste;
 }
+
+function deleteCours($id_cours)
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("DELETE
+    FROM cours
+    WHERE id_cours = ?");
+    $stmt->bind_param("i", $id_cours);
+    $stmt->execute();
+    $mysqli->close();
+}
