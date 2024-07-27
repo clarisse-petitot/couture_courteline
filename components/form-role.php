@@ -1,7 +1,3 @@
-<?php
-$horaires = getAllHoraires();
-?>
-
 <section>
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 w-[400px]">
         <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
@@ -13,34 +9,11 @@ $horaires = getAllHoraires();
                     <div>
                         <input type="hidden" value="<?= $_GET["token"] ?>" name='token'>
                     </div>
-                    <?php
-                    if (isset($_GET["id_utilisateur"])) {
-                    ?>
-                        <div>
-                            <input type="hidden" value="<?= $_GET["id_utilisateur"] ?>" name='id_utilisateur'>
-                        </div>
-                    <?php
-                    }
-                    ?>
-                    <?php
-                    if (isset($_GET["role"])) {
-                    ?>
-                        <div>
-                            <input type="hidden" value="<?= $_GET["role"] ?>" name='role'>
-                        </div>
-                    <?php
-                    }
-                    ?>
                     <div>
-                        <label for="id_horaire" class="block mb-2 text-sm font-medium text-gray-900"><?= $requete ?></label>
-                        <select id="id_horaire" name='id_horaire' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                            <?php
-                            foreach ($horaires as $horaire) {
-                            ?>
-                                <option value="<?= $horaire->getIdHoraire() ?>"><?= $horaire->getJour() . ' ' . $horaire->getHeure() ?></option>
-                            <?php
-                            }
-                            ?>
+                        <label for="role" class="block mb-2 text-sm font-medium text-gray-900"><?= $requete ?></label>
+                        <select id="role" name='role' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <option value="user">Eleve</option>
+                            <option value="admin">Administrateur</option>
                         </select>
                     </div>
                     <?php

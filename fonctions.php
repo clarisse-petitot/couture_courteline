@@ -869,3 +869,49 @@ function getHoraireFromId($id_horaire): Horaire
 
     return $utilisateur;
 }
+
+function getUtilisateurFromRole($role): array
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT *
+    FROM utilisateur u
+    JOIN horaire h ON u.id_horaire=h.id_horaire
+    WHERE u.role=?
+    ORDER BY u.nom, u.prenom");
+    $stmt->bind_param("s", $role);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    $liste = [];
+
+    foreach ($res as $ligne) {
+        $liste[] = new Utilisateur(
+            $ligne["id_utilisateur"],
+            $ligne["nom"],
+            $ligne["prenom"],
+            $ligne["email"],
+            $ligne["nbr_rattrapage"],
+            new Horaire(
+                $ligne["id_horaire"],
+                $ligne["jour"],
+                $ligne["heure"]
+            ),
+            $ligne["role"]
+        );
+    };
+
+    return $liste;
+}
+
+function deleteUtilisateur($id_utilisateur)
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("DELETE
+    FROM utilisateur
+    WHERE id_utilisateur = ?");
+    $stmt->bind_param("i", $id_utilisateur);
+    $stmt->execute();
+    $mysqli->close();
+}
