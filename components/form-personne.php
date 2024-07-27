@@ -1,6 +1,3 @@
-<?php
-$eleves = getUtilisateurFromIdHoraire($_GET['id_horaire']);
-?>
 <section>
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 w-[400px]">
         <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">

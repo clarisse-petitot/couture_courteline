@@ -86,6 +86,7 @@ $utilisateur = $token->getUtilisateur();
             require "../components/form-horaire.php";
         }
         if ($id_page == 2) {
+            $eleves = getUtilisateurFromIdHoraire($_GET['id_horaire']);
             require "../components/form-personne.php";
         }
         if ($id_page == 3) {
