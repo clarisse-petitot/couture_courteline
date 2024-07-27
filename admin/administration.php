@@ -24,6 +24,7 @@ if (!$token->isValide()) {
 }
 
 $utilisateur = $token->getUtilisateur();
+$popup = false;
 
 ?>
 <!DOCTYPE html>

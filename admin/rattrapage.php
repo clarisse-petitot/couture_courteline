@@ -91,16 +91,20 @@ $utilisateur = $token->getUtilisateur();
         $page = "rattrapage";
         $titre = "Choisir un rattrapage";
         if ($id_page == 1) {
+            $bouton = 'Suivant';
             require "../components/form-horaire.php";
         }
         if ($id_page == 2) {
+            $bouton = 'Suivant';
             $eleves = getUtilisateurFromIdHoraire($_GET['id_horaire']);
             require "../components/form-personne.php";
         }
         if ($id_page == 3) {
+            $bouton = 'Suivant';
             require "../components/form-horaire.php";
         }
         if ($id_page == 4) {
+            $bouton = 'Valider';
             require "../components/form-cours.php";
         }
         require '../components/footer.php';

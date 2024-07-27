@@ -56,6 +56,7 @@ if (isset($_POST['submit'])) {
     $_POST["nom"] = null;
     $_POST["prenom"] = null;
 }
+$popup = true;
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -89,9 +90,6 @@ if (isset($_POST['submit'])) {
             }
             ?>
         </div>
-        <?php
-        require '../components/footer.php';
-        ?>
     </div>
 
 </body>

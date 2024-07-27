@@ -31,17 +31,18 @@ if (isset($_GET["id_horaire"]) && !isset($_GET["id_cours"])) {
     $url = "/admin/form-supprime-cours.php?token=" . $_GET['token'];
     $allcours = getCoursFromIdHoraire($_GET["id_horaire"]);
 } else {
-        if (isset($_GET["id_cours"])) {
-            $id_page = 3;
-            deleteCours($_GET["id_cours"]);
-        }
-        //Page fin
-        else {
-            $id_page = 1;
-            $requete = 'Horaire du cours';
-            $url = "/admin/administration.php?token=" . $_GET['token'];
-        }
+    if (isset($_GET["id_cours"])) {
+        $id_page = 3;
+        deleteCours($_GET["id_cours"]);
     }
+    //Page fin
+    else {
+        $id_page = 1;
+        $requete = 'Horaire du cours';
+        $url = "/admin/administration.php?token=" . $_GET['token'];
+    }
+}
+$popup = true;
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -75,9 +76,6 @@ if (isset($_GET["id_horaire"]) && !isset($_GET["id_cours"])) {
             }
             ?>
         </div>
-        <?php
-        require '../components/footer.php';
-        ?>
     </div>
 
 </body>

@@ -27,6 +27,7 @@ $utilisateur = $token->getUtilisateur();
 
 $allcours = getAllCours();
 $bouton = "Voir l'appel";
+$popup = false;
 
 ?>
 <!DOCTYPE html>

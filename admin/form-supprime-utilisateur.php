@@ -56,6 +56,7 @@ if (isset($_GET["role"]) && !isset($_GET["id_horaire"]) && !isset($_GET["id_util
         }
     }
 }
+$popup = true;
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -93,9 +94,6 @@ if (isset($_GET["role"]) && !isset($_GET["id_horaire"]) && !isset($_GET["id_util
             }
             ?>
         </div>
-        <?php
-        require '../components/footer.php';
-        ?>
     </div>
 
 </body>

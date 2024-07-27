@@ -71,6 +71,8 @@ if (count($_GET) > 1) {
     }
 }
 
+$popup = false;
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">

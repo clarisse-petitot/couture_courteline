@@ -60,7 +60,7 @@ if ($_GET["page"] == "absences") {
     }
     $validation = "Valider mon rattrapage";
 }
-
+$popup = true;
 
 ?>
 <!DOCTYPE html>
@@ -101,9 +101,6 @@ if ($_GET["page"] == "absences") {
                 </div>
             </div>
         </div>
-        <?php
-        require './components/footer.php';
-        ?>
     </div>
 
 </body>

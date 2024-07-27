@@ -57,6 +57,8 @@ if (isset($_GET["id_horaire"]) && !isset($_GET["date"])) {
         $url = "/admin/administration.php?token=" . $_GET['token'];
     }
 }
+
+$popup = true;
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -91,9 +93,6 @@ if (isset($_GET["id_horaire"]) && !isset($_GET["date"])) {
             }
             ?>
         </div>
-        <?php
-        require '../components/footer.php';
-        ?>
     </div>
 
 </body>

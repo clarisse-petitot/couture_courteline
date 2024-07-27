@@ -1,4 +1,4 @@
-<div class="py-5 lg:mx-auto lg:max-w-7xl lg:px-8">
+<div class="py-5 lg:mx-auto lg:max-w-7xl lg:px-8 <?php if($popup){echo "h-[85vh] overflow-hidden";}?>">
     <div class="relative">
         <div class="relative w-full">
             <ul role="list" class="inline-flex mx-0 grid sm:grid-cols-1 space-x-0 md:grid-cols-2 md:gap-x-5 xl:grid-cols-3 xl:gap-x-10 place-items-center">

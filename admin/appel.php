@@ -34,6 +34,7 @@ if ($utilisateur->getRole() == 'user') {
 $cours_valide = getCours($_GET["id_cours"]);
 $allcours = getAllCours();
 $bouton = "Voir l'appel";
+$popup = true;
 
 ?>
 <!DOCTYPE html>
@@ -93,9 +94,6 @@ $bouton = "Voir l'appel";
                 </div>
             </div>
         </div>
-        <?php
-        require '../components/footer.php';
-        ?>
     </div>
 
 </body>

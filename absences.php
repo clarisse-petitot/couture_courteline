@@ -45,7 +45,7 @@ if (isset($_GET["id_cours"]) && appartient($utilisateur->getIdUtilisateur(), $_G
 }
 
 $allcours = getAllCoursFromIdUtilisateur($utilisateur->getIdUtilisateur());
-
+$popup = false;
 
 ?>
 <!DOCTYPE html>
