@@ -480,7 +480,7 @@ INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `email`, `role`, `
 VALUES
 	(1,'Doe','John','j.doe@lacouturedecp.fr','user',0,1),
 	(2,'Smith','Jane','j.smith@lacouturecp.fr','user',0,2),
-	(3,'Dupont','Martin','m.dumont@lacouturedecp.fr','admin',0,3),
+	(3,'Dupont','Martin','m.dupont@lacouturedecp.fr','admin',0,3),
 	(4,'Gillot','Gatien','pub@gatiendev.fr','user',0,2),
 	(5,'Dubois','Martin','couture@gatiendev.fr','admin',0,4);
 
