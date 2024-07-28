@@ -955,12 +955,23 @@ function createImage(string $fichier, int $id_utilisateur)
     return $id_image;
 }
 
-function createAssocie(string $id_creation, int $id_image)
+function createAssocie(int $id_creation, int $id_image)
 {
     $mysqli = Database::connexion();
     $stmt = $mysqli->prepare("INSERT INTO associe (id_creation, id_image)
                 VALUES (?,?)");
     $stmt->bind_param("ii", $id_creation, $id_image);
+    $stmt->execute();
+    $stmt->close();
+    $mysqli->close();
+}
+
+function createType(int $id_creation, int $id_categorie)
+{
+    $mysqli = Database::connexion();
+    $stmt = $mysqli->prepare("INSERT INTO type (id_creation, id_categorie)
+                VALUES (?,?)");
+    $stmt->bind_param("ii", $id_creation, $id_categorie);
     $stmt->execute();
     $stmt->close();
     $mysqli->close();

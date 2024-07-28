@@ -25,6 +25,7 @@ if (!$token->isValide()) {
 
 $utilisateur = $token->getUtilisateur();
 $categories = getCategories();
+$res = '';
 
 if (isset($_POST['submit']) && isset($_FILES["image"]) && isset($_FILES["patron_pdf"])) {
     $target_dir_img = __DIR__ . "/../images/";
@@ -59,23 +60,30 @@ if (isset($_POST['submit']) && isset($_FILES["image"]) && isset($_FILES["patron_
         $res = "Sorry, only PDF files are allowed.";
         $uploadOk = 0;
     }
-
+    print_r($_POST);
     if (isset($_POST['surface_tissu']) && !empty($_POST['surface_tissu']) && isset($_POST['description']) && !empty($_POST['description']) && isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['tissu']) && !empty($_POST['tissu'])) {
         if ($uploadOk == 1) {
             $id_creation = getDernierIdCreation() + 1;
             $target_img = $target_dir_img . $id_creation . "_0." . $imageFileType;
             $target_patron = $target_dir_patron . $id_creation . "." . $patronFileType;
             $chemin_absolu_img = "/images/" . $id_creation . "_0." . $imageFileType;
-            $chemin_absolu_patron = "/patrons/" . $id_creation . "." . $imageFileType;
+            $chemin_absolu_patron = "/patrons/" . $id_creation . "." . $patronFileType;
             createCreation($id_creation, $_POST['nom'], $_POST['description'], $_POST['tissu'], $_POST['surface_tissu'], $chemin_absolu_patron);
-            $id_image = createImage($chemin_absolu_img, $utilisateur->getIdUtilisateur());
-            createAssocie($id_image, $id_creation);
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_img) && move_uploaded_file($_FILES["patron_pdf"]["tmp_name"], $target_patron)) {
+                foreach ($_POST as $key => $value) {
+                    if (str_starts_with($key, "categorie-")) {
+                        createType($id_creation, substr($key, 10));
+                    }
+                }
+                $id_image = createImage($chemin_absolu_img, $utilisateur->getIdUtilisateur());
+                createAssocie($id_creation, $id_image);
                 $res = "The file " . htmlspecialchars(basename($_FILES["image"]["name"])) . " has been uploaded.";
             } else {
                 $res = "Sorry, there was an error uploading your file.";
             }
         }
+    } else {
+        $res = "Veuillez remplir tous les champs";
     }
 } else {
     $res = null;
@@ -127,7 +135,9 @@ $popup = true;
                                     foreach ($categories as $categorie) {
                                     ?>
                                         <div class="flex md:items-center items-center justify-start p-2 pr-6">
-                                            <input class="w-4 h-4 mr-2 text-blue-700 focus:ring-0" type="checkbox" value="true" id="categorie-<?= $categorie->getIdCategorie() ?>" name="categorie-<?= $categorie->getIdCategorie() ?>">
+                                            <input class="w-4 h-4 mr-2 text-blue-700 focus:ring-0" type="checkbox" value="true" id="categorie-<?= $categorie->getIdCategorie() ?>" name="categorie-<?= $categorie->getIdCategorie() ?>" <?php if (isset($_POST["categorie-" . $categorie->getIdCategorie()])) {
+                                                                                                                                                                                                                                            echo "checked";
+                                                                                                                                                                                                                                        } ?>>
                                             <div class="inline-block">
                                                 <div class="flex space-x-6 items-center">
                                                     <label class="mr-2 text-sm leading-3 font-normal text-gray-600" for="categorie-<?= $categorie->getIdCategorie() ?>"><?= $categorie->getNom() ?></label>
@@ -162,15 +172,23 @@ $popup = true;
 
                                 <div>
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="image">Importer une image</label>
-                                    <input type="hidden" name="MAX_FILE_SIZE" value="20000000" >
+                                    <input type="hidden" name="MAX_FILE_SIZE" value="20000000">
                                     <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50" id="image" name="image" type="file" accept="image/png, image/jpeg">
                                 </div>
 
                                 <div>
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="patron_pdf">Importer le patron PDF</label>
-                                    <input type="hidden" name="MAX_FILE_SIZE" value="20000000" >
+                                    <input type="hidden" name="MAX_FILE_SIZE" value="20000000">
                                     <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50" id="patron_pdf" name="patron_pdf" type="file" accept=".pdf">
                                 </div>
+
+                                <?php
+                                if ($res != null) {
+                                ?>
+                                    <p class="text-sm font-medium bg-red-100 p-4 mb-5 text-red-400"><?= $res ?></p>
+                                <?php
+                                }
+                                ?>
 
                                 <div>
                                     <a href="/admin/administration.php?token=<?= $_GET['token'] ?>"><button type="button" class="w-full text-blue-700 bg-white hover:bg-gray-100 border border-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Retour</button></a>
