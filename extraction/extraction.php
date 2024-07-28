@@ -122,7 +122,8 @@ function setUtilisateur($cheminwithemail, $cheminwithcours, $horaires)
     if (count($ligneswithemail) == count($ligneswithcours)) {
         $mysqli = Database::connexion();
 
-        $stmt = $mysqli->prepare("DELETE FROM utilisateur");
+        $stmt = $mysqli->prepare("DELETE FROM utilisateur
+        WHERE role = 'user' ");
         $stmt->execute();
         $stmt->close();
         
