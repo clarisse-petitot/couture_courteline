@@ -4,6 +4,7 @@ services:
     build: .
     volumes:
       - "./:/var/www/html"
+      - "./php.ini:/usr/local/etc/php/conf.d/30-custom.ini"
     depends_on:
       - db_courteline
     ports:
