@@ -915,3 +915,53 @@ function deleteUtilisateur($id_utilisateur)
     $stmt->execute();
     $mysqli->close();
 }
+
+function getDernierIdCreation()
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT max(id_creation)
+    FROM creation");
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    if ($res[0]["max(id_creation)"] == null) {
+        return 0;
+    } else {
+        return $res[0]["max(id_creation)"];
+    }
+}
+
+function createCreation(int $id_creation, string $nom, string $description, string $tissu, string $surface_tissu, string $patron)
+{
+    $mysqli = Database::connexion();
+    $stmt = $mysqli->prepare("INSERT INTO creation (id_creation, nom, description, tissu, surface_tissu, patron)
+                VALUES (?,?,?,?,?,?)");
+    $stmt->bind_param("isssss", $id_creation, $nom, $description, $tissu, $surface_tissu, $patron);
+    $stmt->execute();
+    $stmt->close();
+    $mysqli->close();
+}
+
+function createImage(string $fichier, int $id_utilisateur)
+{
+    $mysqli = Database::connexion();
+    $stmt = $mysqli->prepare("INSERT INTO image (fichier, id_utilisateur)
+                VALUES (?,?)");
+    $stmt->bind_param("si", $fichier, $id_utilisateur);
+    $stmt->execute();
+    $id_image = $mysqli->insert_id;
+    $stmt->close();
+    $mysqli->close();
+    return $id_image;
+}
+
+function createAssocie(string $id_creation, int $id_image)
+{
+    $mysqli = Database::connexion();
+    $stmt = $mysqli->prepare("INSERT INTO associe (id_creation, id_image)
+                VALUES (?,?)");
+    $stmt->bind_param("ii", $id_creation, $id_image);
+    $stmt->execute();
+    $stmt->close();
+    $mysqli->close();
+}

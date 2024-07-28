@@ -26,9 +26,56 @@ if (!$token->isValide()) {
 $utilisateur = $token->getUtilisateur();
 $categories = getCategories();
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['submit']) && isset($_FILES["image"]) && isset($_FILES["patron_pdf"])) {
+    $target_dir_img = __DIR__ . "/../images/";
+    $target_dir_patron =  __DIR__ . "/../patrons/";
+    $target_file_img = $target_dir_img . basename($_FILES["image"]["name"]);
+    $target_file_patron = $target_dir_patron . basename($_FILES["patron_pdf"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file_img, PATHINFO_EXTENSION));
+    $patronFileType = strtolower(pathinfo($target_file_patron, PATHINFO_EXTENSION));
+
+    // Check file size
+    if ($_FILES["image"]["size"] > 20000000) {
+        $res = "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
+    if ($_FILES["patron_pdf"]["size"] > 20000000) {
+        $res =  "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
+
+    // Allow certain file formats
+    if (
+        $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+    ) {
+        $res = "Sorry, only JPG, JPEG, PNG files are allowed.";
+        $uploadOk = 0;
+    }
+    // Allow certain file formats
+    if (
+        $patronFileType != "pdf"
+    ) {
+        $res = "Sorry, only PDF files are allowed.";
+        $uploadOk = 0;
+    }
+
     if (isset($_POST['surface_tissu']) && !empty($_POST['surface_tissu']) && isset($_POST['description']) && !empty($_POST['description']) && isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['tissu']) && !empty($_POST['tissu'])) {
-        createUtilisateur($_POST['nom'], $_POST['prenom'], $_POST['surface_tissu'], $_POST['id_horaire'], $_GET['role']);
+        if ($uploadOk == 1) {
+            $id_creation = getDernierIdCreation() + 1;
+            $target_img = $target_dir_img . $id_creation . "_0." . $imageFileType;
+            $target_patron = $target_dir_patron . $id_creation . "." . $patronFileType;
+            $chemin_absolu_img = "/images/" . $id_creation . "_0." . $imageFileType;
+            $chemin_absolu_patron = "/patrons/" . $id_creation . "." . $imageFileType;
+            createCreation($id_creation, $_POST['nom'], $_POST['description'], $_POST['tissu'], $_POST['surface_tissu'], $chemin_absolu_patron);
+            $id_image = createImage($chemin_absolu_img, $utilisateur->getIdUtilisateur());
+            createAssocie($id_image, $id_creation);
+            if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_img) && move_uploaded_file($_FILES["patron_pdf"]["tmp_name"], $target_patron)) {
+                $res = "The file " . htmlspecialchars(basename($_FILES["image"]["name"])) . " has been uploaded.";
+            } else {
+                $res = "Sorry, there was an error uploading your file.";
+            }
+        }
     }
 } else {
     $res = null;
@@ -45,7 +92,7 @@ $popup = true;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajout Patrons</title>
+    <title>Ajout Patron</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
@@ -66,7 +113,7 @@ $popup = true;
                             <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                                 Ajouter un patron
                             </h1>
-                            <form class="space-y-4 md:space-y-6" method='POST'>
+                            <form class="space-y-4 md:space-y-6" method="POST" enctype="multipart/form-data">
                                 <div class="sm:col-span-3">
                                     <label for="nom" class="block text-sm font-medium leading-6 text-gray-900">Nom</label>
                                     <div class="mt-2">
@@ -75,7 +122,7 @@ $popup = true;
                                 </div>
 
                                 <div>
-                                <label for="categorie" class="block text-sm font-medium leading-6 text-gray-900 pb-2">Categorie</label>
+                                    <label for="categorie" class="block text-sm font-medium leading-6 text-gray-900 pb-2">Categorie</label>
                                     <?php
                                     foreach ($categories as $categorie) {
                                     ?>
@@ -114,7 +161,19 @@ $popup = true;
                                 </div>
 
                                 <div>
-                                    <a href="/admin/administration.php?token=<?=$_GET['token']?>"><button type="button" class="w-full text-blue-700 bg-white hover:bg-gray-100 border border-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Retour</button></a>
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="image">Importer une image</label>
+                                    <input type="hidden" name="MAX_FILE_SIZE" value="20000000" >
+                                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50" id="image" name="image" type="file" accept="image/png, image/jpeg">
+                                </div>
+
+                                <div>
+                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="patron_pdf">Importer le patron PDF</label>
+                                    <input type="hidden" name="MAX_FILE_SIZE" value="20000000" >
+                                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50" id="patron_pdf" name="patron_pdf" type="file" accept=".pdf">
+                                </div>
+
+                                <div>
+                                    <a href="/admin/administration.php?token=<?= $_GET['token'] ?>"><button type="button" class="w-full text-blue-700 bg-white hover:bg-gray-100 border border-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Retour</button></a>
                                 </div>
                                 <input type="submit" name="submit" id='submit' value='Valider' class="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
                             </form>
