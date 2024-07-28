@@ -5,9 +5,9 @@
 # https://sequel-ace.com/
 # https://github.com/Sequel-Ace/Sequel-Ace
 #
-# Hôte: localhost (MySQL 9.0.0)
+# Hôte: 192.168.1.46 (MySQL 9.0.0)
 # Base de données: couture_courteline
-# Temps de génération: 2024-07-26 12:42:03 +0000
+# Temps de génération: 2024-07-27 20:54:30 +0000
 # ************************************************************
 
 
@@ -61,10 +61,28 @@ DROP TABLE IF EXISTS `categorie`;
 
 CREATE TABLE `categorie` (
   `id_categorie` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
+  `nom` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_categorie`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+LOCK TABLES `categorie` WRITE;
+/*!40000 ALTER TABLE `categorie` DISABLE KEYS */;
+
+INSERT INTO `categorie` (`id_categorie`, `nom`)
+VALUES
+	(1,'Robe'),
+	(2,'Jupe'),
+	(3,'Pantalon'),
+	(4,'Top'),
+	(5,'Chemise'),
+	(6,'Short'),
+	(7,'Veste'),
+	(8,'Salopette'),
+	(9,'Combinaison'),
+	(10,'Sous-vêtement');
+
+/*!40000 ALTER TABLE `categorie` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump de la table cours
@@ -86,7 +104,6 @@ LOCK TABLES `cours` WRITE;
 
 INSERT INTO `cours` (`id_cours`, `date`, `id_horaire`)
 VALUES
-	(5027,'2024-09-18 18:30:00',1),
 	(5028,'2024-09-19 09:00:00',2),
 	(5029,'2024-09-19 16:00:00',3),
 	(5030,'2024-09-19 18:30:00',4),
@@ -336,7 +353,8 @@ VALUES
 	(5274,'2025-06-27 13:30:00',5),
 	(5275,'2025-06-27 17:30:00',6),
 	(5276,'2025-06-28 10:00:00',7),
-	(5277,'2025-06-28 14:15:00',8);
+	(5277,'2025-06-28 14:15:00',8),
+	(5278,'2024-09-18 18:30:00',1);
 
 /*!40000 ALTER TABLE `cours` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -349,11 +367,11 @@ DROP TABLE IF EXISTS `creation`;
 
 CREATE TABLE `creation` (
   `id_creation` int NOT NULL,
-  `nom` varchar(256) COLLATE utf8mb4_general_ci NOT NULL,
-  `description` text COLLATE utf8mb4_general_ci NOT NULL,
-  `tissu` varchar(256) COLLATE utf8mb4_general_ci NOT NULL,
-  `surface_tissu` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
-  `patron` varchar(256) COLLATE utf8mb4_general_ci NOT NULL,
+  `nom` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tissu` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `surface_tissu` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `patron` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_creation`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -366,8 +384,8 @@ DROP TABLE IF EXISTS `horaire`;
 
 CREATE TABLE `horaire` (
   `id_horaire` int NOT NULL AUTO_INCREMENT,
-  `jour` varchar(32) COLLATE utf8mb4_general_ci NOT NULL,
-  `heure` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
+  `jour` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `heure` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_horaire`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -396,7 +414,7 @@ DROP TABLE IF EXISTS `image`;
 
 CREATE TABLE `image` (
   `id_image` int NOT NULL AUTO_INCREMENT,
-  `fichier` blob NOT NULL,
+  `fichier` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `id_utilisateur` int NOT NULL,
   PRIMARY KEY (`id_image`),
   KEY `id_utilisateur` (`id_utilisateur`),
@@ -428,7 +446,7 @@ CREATE TABLE `rattrapages` (
 DROP TABLE IF EXISTS `tokens`;
 
 CREATE TABLE `tokens` (
-  `token` varchar(32) COLLATE utf8mb4_general_ci NOT NULL,
+  `token` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `id_utilisateur` int NOT NULL,
   `date_creation` int NOT NULL,
   PRIMARY KEY (`token`),
@@ -436,6 +454,18 @@ CREATE TABLE `tokens` (
   CONSTRAINT `tokens_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+LOCK TABLES `tokens` WRITE;
+/*!40000 ALTER TABLE `tokens` DISABLE KEYS */;
+
+INSERT INTO `tokens` (`token`, `id_utilisateur`, `date_creation`)
+VALUES
+	('27f2413edc3fb6a0218df9df93b8216d',5,1722107381),
+	('4140e939a2469c5ca1d127f0c98e9c1e',1,1722077307),
+	('9117431eab7d2aab242b6e25688c794c',3,1722077191),
+	('cbe8e0178e152933e031611eb4396c96',1,1722077423);
+
+/*!40000 ALTER TABLE `tokens` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump de la table type
@@ -462,10 +492,10 @@ DROP TABLE IF EXISTS `utilisateur`;
 
 CREATE TABLE `utilisateur` (
   `id_utilisateur` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
-  `prenom` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `role` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
+  `nom` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `prenom` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `role` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `nbr_rattrapage` int unsigned NOT NULL,
   `id_horaire` int NOT NULL,
   PRIMARY KEY (`id_utilisateur`),
@@ -480,9 +510,10 @@ INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `email`, `role`, `
 VALUES
 	(1,'Doe','John','j.doe@lacouturedecp.fr','user',0,1),
 	(2,'Smith','Jane','j.smith@lacouturecp.fr','user',0,2),
-	(3,'Dupont','Martin','m.dupont@lacouturedecp.fr','admin',0,3),
+	(3,'Dupont','Martin','m.dumont@lacouturedecp.fr','admin',0,3),
 	(4,'Gillot','Gatien','pub@gatiendev.fr','user',0,2),
-	(5,'Dubois','Martin','couture@gatiendev.fr','admin',0,4);
+	(5,'Dubois','Martin','couture@gatiendev.fr','admin',0,4),
+	(6,'Petitot','Clarisse','clarisse.petitot@gmail.com','user',0,7);
 
 /*!40000 ALTER TABLE `utilisateur` ENABLE KEYS */;
 UNLOCK TABLES;
