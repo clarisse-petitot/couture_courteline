@@ -64,7 +64,7 @@
             </svg>
         </div>
 
-        <form action="rattrapages.php">
+        <form action="patrons.php">
             <div>
                 <input type="hidden" value="<?= $_GET["token"] ?>" name='token'>
             </div>
@@ -87,7 +87,7 @@
                     foreach ($categories as $categorie) {
                     ?>
                         <div class="flex md:justify-center md:items-center items-center justify-start p-2 pr-6">
-                            <input class="w-4 h-4 mr-2 text-blue-700 focus:ring-0" type="checkbox" value="true" id="categorie-<?= $categorie->getIdCategorie() ?>" name="categorie-<?= $categorie->getIdCategorie() ?>" <?php if (in_array($categorie->getIdCategorie(), $filtres["categorie"])) { ?>checked<?php } ?> />
+                            <input class="w-4 h-4 mr-2 text-blue-700 focus:ring-0" type="checkbox" value="true" id="categorie-<?= $categorie->getIdCategorie() ?>" name="categorie-<?= $categorie->getIdCategorie() ?>" <?php if (in_array($categorie, $filtres)) { ?>checked<?php } ?> />
                             <div class="inline-block">
                                 <div class="flex space-x-6 justify-center items-center">
                                     <label class="mr-2 text-sm leading-3 font-normal text-gray-600" for="categorie-<?= $categorie->getIdCategorie() ?>"><?= $categorie->getNom() ?></label>
@@ -116,8 +116,6 @@
             <div class="block md:hidden w-full mt-5">
                 <input type="submit" value="Valider" class="w-full text-base leading-4 font-normal py-3 px-5 text-white bg-blue-700">
             </div>
-
-            <input type="hidden" value="1" name="id_page">
         </form>
 
         <!-- Reset Filter Button (Large Screen) -->
@@ -127,6 +125,7 @@
 
     </div>
 </div>
+
 <style>
     .checkbox:checked+.check-icon {
         display: flex;

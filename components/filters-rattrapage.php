@@ -138,8 +138,6 @@
             <div class="block md:hidden w-full mt-5">
                 <input type="submit" value="Valider" class="w-full text-base leading-4 font-normal py-3 px-5 text-white bg-blue-700">
             </div>
-
-            <input type="hidden" value="1" name="id_page">
         </form>
 
         <!-- Reset Filter Button (Large Screen) -->
