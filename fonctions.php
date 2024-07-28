@@ -666,7 +666,8 @@ function getUtilisateurFromCours($cours): array
     FROM rattrapages r
     JOIN utilisateur u ON u.id_utilisateur=r.id_utilisateur
     WHERE r.id_cours=?)) u
-    JOIN horaire h ON h.id_horaire=u.id_horaire");
+    JOIN horaire h ON h.id_horaire=u.id_horaire
+    WHERE u.role='user' ");
     $stmt->bind_param("iii", $id_cours, $id_cours, $id_cours);
     $stmt->execute();
     $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -737,7 +738,7 @@ function getUtilisateurFromIdHoraire($id_horaire): array
     $stmt = $mysqli->prepare("SELECT *
     FROM utilisateur u
     JOIN horaire h ON u.id_horaire=h.id_horaire
-    WHERE u.id_horaire=?
+    WHERE u.id_horaire=? and u.role='user'
     ORDER BY u.nom, u.prenom");
     $stmt->bind_param("i", $id_horaire);
     $stmt->execute();
