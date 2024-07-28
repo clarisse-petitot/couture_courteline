@@ -504,7 +504,7 @@ function getImagesFromIdCreation($id_creation): array
     foreach ($res as $ligne) {
         $liste[] = new Image(
             $ligne["id_image"],
-            $ligne["lien"],
+            $ligne["fichier"],
             new Utilisateur(
                 $ligne["id_utilisateur"],
                 $ligne["nom"],
@@ -972,6 +972,35 @@ function createType(int $id_creation, int $id_categorie)
     $stmt = $mysqli->prepare("INSERT INTO type (id_creation, id_categorie)
                 VALUES (?,?)");
     $stmt->bind_param("ii", $id_creation, $id_categorie);
+    $stmt->execute();
+    $stmt->close();
+    $mysqli->close();
+}
+
+function deleteCreation($id_creation)
+{
+    $images = getImagesFromIdCreation($id_creation);
+    $mysqli = Database::connexion();
+
+    foreach ($images as $image) {
+        $id = $image->getIdImage();
+        $link = __DIR__.$image->getLien();
+        unlink($link);
+        $stmt = $mysqli->prepare("DELETE 
+        FROM image
+        WHERE id_image = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    $link = __DIR__."/patrons/".$id_creation.".pdf";
+    unlink($link);
+
+    $stmt = $mysqli->prepare("DELETE
+    FROM creation
+    WHERE id_creation = ?");
+    $stmt->bind_param("i", $id_creation);
     $stmt->execute();
     $stmt->close();
     $mysqli->close();
