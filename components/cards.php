@@ -10,7 +10,7 @@
                             <li class="inline-flex flex-col text-center w-auto p-3 bg-black/[.15] m-3 rounded-md ">
                                 <div class="group relative">
                                     <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200">
-                                    <img src="img/creations/<?= $creation->getImages()[0]->getIdImage() ?>.png" alt="image représentant : <?= $creation->getNom() ?>" class="h-full w-full object-cover object-center group-hover:opacity-75">
+                                    <img src="<?= $creation->getImages()[0]->getLien() ?>" alt="image représentant : <?= $creation->getNom() ?>" class="h-full w-full object-cover object-center group-hover:opacity-75">
                                 </div>
                                 <div class="mt-3">
                                     <h3 class="mt-1 font-semibold text-gray-900">
