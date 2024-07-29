@@ -36,6 +36,7 @@ if (isset($_GET["role"])) {
 
 if (isset($_POST['submit'])) {
     if (isset($_POST['email']) && !empty($_POST['email']) && isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['prenom']) && !empty($_POST['prenom'])) {
+        $id_page=3;
         if(empty($_POST['id_horaire']))
         {
             $_POST['id_horaire']=1;
