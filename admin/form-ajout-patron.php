@@ -60,7 +60,6 @@ if (isset($_POST['submit']) && isset($_FILES["image"]) && isset($_FILES["patron_
         $res = "Sorry, only PDF files are allowed.";
         $uploadOk = 0;
     }
-    print_r($_POST);
     if (isset($_POST['surface_tissu']) && !empty($_POST['surface_tissu']) && isset($_POST['description']) && !empty($_POST['description']) && isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['tissu']) && !empty($_POST['tissu'])) {
         if ($uploadOk == 1) {
             $id_creation = getDernierIdCreation() + 1;

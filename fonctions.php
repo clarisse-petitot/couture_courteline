@@ -377,6 +377,9 @@ function getFiltresRattrapages(): array
 function createUtilisateur(string $nom, string $prenom, string $email, int $id_horaire, string $role)
 {
     $nbr_rattrapage = 0;
+    $nom = ucfirst(strtolower($nom));
+    $prenom = ucfirst(strtolower($prenom));
+
     $mysqli = Database::connexion();
     $stmt = $mysqli->prepare("INSERT INTO utilisateur (nom, prenom, email, role, nbr_rattrapage, id_horaire)
                 VALUES (?,?,?, ?, ?, ?)");

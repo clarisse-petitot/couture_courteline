@@ -29,25 +29,19 @@ if (isset($_GET["role"])) {
     $id_page = 2;
     $url = "/admin/form-ajout-utilisateur.php?token=" . $_GET['token'];
 } else {
-    if (isset($_GET["date"]) && isset($_GET['id_horaire'])) {
-        $id_page = 3;
-        $horaire = getHoraireFromId($_GET["id_horaire"]);
-        $date = getDateTime($_GET["date"], $horaire);
-        createCours($date, $_GET["id_horaire"]);
-    }
-    //Page fin
-    else {
-        $id_page = 1;
-        $requete = "Role de la personne";
-        $url = "/admin/administration.php?token=" . $_GET['token'];
-    }
+    $id_page = 1;
+    $requete = "Role de la personne";
+    $url = "/admin/administration.php?token=" . $_GET['token'];
 }
 
 if (isset($_POST['submit'])) {
-    echo 'enter';
-    if (isset($_POST['email']) && !empty($_POST['email']) && isset($_POST['id_horaire']) && !empty($_POST['id_horaire']) && isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['prenom']) && !empty($_POST['prenom'])) {
-        echo 'envoyer';
+    if (isset($_POST['email']) && !empty($_POST['email']) && isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['prenom']) && !empty($_POST['prenom'])) {
+        if(empty($_POST['id_horaire']))
+        {
+            $_POST['id_horaire']=1;
+        }
         createUtilisateur($_POST['nom'], $_POST['prenom'], $_POST['email'], $_POST['id_horaire'], $_GET['role']);
+        //Page fin
     }
 } else {
     $res = null;
