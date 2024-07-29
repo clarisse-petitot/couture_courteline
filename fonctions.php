@@ -985,8 +985,10 @@ function deleteCreation($id_creation)
 
     foreach ($images as $image) {
         $id = $image->getIdImage();
-        $link = __DIR__.$image->getLien();
-        unlink($link);
+        $link = __DIR__ . $image->getLien();
+        if (file_exists($link)) {
+            unlink($link);
+        }
         $stmt = $mysqli->prepare("DELETE 
         FROM image
         WHERE id_image = ?");
@@ -995,9 +997,10 @@ function deleteCreation($id_creation)
         $stmt->close();
     }
 
-    $link = __DIR__."/patrons/".$id_creation.".pdf";
-    unlink($link);
-
+    $link = __DIR__ . "/patrons/" . $id_creation . ".pdf";
+    if (file_exists($link)) {
+        unlink($link);
+    }
     $stmt = $mysqli->prepare("DELETE
     FROM creation
     WHERE id_creation = ?");
