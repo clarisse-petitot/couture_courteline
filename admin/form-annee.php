@@ -62,27 +62,8 @@ if (isset($_POST['submit']) && isset($_FILES["cours"]) && isset($_FILES["inscrit
         $uploadOk = 0;
     }
     if ($uploadOk == 1) {
-        $target_cours = $target_dir . "cours.csv" ;
-        $target_inscrit_cours = $target_dir . "inscrit_cours.csv" ;
-        $target_inscrit_email = $target_dir . "inscrit_email.csv" ;
-        if(file_exists($target_cours))
-        {
-            unlink($target_cours);
-        }
-        if(file_exists($target_inscrit_cours))
-        {
-            unlink($target_inscrit_cours);
-        }
-        if(file_exists($target_inscrit_email))
-        {
-            unlink($target_inscrit_email);
-        }
-        if (move_uploaded_file($_FILES["cours"]["tmp_name"], $target_cours) && move_uploaded_file($_FILES["inscrit_cours"]["tmp_name"], $target_inscrit_cours) && move_uploaded_file($_FILES["inscrit_email"]["tmp_name"], $target_inscrit_email)) {
-            $res = "The file " . htmlspecialchars(basename($_FILES["cours"]["name"])) . " has been uploaded.";
-            setUtilisateur($target_inscrit_email, $target_inscrit_cours, setCoursHoraire($target_cours));
-        } else {
-            $res = "Sorry, there was an error uploading your file.";
-        }
+        setUtilisateur($_FILES["inscrit_email"]["tmp_name"], $_FILES["inscrit_cours"]["tmp_name"], setCoursHoraire($_FILES["cours"]["tmp_name"]));
+        $res = "The file " . htmlspecialchars(basename($_FILES["cours"]["name"])) . " has been uploaded.";
     }
 }
 
