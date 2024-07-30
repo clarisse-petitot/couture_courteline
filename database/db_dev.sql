@@ -498,9 +498,7 @@ CREATE TABLE `utilisateur` (
   `role` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `nbr_rattrapage` int unsigned NOT NULL,
   `id_horaire` int NOT NULL,
-  PRIMARY KEY (`id_utilisateur`),
-  KEY `id_horaire` (`id_horaire`),
-  CONSTRAINT `utilisateur_ibfk_1` FOREIGN KEY (`id_horaire`) REFERENCES `horaire` (`id_horaire`) ON DELETE RESTRICT ON UPDATE CASCADE
+  PRIMARY KEY (`id_utilisateur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 LOCK TABLES `utilisateur` WRITE;
