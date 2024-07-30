@@ -1036,3 +1036,40 @@ function deleteCreation($id_creation)
     $stmt->close();
     $mysqli->close();
 }
+
+function getCreation(int $id_creation): Creation | null
+/*
+    Renvoie la création sous forme de sa classe en fonction de son id
+*/
+{
+    $mysqli = Database::connexion();
+
+    $stmt = $mysqli->prepare("SELECT c.*
+    FROM creation c
+    WHERE id_creation = ?");
+    $stmt->bind_param("i", $id_creation);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    if (count($res) == 0) {
+        return null;
+    }
+
+    $ligne = $res[0];
+
+    $creation = new Creation(
+        $ligne["id_creation"],
+        $ligne["nom"],
+        $ligne["description"],
+        $ligne["tissu"],
+        $ligne["surface_tissu"],
+        $ligne["patron"],
+        getImagesFromIdCreation($ligne["id_creation"]),
+        getCategoriesFromIdCreation($ligne["id_creation"])
+    );
+
+    $stmt->close();
+    $mysqli->close();
+
+    return $creation;
+}
