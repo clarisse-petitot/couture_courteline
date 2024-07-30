@@ -377,8 +377,32 @@ function getFiltresRattrapages(): array
 function createUtilisateur(string $nom, string $prenom, string $email, int $id_horaire, string $role)
 {
     $nbr_rattrapage = 0;
-    $nom = ucfirst(strtolower($nom));
-    $prenom = ucfirst(strtolower($prenom));
+    $split_espace = explode(' ',$nom);
+    $nom = "";
+    foreach($split_espace as $tmp_nom)
+    {
+        $split_tiret = explode('-', $tmp_nom);
+        foreach($split_tiret as $split)
+        {
+            $nom = $nom.ucfirst(strtolower($split)).'-';
+        }
+        $nom = substr($nom, 0, -1);
+        $nom = $nom.' ';
+    }
+    $nom = substr($nom, 0, -1);
+    $split_espace = explode(' ',$prenom);
+    $prenom = "";
+    foreach($split_espace as $tmp_prenom)
+    {
+        $split_tiret = explode('-', $tmp_prenom);
+        foreach($split_tiret as $split)
+        {
+            $prenom = $prenom.ucfirst(strtolower($split)).'-';
+        }
+        $prenom = substr($prenom, 0, -1);
+        $prenom = $prenom.' ';
+    }
+    $prenom = substr($prenom, 0, -1);
 
     $mysqli = Database::connexion();
     $stmt = $mysqli->prepare("INSERT INTO utilisateur (nom, prenom, email, role, nbr_rattrapage, id_horaire)
