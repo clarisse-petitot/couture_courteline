@@ -56,7 +56,7 @@ function setCoursHoraire($chemin)
     $pattern_date = '/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/';
     $pattern_horaire = "/^[A-Za-z]+ \d{1,2}H\d{2}-\d{1,2}H\d{2}$/";
     while (($ligne = fgetcsv($file, null, ';')) !== false) {
-        if (preg_match($pattern_date, $ligne[0]) && preg_match($pattern_horaire, $ligne[1])) {
+        if (preg_match($pattern_date, $ligne[0]) && preg_match($pattern_horaire, $ligne[2])) {
             $lignes[] = $ligne;
         }
     }
@@ -75,12 +75,12 @@ function setCoursHoraire($chemin)
     $horaires = [];
 
     foreach ($lignes as $ligne) {
-        if (!in_array($ligne[1], $horaires)) {
-            $jour = getJour($ligne[1]);
+        if (!in_array($ligne[2], $horaires)) {
+            $jour = getJour($ligne[2]);
             if ($jour == "Mardi" || $jour == "Mercredi") {
-                $heure = str_replace('H', 'h', substr($ligne[1], 3));
+                $heure = str_replace('H', 'h', substr($ligne[2], 3));
             } else {
-                $heure = str_replace('H', 'h', substr($ligne[1], 2));
+                $heure = str_replace('H', 'h', substr($ligne[2], 2));
             }
             $id_horaire = count($horaires) + 1;
             $stmt = $mysqli->prepare("INSERT INTO horaire (id_horaire, jour, heure)
@@ -88,10 +88,10 @@ function setCoursHoraire($chemin)
             $stmt->bind_param("iss", $id_horaire, $jour, $heure);
             $stmt->execute();
             $stmt->close();
-            $horaires[] = $ligne[1];
+            $horaires[] = $ligne[2];
         }
-        $date = getDateTime($ligne[0], $ligne[1]);
-        $id_horaire = array_search($ligne[1], $horaires) + 1;
+        $date = getDateTime($ligne[0], $ligne[2]);
+        $id_horaire = array_search($ligne[2], $horaires) + 1;
         createCours($date, $id_horaire);
     }
     $mysqli->close();
