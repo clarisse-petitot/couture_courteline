@@ -9,6 +9,15 @@
                     <div>
                         <input type="hidden" value="<?= $_GET["token"] ?>" name='token'>
                     </div>
+                    <?php
+                    if (isset($_GET["id_creation"])) {
+                    ?>
+                        <div>
+                            <input type="hidden" value="<?= $_GET["id_creation"] ?>" name='id_creation'>
+                        </div>
+                    <?php
+                    }
+                    ?>
                     <div>
                         <label for="role" class="block mb-2 text-sm font-medium text-gray-900"><?= $requete ?></label>
                         <select id="role" name='role' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
