@@ -150,6 +150,16 @@ class Creation{
     public function getCategories():array{
         return $this->categories;
     }
+
+    public function getNameFichier():string{
+        $res="";
+        foreach(explode(' ',$this->nom) as $mot)
+        {
+            $res=$res.$mot;
+        }
+        $res=$res.'.pdf';
+        return $res;
+    }
 }
 
 class Image{

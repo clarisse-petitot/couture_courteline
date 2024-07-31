@@ -37,6 +37,36 @@ if (!$token->isValide()) {
 }
 $utilisateur = $token->getUtilisateur();
 
+if (isset($_GET['telechargement'])) {
+    // Initialize a file URL to  
+    // the variable  
+    $url =  __DIR__ . $creation->getPatron();
+
+    // Use basename() function to  
+    // return the file   
+    $file_name = $creation->getNameFichier();
+
+    // Vérifier si le fichier existe
+    if (file_exists($url)) {
+        // Définir les en-têtes appropriés pour le téléchargement
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . $file_name . '"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($url));
+
+        // Nettoyer la mémoire tampon de sortie
+        ob_clean();
+        flush();
+
+        // Lire le fichier et l'envoyer au navigateur
+        readfile($url);
+        exit;
+    }
+}
+
 ?>
 
 <!DOCTYPE html>

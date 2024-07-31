@@ -55,17 +55,13 @@
 
                 <div class="flex justify-between">
                     <a href="form-photo.php?token=<?= $_GET['token'] ?>&id_creation=<?= $_GET['id_creation'] ?>"><button class="h-[48px] w-[160px] rounded-md bg-blue-700 text-white cursor-pointer ">Ajout une photo</button></a>
-                    <a href="#"><button class="h-[48px] w-[190px] rounded-md bg-blue-700 text-white cursor-pointer ">Télécharger le patron</button></a>
+                    <a href="creation.php?token=<?= $_GET['token'] ?>&id_creation=<?= $_GET['id_creation'] ?>&telechargement=true" target="_blank"><button class="h-[48px] w-[190px] rounded-md bg-blue-700 text-white cursor-pointer ">Télécharger le patron</button></a>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        function affiche() {
-            console.log('Hello World');
-        }
-
         function changeImage(src, prenom, role, jour, heure, description) {
             console.log(document.getElementById('mainImage').src);
             document.getElementById('mainImage').src = src;
