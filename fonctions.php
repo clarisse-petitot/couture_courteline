@@ -278,14 +278,15 @@ function getAllRattrapagesFromIdUtilisateur(int $id_utilisateur): array
 {
     $mysqli = Database::connexion();
 
-    $stmt = $mysqli->prepare("SELECT c.*,h.*, COUNT(a.id_utilisateur) AS total_absences, COUNT(r.id_utilisateur) AS total_rattrapages
-        FROM cours c
-        LEFT JOIN absences a ON c.id_cours = a.id_cours
-        LEFT JOIN rattrapages r ON c.id_cours = r.id_cours
-        JOIN horaire h ON h.id_horaire=c.id_horaire
-        GROUP BY c.id_cours
-        HAVING total_rattrapages < total_absences
-        ORDER BY c.date");
+    $stmt = $mysqli->prepare("SELECT c.*,h.*,COUNT(DISTINCT a.id_utilisateur) AS total_absences,COUNT(DISTINCT r.id_utilisateur) AS total_rattrapages,COUNT(DISTINCT u.id_utilisateur) AS nbr_inscrit
+    FROM cours c
+    JOIN horaire h ON h.id_horaire = c.id_horaire
+    LEFT JOIN utilisateur u ON c.id_horaire = u.id_horaire
+    LEFT JOIN absences a ON c.id_cours = a.id_cours
+    LEFT JOIN rattrapages r ON c.id_cours = r.id_cours
+    GROUP BY c.id_cours
+    HAVING COUNT(DISTINCT u.id_utilisateur) + COUNT(DISTINCT r.id_utilisateur) - COUNT(DISTINCT a.id_utilisateur) < 12
+    ORDER BY c.date");
     $stmt->execute();
     $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
@@ -300,6 +301,8 @@ function getAllRattrapagesFromIdUtilisateur(int $id_utilisateur): array
 
     return $liste;
 }
+
+
 
 function createRattrapage(int $id_utilisateur, int $id_cours): void
 {
@@ -713,7 +716,7 @@ function getUtilisateurFromCours($cours): array
                 $ligne["role"]
             );
         } else {
-            $liste["rattapages"][] = new Utilisateur(
+            $liste["rattrapages"][] = new Utilisateur(
                 $ligne["id_utilisateur"],
                 $ligne["nom"],
                 $ligne["prenom"],
@@ -822,18 +825,16 @@ function getAllRattrapagesFromIdUtilisateurIdHoraire(int $id_utilisateur, int $i
 {
     $mysqli = Database::connexion();
 
-    $stmt = $mysqli->prepare("SELECT *
-    FROM (
-    SELECT c.id_cours, c.date, h.*, COUNT(a.id_utilisateur) AS total_absences, COUNT(r.id_utilisateur) AS total_rattrapages
+    $stmt = $mysqli->prepare("SELECT c.id_cours, c.date, h.*, COUNT(DISTINCT a.id_utilisateur) AS total_absences, COUNT(DISTINCT r.id_utilisateur) AS total_rattrapages,COUNT(DISTINCT u.id_utilisateur) AS nbr_inscrit
     FROM cours c
-    LEFT JOIN absences a ON c.id_cours = a.id_cours
-    LEFT JOIN rattrapages r ON c.id_cours = r.id_cours
     JOIN horaire h ON h.id_horaire = c.id_horaire
+    LEFT JOIN utilisateur u ON c.id_horaire = u.id_horaire
+    LEFT JOIN absences a ON c.id_cours = a.id_cours
+    LEFT JOIN rattrapages r ON c.id_cours = r.id_cours  
+    WHERE c.id_horaire = ?
     GROUP BY c.id_cours, h.id_horaire
-    HAVING total_rattrapages < total_absences
-    ) AS subquery
-    WHERE subquery.id_horaire = ?
-    ORDER BY subquery.date");
+    HAVING nbr_inscrit + total_rattrapages - total_absences < 12
+    ORDER BY c.date");
     $stmt->bind_param("i", $id_horaire);
     $stmt->execute();
     $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
