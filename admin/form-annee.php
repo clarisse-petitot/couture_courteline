@@ -41,15 +41,15 @@ if (isset($_POST['submit']) && isset($_FILES["cours"]) && isset($_FILES["inscrit
 
     // Check file size
     if ($_FILES["cours"]["size"] > 20000000) {
-        $res = "Sorry, your file is too large.";
+        $res = "Désolé, ce fichier est trop lourd";
         $uploadOk = 0;
     }
     if ($_FILES["inscrit_email"]["size"] > 20000000) {
-        $res =  "Sorry, your file is too large.";
+        $res =  "Désolé, ce fichier est trop lourd";
         $uploadOk = 0;
     }
     if ($_FILES["inscrit_cours"]["size"] > 20000000) {
-        $res =  "Sorry, your file is too large.";
+        $res =  "Désolé, ce fichier est trop lourd";
         $uploadOk = 0;
     }
 
@@ -58,7 +58,7 @@ if (isset($_POST['submit']) && isset($_FILES["cours"]) && isset($_FILES["inscrit
     if (
         $FileType1 != "csv" || $FileType2 != "csv" || $FileType3 != "csv"
     ) {
-        $res = "Sorry, only CSV files are allowed.";
+        $res = "Désolé, ces fichiers doivent être au format csv";
         $uploadOk = 0;
     }
     if ($uploadOk == 1) {
