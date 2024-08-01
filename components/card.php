@@ -4,7 +4,7 @@
             <!-- Product Images -->
             <div class="w-full md:w-1/2 px-10 mb-8">
                 <img src="<?= $creation->getImages()[0]->getLien() ?>" alt="Product" class="w-full h-auto rounded-lg shadow-md mb-4" id="mainImage">
-                <div class="flex gap-4 py-4 justify-center overflow-x-auto">
+                <div class=" w-full flex gap-4 py-4 justify-left overflow-x-auto">
                     <?php
                     $images = $creation->getImages();
                     foreach ($images as $image) {
