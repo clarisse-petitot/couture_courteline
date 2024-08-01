@@ -377,30 +377,26 @@ function getFiltresRattrapages(): array
 function createUtilisateur(string $nom, string $prenom, string $email, int $id_horaire, string $role)
 {
     $nbr_rattrapage = 0;
-    $split_espace = explode(' ',$nom);
+    $split_espace = explode(' ', $nom);
     $nom = "";
-    foreach($split_espace as $tmp_nom)
-    {
+    foreach ($split_espace as $tmp_nom) {
         $split_tiret = explode('-', $tmp_nom);
-        foreach($split_tiret as $split)
-        {
-            $nom = $nom.ucfirst(strtolower($split)).'-';
+        foreach ($split_tiret as $split) {
+            $nom = $nom . ucfirst(strtolower($split)) . '-';
         }
         $nom = substr($nom, 0, -1);
-        $nom = $nom.' ';
+        $nom = $nom . ' ';
     }
     $nom = substr($nom, 0, -1);
-    $split_espace = explode(' ',$prenom);
+    $split_espace = explode(' ', $prenom);
     $prenom = "";
-    foreach($split_espace as $tmp_prenom)
-    {
+    foreach ($split_espace as $tmp_prenom) {
         $split_tiret = explode('-', $tmp_prenom);
-        foreach($split_tiret as $split)
-        {
-            $prenom = $prenom.ucfirst(strtolower($split)).'-';
+        foreach ($split_tiret as $split) {
+            $prenom = $prenom . ucfirst(strtolower($split)) . '-';
         }
         $prenom = substr($prenom, 0, -1);
-        $prenom = $prenom.' ';
+        $prenom = $prenom . ' ';
     }
     $prenom = substr($prenom, 0, -1);
 
@@ -1020,6 +1016,13 @@ function deleteCreation($id_creation)
         FROM image
         WHERE id_image = ?");
         $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->close();
+
+        $stmt = $mysqli->prepare("DELETE
+        FROM associe
+        WHERE id_creation = ? and id_image=?");
+        $stmt->bind_param("ii", $id_creation, $id);
         $stmt->execute();
         $stmt->close();
     }
