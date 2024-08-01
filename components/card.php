@@ -63,9 +63,7 @@
 
     <script>
         function changeImage(src, prenom, role, jour, heure, description) {
-            console.log(document.getElementById('mainImage').src);
             document.getElementById('mainImage').src = src;
-            console.log(document.getElementById('mainImage').src);
             if (role == 'user') {
                 document.getElementById('description').innerHTML = description + ' (photo de ' + prenom + ' du ' + jour + ' ' + heure + ')';
             } else {
