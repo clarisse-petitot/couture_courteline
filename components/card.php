@@ -9,7 +9,7 @@
                     $images = $creation->getImages();
                     foreach ($images as $image) {
                     ?>
-                        <img src="<?= $image->getLien() ?>" alt="Thumbnail 1" class="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition duration-300" onclick="changeImage('<?= $image->getLien() ?>', '<?= addslashes($image->getUtilisateur()->getPrenom()) ?>', '<?= addslashes($image->getUtilisateur()->getRole()) ?>', '<?= addslashes($image->getUtilisateur()->getHoraire()->getJour()) ?>', '<?= addslashes($image->getUtilisateur()->getHoraire()->getHeure()) ?>', '<?= addslashes($creation->getDescription()) ?>')">
+                        <img src="<?= $image->getLien() ?>" alt="Thumbnail 1" class="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition duration-300" onclick="changeImage('<?= $image->getLien() ?>', '<?= addslashes($image->getPrenom()) ?>', '<?= addslashes($image->getNom()) ?>', '<?= addslashes($creation->getDescription()) ?>')">
                     <?php
                     }
                     ?>
@@ -34,11 +34,7 @@
                     </span>
                 </div>
 
-                <p class="text-gray-700 mb-6" id="description"><?php echo $creation->getDescription() . ' (photo de ' . $creation->getImages()[0]->getUtilisateur()->getPrenom();
-                                                                if ($creation->getImages()[0]->getUtilisateur()->getRole() == 'user') {
-                                                                    echo ' du ' . $creation->getImages()[0]->getUtilisateur()->getHoraire()->getJour() . ' ' . $creation->getImages()[0]->getUtilisateur()->getHoraire()->getHeure();
-                                                                }
-                                                                echo ')'; ?></p>
+                <p class="text-gray-700 mb-6" id="description"><?php echo $creation->getDescription() . ' (photo de ' . $creation->getImages()[0]->getPrenom().' '.$creation->getImages()[0]->getNom().')';?></p>
 
                 <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-300 mb-5">
                     <div class="flex ml-6 items-center">
@@ -62,13 +58,9 @@
     </div>
 
     <script>
-        function changeImage(src, prenom, role, jour, heure, description) {
+        function changeImage(src, prenom, nom, description) {
             document.getElementById('mainImage').src = src;
-            if (role == 'user') {
-                document.getElementById('description').innerHTML = description + ' (photo de ' + prenom + ' du ' + jour + ' ' + heure + ')';
-            } else {
-                document.getElementById('description').innerHTML = description + ' (photo de ' + prenom + ')';
-            }
+            document.getElementById('description').innerHTML = description + ' (photo de ' + prenom +' '+ nom + ')';
         }
     </script>
 </div>

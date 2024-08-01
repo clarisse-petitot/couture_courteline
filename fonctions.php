@@ -517,8 +517,6 @@ function getImagesFromIdCreation($id_creation): array
     $stmt = $mysqli->prepare("SELECT *
     FROM associe a
     JOIN image i ON i.id_image=a.id_image
-    JOIN utilisateur u ON i.id_utilisateur=u.id_utilisateur
-    JOIN horaire h ON u.id_horaire=h.id_horaire
     WHERE a.id_creation = ?");
     $stmt->bind_param("i", $id_creation);
     $stmt->execute();
@@ -531,19 +529,8 @@ function getImagesFromIdCreation($id_creation): array
         $liste[] = new Image(
             $ligne["id_image"],
             $ligne["fichier"],
-            new Utilisateur(
-                $ligne["id_utilisateur"],
-                $ligne["nom"],
-                $ligne["prenom"],
-                $ligne["email"],
-                $ligne["nbr_rattrapage"],
-                new Horaire(
-                    $ligne['id_horaire'],
-                    $ligne["jour"],
-                    $ligne['heure']
-                ),
-                $ligne['role']
-            )
+            $ligne['nom'],
+            $ligne['prenom']
         );
     }
 
@@ -967,12 +954,12 @@ function createCreation(int $id_creation, string $nom, string $description, stri
     $mysqli->close();
 }
 
-function createImage(string $fichier, int $id_utilisateur)
+function createImage(string $fichier, string $nom, string $prenom)
 {
     $mysqli = Database::connexion();
-    $stmt = $mysqli->prepare("INSERT INTO image (fichier, id_utilisateur)
-                VALUES (?,?)");
-    $stmt->bind_param("si", $fichier, $id_utilisateur);
+    $stmt = $mysqli->prepare("INSERT INTO image (fichier, nom, prenom)
+                VALUES (?,?, ?)");
+    $stmt->bind_param("sss", $fichier, $nom, $prenom);
     $stmt->execute();
     $id_image = $mysqli->insert_id;
     $stmt->close();

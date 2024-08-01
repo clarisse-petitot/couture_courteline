@@ -415,11 +415,9 @@ DROP TABLE IF EXISTS `image`;
 CREATE TABLE `image` (
   `id_image` int NOT NULL AUTO_INCREMENT,
   `fichier` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `id_utilisateur` int NOT NULL,
-  PRIMARY KEY (`id_image`),
-  KEY `id_utilisateur` (`id_utilisateur`),
-  CONSTRAINT `image_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `nom` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `prenom` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id_image`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 

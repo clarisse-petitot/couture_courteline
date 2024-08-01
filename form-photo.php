@@ -101,9 +101,10 @@ if (isset($_POST['submit']) && isset($_FILES["image"])) {
             $chemin_absolu_img = "/images/" . $id_creation . "_".count($creation->getImages())."." . $imageFileType;
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_img)) {
                 if ($utilisateur->getRole() == 'user') {
-                    $id_image = createImage($chemin_absolu_img, $utilisateur->getIdUtilisateur());
+                    $id_image = createImage($chemin_absolu_img, $utilisateur->getNom(), $utilisateur->getPrenom());
                 } else {
-                    $id_image = createImage($chemin_absolu_img, $_POST['id_utilisateur']);
+                    $eleve = getUtilisateurFromId($_POST['id_utilisateur']);
+                    $id_image = createImage($chemin_absolu_img, $eleve->getNom(), $eleve->getPrenom());
                 }
                 createAssocie($_POST['id_creation'], $id_image);
                 $res = "The file " . htmlspecialchars(basename($_FILES["image"]["name"])) . " has been uploaded.";

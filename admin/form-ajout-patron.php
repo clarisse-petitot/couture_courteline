@@ -74,7 +74,7 @@ if (isset($_POST['submit']) && isset($_FILES["image"]) && isset($_FILES["patron_
                         createType($id_creation, substr($key, 10));
                     }
                 }
-                $id_image = createImage($chemin_absolu_img, $utilisateur->getIdUtilisateur());
+                $id_image = createImage($chemin_absolu_img, $utilisateur->getNom(), $utilisateur->getPrenom());
                 createAssocie($id_creation, $id_image);
                 $res = "The file " . htmlspecialchars(basename($_FILES["image"]["name"])) . " has been uploaded.";
             } else {

@@ -166,12 +166,14 @@ class Image{
 
     private $id_image;
     private $lien;
-    private $utilisateur;
+    private $nom;
+    private $prenom;
     
-    public function __construct(int $id_image, string $lien, Utilisateur $utilisateur) {
+    public function __construct(int $id_image, string $lien, string $nom, string $prenom) {
         $this->id_image = $id_image;
         $this->lien = $lien;
-        $this->utilisateur = $utilisateur;
+        $this->nom = $nom;
+        $this->prenom = $prenom;
 
     }
 
@@ -181,8 +183,11 @@ class Image{
     public function getLien():string{
         return $this->lien;
     }
-    public function getUtilisateur():Utilisateur{
-        return $this->utilisateur;
+    public function getNom():string{
+        return $this->nom;
+    }
+    public function getPrenom():string{
+        return $this->prenom;
     }
 }
 
