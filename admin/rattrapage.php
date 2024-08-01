@@ -34,9 +34,7 @@ if (isset($_GET["id_horaire"]) && !isset($_GET["id_utilisateur"]) && !isset($_GE
         $eleve = getUtilisateurFromId($_GET["id_utilisateur"]);
         $url = "/admin/rattrapage.php?token=" . $_GET['token'] . "&id_horaire=" . $eleve->getHoraire()->getIdHoraire();
         if ($eleve->getNbrRattrapage() == 0) {
-            header("Location: ../pas-rattrapage.php");
-            exit;
-            // Redirection page pas de rattrapage;
+            $id_page = 6;
         }
     } else {
         if (isset($_GET["id_horaire"]) && isset($_GET["id_utilisateur"]) && !isset($_GET["id_cours"])) {
@@ -106,6 +104,18 @@ $utilisateur = $token->getUtilisateur();
         if ($id_page == 4) {
             $bouton = 'Valider';
             require "../components/form-cours.php";
+        }
+        if($id_page == 5){
+            $message = "Validation";
+            $desc = "Le rattrapage a bien été enregistré";
+            $retour = "/admin/rattrapage.php?token=".$_GET['token'];
+            require "../components/finish.php";
+        }
+        if($id_page == 6){
+            $message = "Oups !";
+            $desc = "Cette personne n'a pas de cours à rattraper";
+            $retour = "/admin/rattrapage.php?token=".$_GET['token'];
+            require "../components/finish.php";
         }
         require '../components/footer.php';
         ?>

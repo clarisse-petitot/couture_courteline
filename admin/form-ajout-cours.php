@@ -91,6 +91,12 @@ $popup = true;
                 $bouton = 'Valider';
                 require "../components/form-date.php";
             }
+            if($id_page == 3){
+                $message = "Validation";
+                $desc = "Le cours a bien été enregistré";
+                $retour = "/admin/administration.php?token=".$_GET['token'];
+                require "../components/finish.php";
+            }
             ?>
         </div>
     </div>

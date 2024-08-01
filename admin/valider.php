@@ -25,17 +25,10 @@ if (!$token->isValide()) {
 
 $utilisateur = $token->getUtilisateur();
 
-if (isset($_GET["id_creation"])) {
-    $id_page = 2;
-    deleteCreation($_GET["id_creation"]);
-}
-//Page fin
-else {
-    $id_page = 1;
-    $requete = 'Nom du Patron';
-    $url = "/admin/administration.php?token=" . $_GET['token'];
-}
-$popup = true;
+$allcours = getAllCours();
+$bouton = "Voir l'appel";
+$popup = false;
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -43,7 +36,7 @@ $popup = true;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Supprime Patron</title>
+    <title>Prochains Cours</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
@@ -53,24 +46,22 @@ $popup = true;
     <div class="min-h-screen flex flex-col justify-between">
         <?php
         require "../components/navbar.php";
-        require "../components/bouton-admin.php";
-        $page = 'form-supprime-patron';
-        $titre = 'Supprimer un patron';
+        $message = 'Validation';
+        if(isset($_GET['page']) && $_GET['page']=='patron'){
+            $desc = "Le patron a bien été enregistrée";
+        }
+        else{
+            if(isset($_GET['page']) && $_GET['page']=='annee'){
+                $desc = "Les données ont bien été enregistrée";
+            }
+            else{
+                $desc="";
+            }
+        }
+        $retour = "/admin/administration.php?token=".$_GET['token'];
+        require "../components/finish.php";
+        require '../components/footer.php';
         ?>
-        <div class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50 p-10 z-20">
-            <?php
-            if ($id_page == 1) {
-                $bouton = 'Valider';
-                require "../components/form-patron.php";
-            }
-            if($id_page == 2){
-                $message = "Validation";
-                $desc = "Le patron a bien été supprimé";
-                $retour = "/admin/administration.php?token=".$_GET['token'];
-                require "../components/finish.php";
-            }
-            ?>
-        </div>
     </div>
 
 </body>

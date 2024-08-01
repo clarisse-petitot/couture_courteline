@@ -98,6 +98,12 @@ $popup = false;
             require "components/filters-rattrapage.php";
             require "components/cours.php";
         }
+        else{
+            $message = "Oups !";
+            $desc = "Vous n'avez pas de cours à rattraper";
+            $retour = "/index.php?token=".$_GET['token'];
+            require "components/finish.php";
+        }
         require './components/footer.php';
         ?>
     </div>

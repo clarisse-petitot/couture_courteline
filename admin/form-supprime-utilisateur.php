@@ -92,6 +92,12 @@ $popup = true;
                 $bouton = 'Valider';
                 require "../components/form-personne.php";
             }
+            if($id_page == 4){
+                $message = "Validation";
+                $desc = "L'utilisateur a bien été supprimé";
+                $retour = "/admin/administration.php?token=".$_GET['token'];
+                require "../components/finish.php";
+            }
             ?>
         </div>
     </div>

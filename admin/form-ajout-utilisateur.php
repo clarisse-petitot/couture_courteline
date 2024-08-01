@@ -83,6 +83,12 @@ $popup = true;
             if ($id_page == 2) {
                 require "../components/form-utilisateur.php";
             }
+            if($id_page == 3){
+                $message = "Validation";
+                $desc = "L'utilisateur a bien été enregistré";
+                $retour = "/admin/administration.php?token=".$_GET['token'];
+                require "../components/finish.php";
+            }
             ?>
         </div>
     </div>

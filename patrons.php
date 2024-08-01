@@ -64,8 +64,16 @@ if (count($_GET) > 1) {
     <div class="min-h-screen flex flex-col justify-between">
         <?php
         require './components/navbar.php';
+        if(count($creations)>0){
         require './components/filters-patrons.php';
         require './components/cards.php';
+        }
+        else{
+            $message = "Oups !";
+            $desc = "Aucun patron ne correspond à ces filtres";
+            $retour = "/patrons.php?token=".$_GET['token'];
+            require "components/finish.php";
+        }
         require './components/footer.php';
         ?>
     </div>

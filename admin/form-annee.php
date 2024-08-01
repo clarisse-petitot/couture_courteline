@@ -63,7 +63,8 @@ if (isset($_POST['submit']) && isset($_FILES["cours"]) && isset($_FILES["inscrit
     }
     if ($uploadOk == 1) {
         setUtilisateur($_FILES["inscrit_email"]["tmp_name"], $_FILES["inscrit_cours"]["tmp_name"], setCoursHoraire($_FILES["cours"]["tmp_name"]));
-        $res = "The file " . htmlspecialchars(basename($_FILES["cours"]["name"])) . " has been uploaded.";
+        header("Location: valider.php?page=annee&token=".$_GET['token']);
+        exit;
     }
 }
 

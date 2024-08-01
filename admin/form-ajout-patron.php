@@ -76,7 +76,8 @@ if (isset($_POST['submit']) && isset($_FILES["image"]) && isset($_FILES["patron_
                 }
                 $id_image = createImage($chemin_absolu_img, $utilisateur->getNom(), $utilisateur->getPrenom());
                 createAssocie($id_creation, $id_image);
-                $res = "The file " . htmlspecialchars(basename($_FILES["image"]["name"])) . " has been uploaded.";
+                header("Location: valider.php?page=patron&token=".$_GET['token']);
+                exit;
             } else {
                 $res = "Désolé nous n'avons pas plus télécharger les fichiers";
             }

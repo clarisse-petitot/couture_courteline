@@ -107,7 +107,7 @@ if (isset($_POST['submit']) && isset($_FILES["image"])) {
                     $id_image = createImage($chemin_absolu_img, $eleve->getNom(), $eleve->getPrenom());
                 }
                 createAssocie($_POST['id_creation'], $id_image);
-                $res = "The file " . htmlspecialchars(basename($_FILES["image"]["name"])) . " has been uploaded.";
+                $id_page=5;
             } else {
                 $res = "Désolé, nous n'avons pas pu télécharger votre image";
             }
@@ -161,6 +161,12 @@ $popup = true;
             if ($id_page == 4) {
                 $bouton = 'Valider';
                 require "components/form-image.php";
+            }
+            if($id_page == 5){
+                $message = "Validation";
+                $desc = "L'image a bien été enregistrée";
+                $retour = "/creation.php?token=".$_GET['token']."&id_creation=".$_GET['id_creation'];
+                require "components/finish.php";
             }
             ?>
         </div>

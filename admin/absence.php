@@ -95,6 +95,12 @@ $utilisateur = $token->getUtilisateur();
             $bouton = 'Valider';
             require "../components/form-cours.php";
         }
+        if($id_page == 4){
+            $message = "Validation";
+            $desc = "L'absence a bien été enregistrée";
+            $retour = "/admin/absence.php?token=".$_GET['token'];
+            require "../components/finish.php";
+        }
         require '../components/footer.php';
         ?>
     </div>
