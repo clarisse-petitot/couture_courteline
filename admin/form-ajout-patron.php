@@ -38,11 +38,11 @@ if (isset($_POST['submit']) && isset($_FILES["image"]) && isset($_FILES["patron_
 
     // Check file size
     if ($_FILES["image"]["size"] > 20000000) {
-        $res = "Sorry, your file is too large.";
+        $res = "Désolé votre fichier est trop lourd";
         $uploadOk = 0;
     }
     if ($_FILES["patron_pdf"]["size"] > 20000000) {
-        $res =  "Sorry, your file is too large.";
+        $res =  "Désolé votre fichier est trop lourd";
         $uploadOk = 0;
     }
 
@@ -50,14 +50,14 @@ if (isset($_POST['submit']) && isset($_FILES["image"]) && isset($_FILES["patron_
     if (
         $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
     ) {
-        $res = "Sorry, only JPG, JPEG, PNG files are allowed.";
+        $res = "Désolé la photo doit être au format .jpg, .png ou .jpeg";
         $uploadOk = 0;
     }
     // Allow certain file formats
     if (
         $patronFileType != "pdf"
     ) {
-        $res = "Sorry, only PDF files are allowed.";
+        $res = "Désolé le fichier doit être au format .pdf";
         $uploadOk = 0;
     }
     if (isset($_POST['surface_tissu']) && !empty($_POST['surface_tissu']) && isset($_POST['description']) && !empty($_POST['description']) && isset($_POST['nom']) && !empty($_POST['nom']) && isset($_POST['tissu']) && !empty($_POST['tissu'])) {
@@ -78,7 +78,7 @@ if (isset($_POST['submit']) && isset($_FILES["image"]) && isset($_FILES["patron_
                 createAssocie($id_creation, $id_image);
                 $res = "The file " . htmlspecialchars(basename($_FILES["image"]["name"])) . " has been uploaded.";
             } else {
-                $res = "Sorry, there was an error uploading your file.";
+                $res = "Désolé nous n'avons pas plus télécharger les fichiers";
             }
         }
     } else {

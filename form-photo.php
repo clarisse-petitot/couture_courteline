@@ -83,7 +83,7 @@ if (isset($_POST['submit']) && isset($_FILES["image"])) {
 
     // Check file size
     if ($_FILES["image"]["size"] > 20000000) {
-        $res = "Sorry, your file is too large.";
+        $res = "Désolé le fichier est trop lourd";
         $uploadOk = 0;
     }
 
@@ -91,7 +91,7 @@ if (isset($_POST['submit']) && isset($_FILES["image"])) {
     if (
         $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
     ) {
-        $res = "Sorry, only JPG, JPEG, PNG files are allowed.";
+        $res = "Désolé la photo doit être au format .jpg, .png ou .jpeg";
         $uploadOk = 0;
     }
 
@@ -109,7 +109,7 @@ if (isset($_POST['submit']) && isset($_FILES["image"])) {
                 createAssocie($_POST['id_creation'], $id_image);
                 $res = "The file " . htmlspecialchars(basename($_FILES["image"]["name"])) . " has been uploaded.";
             } else {
-                $res = "Sorry, there was an error uploading your file.";
+                $res = "Désolé, nous n'avons pas pu télécharger votre image";
             }
         }
     } else {
