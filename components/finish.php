@@ -5,7 +5,7 @@
             <?= $desc ?>
         </p>
         <?php
-        if ($retour = '') {
+        if ($retour != '') {
         ?>
             <a href="<?= $retour ?>" class="text-purple-900 flex gap-2 transform transition-all hover:scale-110 hover:text-purple-800 w-fit-content">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
