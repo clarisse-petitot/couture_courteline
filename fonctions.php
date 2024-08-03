@@ -680,7 +680,8 @@ function getUtilisateurFromCours($cours): array
     JOIN utilisateur u ON u.id_utilisateur=r.id_utilisateur
     WHERE r.id_cours=?)) u
     JOIN horaire h ON h.id_horaire=u.id_horaire
-    WHERE u.role='user' ");
+    WHERE u.role='user' 
+    ORDER BY u.nom, u.prenom");
     $stmt->bind_param("iii", $id_cours, $id_cours, $id_cours);
     $stmt->execute();
     $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
