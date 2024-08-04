@@ -79,7 +79,9 @@ VALUES
 	(7,'Veste'),
 	(8,'Salopette'),
 	(9,'Combinaison'),
-	(10,'Sous-vêtement');
+	(10,'Sous-vêtement'),
+	(11,'Accessoire'),
+	(12,'Homme');
 
 /*!40000 ALTER TABLE `categorie` ENABLE KEYS */;
 UNLOCK TABLES;
