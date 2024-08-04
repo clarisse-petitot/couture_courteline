@@ -50,8 +50,8 @@
                 </div>
 
                 <div class="flex justify-between">
-                    <a href="form-photo.php?token=<?= $_GET['token'] ?>&id_creation=<?= $_GET['id_creation'] ?>"><button class="h-[48px] w-[160px] rounded-md bg-blue-700 text-white cursor-pointer ">Ajout une photo</button></a>
-                    <a href="creation.php?token=<?= $_GET['token'] ?>&id_creation=<?= $_GET['id_creation'] ?>&telechargement=true"><button class="h-[48px] w-[190px] rounded-md bg-blue-700 text-white cursor-pointer ">Télécharger le patron</button></a>
+                    <a href="form-photo.php?token=<?= $_GET['token'] ?>&id_creation=<?= $_GET['id_creation'] ?>"><button class="h-[48px] w-[160px] rounded-lg bg-white text-blue-700 cursor-pointer hover:bg-gray-100 border border-blue-800">Ajouter une photo</button></a>
+                    <a href="creation.php?token=<?= $_GET['token'] ?>&id_creation=<?= $_GET['id_creation'] ?>&telechargement=true"><button class="h-[48px] w-[190px] rounded-lg bg-blue-700 text-white cursor-pointer hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Télécharger le patron</button></a>
                 </div>
             </div>
         </div>

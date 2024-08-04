@@ -125,24 +125,24 @@
             <!-- Apply Filter Button (Large Screen) -->
 
             <div class="hidden md:block absolute right-0 bottom-0 md:py-5 py-5">
-                <input type="submit" value="Valider" class="h-[48px] w-[120px] rounded-md bg-blue-700 text-white cursor-pointer">
+                <input type="submit" value="Valider" class="h-[48px] w-[120px] rounded-md bg-blue-700 text-white cursor-pointer hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
             </div>
             <!-- Reset Filter Button (Table or lower Screen) -->
 
             <div class="block md:hidden w-full mt-5">
-                <a href="/rattrapages.php?token=<?= $_GET["token"] ?>"><button type="button" class="w-full text-base leading-4 font-normal py-3 px-5 bg-gray-100 text-blue-700 border border-2 border-blue-700">Réinitialiser</button></a>
+                <a href="/rattrapages.php?token=<?= $_GET["token"] ?>"><button type="button" class="w-full text-base leading-4 font-normal py-3 px-5 bg-white text-blue-700 border border-2 border-blue-800 hover:bg-gray-100">Réinitialiser</button></a>
             </div>
 
             <!-- Apply Filter Button (Table or lower Screen) -->
 
             <div class="block md:hidden w-full mt-5">
-                <input type="submit" value="Valider" class="w-full text-base leading-4 font-normal py-3 px-5 text-white bg-blue-700">
+                <input type="submit" value="Valider" class="w-full text-base leading-4 font-normal py-3 px-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
             </div>
         </form>
 
         <!-- Reset Filter Button (Large Screen) -->
         <div class="hidden md:block absolute right-[135px] bottom-0 md:py-5 py-5">
-            <a href="/rattrapages.php?token=<?= $_GET["token"] ?>"><button type="button" class="h-[48px] w-[110px] border border-2 rounded-md border-blue-600 bg-gray-100 text-blue-700 ">Réinitialiser</button></a>
+            <a href="/rattrapages.php?token=<?= $_GET["token"] ?>"><button type="button" class="h-[48px] w-[110px] border border-2 rounded-md border-blue-800 bg-white text-blue-700 hover:bg-gray-100 cursor-pointer">Réinitialiser</button></a>
         </div>
 
     </div>
