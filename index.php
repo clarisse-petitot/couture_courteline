@@ -52,15 +52,33 @@ if ($utilisateur->getRole() == 'admin') {
         <div class="flex flex-col p-10 md:flex-row gap-10 w-full justify-center items-center">
             <div class="flex flex-col gap-12 px-5 md:w-[700px]">
                 <h1 class="font-black text-4xl text-purple-900">Bienvenue sur le site des cours de Couture de Courteline</h1>
-                <p>
-                    Seuls les élèves inscrits aux cours ont accès à ce site, vous pouvez voir tous vos cours et prevenir de vos absences.
+                <p>Seuls les adhérent.es inscrit.es ont accès à cette plateforme, qui vous permet de :
                     <br>
                     <br>
-                    Si vous prévenez de votre absence au moins 24h avant le début de votre cours pour pourrez le rattraper et choisir votre rattrapage à l'horaire que vous souhaitez suivant les disponibilités.
+                    1/ planifier tous vos cours et prévenir de vos absences
+                    <br>
+                    2/ retrouver tous les patrons proposés par Catherine lors des cours en téléchargement.
                     <br>
                     <br>
-                    Vous pouvez aussi voir les différents patrons proposés par Courteline, télécharger les patrons qui vous interessent, voir les creations des autres élèves correpondant aux patrons
-                    et vous-même pourrez déposer votre photo pour que les autres élèves puissent voir votre création à leur tour.
+                    Fonctionnement et règles :
+                    <br>
+<br>
+                    1/ absences et rattrapages :
+                    <br>
+                    Cette possibilité vous est offerte car nous proposons de nombreux cours de couture. C'est une opportunité que nous souhaitons maintenir si un cadre collectif et consciencieux est respecté par tout.es.
+                   <br>
+                    • prévenez de votre absence au moins 24h avant le début de votre cours pour pouvoir le rattraper
+                    <br>
+                    • choisissez votre créneau de rattrapage à l'horaire que vous souhaitez suivant les disponibilités. (pas de rattrapages en sept/oct, c'est la rentrée et il faut laisser le temps à chaque groupe de trouver son rythme. Mais vous pourrez rattraper vos absences déclarées plus tard)
+<br>
+<br>
+                    2/ côté créations :
+                    <br>
+                    • téléchargez les patrons qui vous intéressent
+                    <br>
+                    • postez vos réalisations textiles pour partager
+                    <br>
+                    • découvrez les créations des autres adhérents
                 </p>
             </div>
             <div>
