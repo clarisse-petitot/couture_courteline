@@ -294,7 +294,7 @@ function getAllRattrapagesFromIdUtilisateur(int $id_utilisateur): array
 
     foreach ($res as $ligne) {
         $date = new DateTime($ligne["date"]);
-        if (!appartient($id_utilisateur, $ligne["id_cours"]) && $date->getTimestamp() > time()) {
+        if (!appartient($id_utilisateur, $ligne["id_cours"]) && $date->getTimestamp() > time() && (getUtilisateurFromId($id_utilisateur)->getHoraire()->getIdHoraire()==$ligne["id_horaire"] || ($date->format("n")!=9 && $date->format("n")!=10))) {
             $liste[] = new Cours($ligne["id_cours"], new DateTime($ligne["date"]), new Horaire($ligne["id_horaire"], $ligne["jour"], $ligne["heure"]));
         }
     };
