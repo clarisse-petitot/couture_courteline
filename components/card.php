@@ -36,12 +36,12 @@
 
                 <p class="text-gray-700 mb-6" id="description"><?php echo $creation->getDescription() . ' (photo de ' . $creation->getImages()[0]->getPrenom().' '.$creation->getImages()[0]->getNom().')';?></p>
 
-                <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-300 mb-5">
-                    <div class="flex ml-6 items-center">
+                <div class="flex flex-col md:flex-row gap-4 mt-6 items-center pb-5 border-b-2 border-gray-300 mb-5">
+                    <div class="flex md:ml-6 items-center">
                         <span class="mr-3">Tissu</span>
                         <div class="relative rounded border appearance-none border-gray-400 py-1 focus:outline-none focus:border-red-500 text-base pl-3 pr-3"><?= $creation->getTissu() ?></div>
                     </div>
-                    <div class="flex ml-6 items-center">
+                    <div class="flex md:ml-6 items-center">
                         <span class="mr-3">Longueur du tissu</span>
                         <div class="relative rounded border appearance-none border-gray-400 py-1 focus:outline-none focus:border-red-500 text-base pl-3 pr-3">
                             <?= $creation->getSurfaceTissu() ?>
@@ -49,7 +49,7 @@
                     </div>
                 </div>
 
-                <div class="flex justify-between">
+                <div class="flex flex-col md:flex-row gap-4 justify-between">
                     <a href="form-photo.php?token=<?= $_GET['token'] ?>&id_creation=<?= $_GET['id_creation'] ?>"><button class="h-[48px] w-[160px] rounded-lg bg-white text-blue-700 cursor-pointer hover:bg-gray-100 border border-blue-800">Ajouter une photo</button></a>
                     <a href="creation.php?token=<?= $_GET['token'] ?>&id_creation=<?= $_GET['id_creation'] ?>&telechargement=true"><button class="h-[48px] w-[190px] rounded-lg bg-blue-700 text-white cursor-pointer hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Télécharger le patron</button></a>
                 </div>

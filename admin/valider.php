@@ -48,11 +48,11 @@ $popup = false;
         require "../components/navbar.php";
         $message = 'Validation';
         if(isset($_GET['page']) && $_GET['page']=='patron'){
-            $desc = "Le patron a bien été enregistrée";
+            $desc = "Le patron a bien été enregistré";
         }
         else{
             if(isset($_GET['page']) && $_GET['page']=='annee'){
-                $desc = "Les données ont bien été enregistrée";
+                $desc = "Les données ont bien été enregistrées";
             }
             else{
                 $desc="";
