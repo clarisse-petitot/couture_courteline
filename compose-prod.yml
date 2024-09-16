@@ -1,0 +1,38 @@
+services:
+  courteline_php:
+    container_name: courteline_php
+    restart: always
+    build: .
+    volumes:
+      - "./:/var/www/html"
+      - "./php.ini:/usr/local/etc/php/conf.d/30-custom.ini"
+    depends_on:
+      - courteline_mysql
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.courteline_php.rule=Host(`${HOSTNAME}`)"
+      - "traefik.http.services.courteline_php.loadbalancer.server.port=80"
+      - "traefik.http.routers.courteline_php.entrypoints=websecure"
+      - "traefik.http.routers.courteline_php.tls.certresolver=myresolver"
+    networks:
+      - web
+
+  courteline_mysql:
+    container_name: courteline_mysql
+    restart: always
+    image: mysql:9
+    environment:
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_RANDOM_ROOT_PASSWORD=1
+    volumes:
+      - "./database/data:/var/lib/mysql"
+    ports:
+      - "3307:3306"
+    networks:
+      - web
+  
+networks:
+  web:
+    external: true
