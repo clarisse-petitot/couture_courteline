@@ -105,9 +105,7 @@ function setUtilisateur($cheminwithemail, $cheminwithcours, $horaires)
     $ligneswithemail = [];
     $file = fopen($cheminwithemail, "r");
     while (($ligne = fgetcsv($file, null, ';')) !== false) {
-        if (filter_var($ligne[8], FILTER_VALIDATE_EMAIL)) {
-            $ligneswithemail[] = $ligne;
-        }
+        $ligneswithemail[] = $ligne;
     }
     fclose($file);
     $ligneswithcours = [];
@@ -119,32 +117,35 @@ function setUtilisateur($cheminwithemail, $cheminwithcours, $horaires)
         }
     }
     fclose($file);
-    if (count($ligneswithemail) == count($ligneswithcours)) {
-        $mysqli = Database::connexion();
+    $mysqli = Database::connexion();
 
-        $stmt = $mysqli->prepare("DELETE FROM utilisateur
+    $stmt = $mysqli->prepare("DELETE FROM utilisateur
         WHERE role = 'user' ");
-        $stmt->execute();
-        $stmt->close();
-        
-        $stmt = $mysqli->prepare("DELETE FROM rattrapages");
-        $stmt->execute();
-        $stmt->close();
+    $stmt->execute();
+    $stmt->close();
 
-        $stmt = $mysqli->prepare("DELETE FROM absences");
-        $stmt->execute();
-        $stmt->close();
+    $stmt = $mysqli->prepare("DELETE FROM rattrapages");
+    $stmt->execute();
+    $stmt->close();
 
-        $mysqli->close();
-        for ($i = 0; $i < count($ligneswithemail); $i++) {
-            if($ligneswithcours[$i][0]==$ligneswithemail[$i][1].' '.$ligneswithemail[$i][4]){
-                $nom = ucfirst(strtolower($ligneswithemail[$i][1]));
-                $prenom = ucfirst(strtolower($ligneswithemail[$i][4]));
-                $email = $ligneswithemail[$i][9];
-                $id_horaire = array_search(substr($ligneswithcours[$i][8],5),$horaires)+1;
-                createUtilisateur($nom, $prenom, $email, $id_horaire, 'user');
+    $stmt = $mysqli->prepare("DELETE FROM absences");
+    $stmt->execute();
+    $stmt->close();
+
+    $mysqli->close();
+    $j = 0;
+    for ($i = 0; $i < count($ligneswithcours); $i++) {
+        while ($ligneswithcours[$i][0] != $ligneswithemail[$j][1] . ' ' . $ligneswithemail[$j][4]) {
+            if ($j != count($ligneswithemail) - 1) {
+                $j += 1;
             }
         }
+        $nom = ucfirst(strtolower($ligneswithemail[$j][1]));
+        $prenom = ucfirst(strtolower($ligneswithemail[$j][4]));
+        $email = $ligneswithemail[$j][9];
+        $id_horaire = array_search(substr($ligneswithcours[$i][8], 5), $horaires) + 1;
+        createUtilisateur($nom, $prenom, $email, $id_horaire, 'user');
+        $j += 1;
     }
 }
 
