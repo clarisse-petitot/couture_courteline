@@ -4,12 +4,12 @@ services:
     volumes:
       - "./:/var/www/html"
     depends_on:
-      - db
+      - courteline_mysql
     ports:
       - "80:80"
+
   courteline_mysql:
     container_name: courteline_mysql
-    restart: always
     image: mysql:9
     environment:
       - MYSQL_DATABASE=${DB_NAME}
@@ -21,6 +21,12 @@ services:
     ports:
       - "3306:3306"
   
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    ports:
+      - "8080:80"
+
 #   traefik:
 #     image: traefik:v3.0
 #     restart: always
