@@ -1,5 +1,6 @@
 services:
-  web:
+  apache_courteline:
+    container_name: apache_courteline
     build: .
     volumes:
       - "./:/var/www/html"
@@ -28,20 +29,3 @@ services:
       - "8080:80"
     environment:
       PMA_HOST: courteline_mysql
-
-#   traefik:
-#     image: traefik:v3.0
-#     restart: always
-#     command: 
-#       - "--providers.docker"
-#       - "--entrypoints.web.address=:80"
-#     ports:
-#       - "80:80"
-#     volumes:
-#       - /var/run/docker.sock:/var/run/docker.sock
-#     networks:
-#       - web
-
-# networks:
-#   web:
-#     external: true

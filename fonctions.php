@@ -284,6 +284,7 @@ function getAllRattrapagesFromIdUtilisateur(int $id_utilisateur): array
     LEFT JOIN utilisateur u ON c.id_horaire = u.id_horaire
     LEFT JOIN absences a ON c.id_cours = a.id_cours
     LEFT JOIN rattrapages r ON c.id_cours = r.id_cours
+    WHERE u.role = 'user'
     GROUP BY c.id_cours
     HAVING COUNT(DISTINCT u.id_utilisateur) + COUNT(DISTINCT r.id_utilisateur) - COUNT(DISTINCT a.id_utilisateur) < 12
     ORDER BY c.date");
@@ -819,7 +820,7 @@ function getAllRattrapagesFromIdUtilisateurIdHoraire(int $id_utilisateur, int $i
     LEFT JOIN utilisateur u ON c.id_horaire = u.id_horaire
     LEFT JOIN absences a ON c.id_cours = a.id_cours
     LEFT JOIN rattrapages r ON c.id_cours = r.id_cours  
-    WHERE c.id_horaire = ?
+    WHERE c.id_horaire = ? and u.role='user'
     GROUP BY c.id_cours, h.id_horaire
     HAVING nbr_inscrit + total_rattrapages - total_absences < 12
     ORDER BY c.date");
