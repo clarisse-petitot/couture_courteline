@@ -1,17 +1,15 @@
 services:
   web:
-    container_name: php_courteline
     build: .
     volumes:
       - "./:/var/www/html"
-      - "./php.ini:/usr/local/etc/php/conf.d/30-custom.ini"
     depends_on:
-      - db_courteline
+      - db
     ports:
       - "80:80"
-
-  db_courteline:
-    container_name: db_courteline
+  db:
+    container_name: db
+    restart: always
     image: mysql:9
     environment:
       - MYSQL_DATABASE=${DB_NAME}
@@ -19,7 +17,23 @@ services:
       - MYSQL_PASSWORD=${DB_PASSWORD}
       - MYSQL_RANDOM_ROOT_PASSWORD=1
     volumes:
-      - "./database/db_dev.sql:/docker-entrypoint-initdb.d/mysql_seed.sql"
-      - "./db_data:/var/lib/mysql"
+      - "./database/la_couture_de_cp.sql:/docker-entrypoint-initdb.d/mysql_seed.sql"
     ports:
       - "3306:3306"
+  
+#   traefik:
+#     image: traefik:v3.0
+#     restart: always
+#     command: 
+#       - "--providers.docker"
+#       - "--entrypoints.web.address=:80"
+#     ports:
+#       - "80:80"
+#     volumes:
+#       - /var/run/docker.sock:/var/run/docker.sock
+#     networks:
+#       - web
+
+# networks:
+#   web:
+#     external: true
